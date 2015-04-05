@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<link href="/static/bootstrap.min.css" rel="stylesheet">
+  	<link href="/static/bootstrap-theme.min.css" rel="stylesheet">
+  	<script src="/static/jquery-1.11.1.min.js"></script>
+  	<script src="/static/bootstrap.min.js"></script>
+
+  	<title>493 Life</title>
+</head>
+
+<body>
+	<h1>Hello world!</h1>
+	{% for career in careers %}
+	<p>{{career.title}}</p>
+	{% endfor %}
+</body>
+</html>
