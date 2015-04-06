@@ -1,0 +1,15 @@
+Before running:
+- navigate to the app root directory
+- run "pip install -r requirements.txt"
+- make sure you have MySQL installed 
+
+To set up database:
+- navigate to /LifeApp/db
+- run "mysql -u root" to get into sql
+- "source create_table.sql"
+- "source load_data.sql"
+
+To run app locally:
+- navigate to app root directory
+- run "python runserver.py", allow incoming connections when prompted
+- go to a browser and put "localhost:3000" in URL

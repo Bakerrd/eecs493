@@ -25,7 +25,7 @@ CREATE TABLE Player (
 	num_children INTEGER,
 	PRIMARY KEY (username, game_id),
 	FOREIGN KEY (username) REFERENCES User(username),
-	FOREIGN KEY (game_id) REFERENCES Game(game_id),
+	FOREIGN KEY (game_id) REFERENCES Game(game_id)
 );
 
 CREATE TABLE Careers (

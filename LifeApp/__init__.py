@@ -1,13 +1,18 @@
 import os
-from flask import Flask
+from flask import Flask, session
 from config import *
 import controllers
 
 app = Flask(__name__, template_folder='templates')
 
 app.register_blueprint(controllers.index)
+app.register_blueprint(controllers.login)
+app.register_blueprint(controllers.logout)
+app.register_blueprint(controllers.user)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE
+
+app.secret_key = SECRET_KEY
 
 from models import db
 db.init_app(app)
