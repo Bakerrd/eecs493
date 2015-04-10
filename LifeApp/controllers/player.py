@@ -5,5 +5,6 @@ class AIPlayer:
 		self.bankroll = 10000
 		self.position = -1
 		self.name = name
+		self.career = None
 
 
