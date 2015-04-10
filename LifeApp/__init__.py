@@ -8,6 +8,7 @@ app = Flask(__name__, template_folder='templates')
 app.register_blueprint(controllers.index)
 app.register_blueprint(controllers.login)
 app.register_blueprint(controllers.logout)
+app.register_blueprint(controllers.play)
 app.register_blueprint(controllers.user)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE

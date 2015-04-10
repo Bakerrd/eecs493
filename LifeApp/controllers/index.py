@@ -13,6 +13,8 @@ def index_route():
     if 'message' in request.args:
     	message = request.args['message']
 
+   	
+
     if is_logged_in():
     	return render_template('user_index.html', message=message)
     else:

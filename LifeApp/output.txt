@@ -1,0 +1,624 @@
+
+starting 0's turn
+player starting from position -1 and rolled 2
+space -1
+player is going to college
+space 0
+player ends turn on space 1
+
+starting 1's turn
+player starting from position -1 and rolled 8
+space -1
+player is going to college
+space 0
+space 1
+space 2
+space 3
+space 4
+space 5
+space 6
+player ends turn on space 7
+
+starting 2's turn
+player starting from position -1 and rolled 7
+space -1
+player starting career
+space 11
+player 2 got paid and now has 20000 dollars
+space 12
+space 13
+space 14
+space 15
+space 16
+player ends turn on space 17
+
+starting 3's turn
+player starting from position -1 and rolled 10
+space -1
+player starting career
+space 11
+player 3 got paid and now has 20000 dollars
+space 12
+space 13
+space 14
+space 15
+space 16
+space 17
+space 18
+space 19
+player ends turn on space 20
+
+starting 0's turn
+player starting from position 1 and rolled 10
+space 1
+space 2
+space 3
+space 4
+space 5
+space 6
+space 7
+space 8
+space 9
+space 10
+end of college fork
+player ends turn on space 13
+
+starting 1's turn
+player starting from position 7 and rolled 7
+space 7
+space 8
+space 9
+space 10
+end of college fork
+space 13
+space 14
+space 15
+player ends turn on space 16
+
+starting 2's turn
+player starting from position 17 and rolled 5
+space 17
+space 18
+space 19
+space 20
+player 2 got paid and now has 30000 dollars
+space 21
+player ends turn on space 22
+
+starting 3's turn
+player starting from position 20 and rolled 8
+space 20
+player 3 got paid and now has 30000 dollars
+space 21
+space 22
+space 23
+space 24
+space 25
+space 26
+space 27
+player ends turn on space 28
+
+starting 0's turn
+player starting from position 13 and rolled 8
+space 13
+space 14
+space 15
+space 16
+space 17
+space 18
+space 19
+space 20
+player 0 got paid and now has 20000 dollars
+player ends turn on space 21
+
+starting 1's turn
+player starting from position 16 and rolled 2
+space 16
+space 17
+player ends turn on space 18
+
+starting 2's turn
+player starting from position 22 and rolled 4
+space 22
+space 23
+space 24
+space 25
+player ends turn on space 26
+
+starting 3's turn
+player starting from position 28 and rolled 3
+space 28
+space 29
+space 30
+player 3 got paid and now has 40000 dollars
+player ends turn on space 31
+
+starting 0's turn
+player starting from position 21 and rolled 2
+space 21
+space 22
+player ends turn on space 23
+
+starting 1's turn
+player starting from position 18 and rolled 4
+space 18
+space 19
+space 20
+player 1 got paid and now has 20000 dollars
+space 21
+player ends turn on space 22
+
+starting 2's turn
+player starting from position 26 and rolled 2
+space 26
+space 27
+player ends turn on space 28
+
+starting 3's turn
+player starting from position 31 and rolled 2
+space 31
+space 32
+player ends turn on space 33
+
+starting 0's turn
+player starting from position 23 and rolled 5
+space 23
+space 24
+space 25
+space 26
+space 27
+player ends turn on space 28
+
+starting 1's turn
+player starting from position 22 and rolled 9
+space 22
+space 23
+space 24
+space 25
+space 26
+space 27
+space 28
+space 29
+space 30
+player 1 got paid and now has 30000 dollars
+player ends turn on space 31
+
+starting 2's turn
+player starting from position 28 and rolled 5
+space 28
+space 29
+space 30
+player 2 got paid and now has 40000 dollars
+space 31
+space 32
+player ends turn on space 33
+
+starting 3's turn
+player starting from position 33 and rolled 10
+space 33
+space 34
+space 35
+space 36
+player takes family route
+space 37
+space 38
+space 39
+player 3 got paid and now has 50000 dollars
+space 40
+space 41
+space 42
+player ends turn on space 43
+
+starting 0's turn
+player starting from position 28 and rolled 2
+space 28
+space 29
+player ends turn on space 30
+
+starting 1's turn
+player starting from position 31 and rolled 9
+space 31
+space 32
+space 33
+space 34
+space 35
+space 36
+player doesn't take family route
+space 46
+space 47
+player 1 got paid and now has 40000 dollars
+space 48
+player ends turn on space 49
+
+starting 2's turn
+player starting from position 33 and rolled 7
+space 33
+space 34
+space 35
+space 36
+player takes family route
+space 37
+space 38
+space 39
+player 2 got paid and now has 50000 dollars
+player ends turn on space 40
+
+starting 3's turn
+player starting from position 43 and rolled 1
+space 43
+player ends turn on space 44
+
+starting 0's turn
+player starting from position 30 and rolled 2
+space 30
+player 0 got paid and now has 30000 dollars
+space 31
+player ends turn on space 32
+
+starting 1's turn
+player starting from position 49 and rolled 8
+space 49
+space 50
+space 51
+space 52
+space 53
+player 1 got paid and now has 50000 dollars
+space 54
+space 55
+space 56
+player ends turn on space 57
+
+starting 2's turn
+player starting from position 40 and rolled 2
+space 40
+space 41
+player ends turn on space 42
+
+starting 3's turn
+player starting from position 44 and rolled 7
+space 44
+space 45
+end of family fork
+space 50
+space 51
+space 52
+space 53
+player 3 got paid and now has 60000 dollars
+space 54
+player ends turn on space 55
+
+starting 0's turn
+player starting from position 32 and rolled 3
+space 32
+space 33
+space 34
+player ends turn on space 35
+
+starting 1's turn
+player starting from position 57 and rolled 9
+space 57
+space 58
+space 59
+space 60
+space 61
+space 62
+space 63
+player 1 got paid and now has 60000 dollars
+space 64
+space 65
+player ends turn on space 66
+
+starting 2's turn
+player starting from position 42 and rolled 1
+space 42
+player ends turn on space 43
+
+starting 3's turn
+player starting from position 55 and rolled 2
+space 55
+space 56
+player ends turn on space 57
+
+starting 0's turn
+player starting from position 35 and rolled 3
+space 35
+space 36
+player doesn't take family route
+space 46
+player ends turn on space 47
+
+starting 1's turn
+player starting from position 66 and rolled 2
+space 66
+space 67
+player ends turn on space 68
+
+starting 2's turn
+player starting from position 43 and rolled 9
+space 43
+space 44
+space 45
+end of family fork
+space 50
+space 51
+space 52
+space 53
+player 2 got paid and now has 60000 dollars
+space 54
+space 55
+player ends turn on space 56
+
+starting 3's turn
+player starting from position 57 and rolled 8
+space 57
+space 58
+space 59
+space 60
+space 61
+space 62
+space 63
+player 3 got paid and now has 70000 dollars
+space 64
+player ends turn on space 65
+
+starting 0's turn
+player starting from position 47 and rolled 4
+space 47
+player 0 got paid and now has 40000 dollars
+space 48
+space 49
+space 50
+player ends turn on space 51
+
+starting 1's turn
+player starting from position 68 and rolled 6
+space 68
+space 69
+player 1 got paid and now has 70000 dollars
+space 70
+space 71
+space 72
+space 73
+player takes risky route
+player ends turn on space 74
+
+starting 2's turn
+player starting from position 56 and rolled 3
+space 56
+space 57
+space 58
+player ends turn on space 59
+
+starting 3's turn
+player starting from position 65 and rolled 6
+space 65
+space 66
+space 67
+space 68
+space 69
+player 3 got paid and now has 80000 dollars
+space 70
+player ends turn on space 71
+
+starting 0's turn
+player starting from position 51 and rolled 9
+space 51
+space 52
+space 53
+player 0 got paid and now has 50000 dollars
+space 54
+space 55
+space 56
+space 57
+space 58
+space 59
+player ends turn on space 60
+
+starting 1's turn
+player starting from position 74 and rolled 1
+space 74
+player ends turn on space 75
+
+starting 2's turn
+player starting from position 59 and rolled 6
+space 59
+space 60
+space 61
+space 62
+space 63
+player 2 got paid and now has 70000 dollars
+space 64
+player ends turn on space 65
+
+starting 3's turn
+player starting from position 71 and rolled 2
+space 71
+space 72
+player ends turn on space 73
+
+starting 0's turn
+player starting from position 60 and rolled 4
+space 60
+space 61
+space 62
+space 63
+player 0 got paid and now has 60000 dollars
+player ends turn on space 64
+
+starting 1's turn
+player starting from position 75 and rolled 2
+space 75
+player 1 got paid and now has 80000 dollars
+space 76
+player ends turn on space 77
+
+starting 2's turn
+player starting from position 65 and rolled 1
+space 65
+player ends turn on space 66
+
+starting 3's turn
+player starting from position 73 and rolled 6
+space 73
+player takes safe route
+space 78
+player 3 got paid and now has 90000 dollars
+space 79
+space 80
+space 81
+space 82
+player ends turn on space 83
+
+starting 0's turn
+player starting from position 64 and rolled 5
+space 64
+space 65
+space 66
+space 67
+space 68
+player ends turn on space 69
+
+starting 1's turn
+player starting from position 77 and rolled 10
+space 77
+end of risky fork
+space 82
+space 83
+space 84
+space 85
+space 86
+space 87
+space 88
+space 89
+player 1 has retired
+player ends turn on space 89
+
+starting 2's turn
+player starting from position 66 and rolled 8
+space 66
+space 67
+space 68
+space 69
+player 2 got paid and now has 80000 dollars
+space 70
+space 71
+space 72
+space 73
+player takes risky route
+player ends turn on space 74
+
+starting 3's turn
+player starting from position 83 and rolled 8
+space 83
+space 84
+space 85
+space 86
+space 87
+space 88
+space 89
+player 3 has retired
+player ends turn on space 89
+
+starting 0's turn
+player starting from position 69 and rolled 2
+space 69
+player 0 got paid and now has 70000 dollars
+space 70
+player ends turn on space 71
+
+starting 1's turn
+player is already retired
+
+starting 2's turn
+player starting from position 74 and rolled 4
+space 74
+space 75
+player 2 got paid and now has 90000 dollars
+space 76
+space 77
+end of risky fork
+player ends turn on space 82
+
+starting 3's turn
+player is already retired
+
+starting 0's turn
+player starting from position 71 and rolled 6
+space 71
+space 72
+space 73
+player takes safe route
+space 78
+player 0 got paid and now has 80000 dollars
+space 79
+space 80
+player ends turn on space 81
+
+starting 1's turn
+player is already retired
+
+starting 2's turn
+player starting from position 82 and rolled 3
+space 82
+space 83
+space 84
+player ends turn on space 85
+
+starting 3's turn
+player is already retired
+
+starting 0's turn
+player starting from position 81 and rolled 1
+space 81
+player ends turn on space 82
+
+starting 1's turn
+player is already retired
+
+starting 2's turn
+player starting from position 85 and rolled 7
+space 85
+space 86
+space 87
+space 88
+space 89
+player 2 has retired
+player ends turn on space 89
+
+starting 3's turn
+player is already retired
+
+starting 0's turn
+player starting from position 82 and rolled 5
+space 82
+space 83
+space 84
+space 85
+space 86
+player ends turn on space 87
+
+starting 1's turn
+player is already retired
+
+starting 2's turn
+player is already retired
+
+starting 3's turn
+player is already retired
+
+starting 0's turn
+player starting from position 87 and rolled 4
+space 87
+space 88
+space 89
+player 0 has retired
+player ends turn on space 89
+
+starting 1's turn
+player is already retired
+
+starting 2's turn
+player is already retired
+
+starting 3's turn
+player is already retired

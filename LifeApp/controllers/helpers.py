@@ -6,6 +6,8 @@ import os
 from ..config import *
 from ..models import *
 
+#login stuff
+
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -57,3 +59,8 @@ def get_current_user():
     else:
         return None				
 
+
+# game stuff
+
+def create_game():
+	return True
