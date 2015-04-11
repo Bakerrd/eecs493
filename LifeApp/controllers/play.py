@@ -44,6 +44,9 @@ def play_route():
 							temp = "player is going to college\n"
 							message.append(temp)
 							cur_position = 0
+							p.bankroll = p.bankroll - 125000
+							temp = "player had to pay $125000 to go to college\n"
+							message.append(temp)
 						else: 
 							temp =  "player starting career\n"
 							message.append(temp)
@@ -111,6 +114,10 @@ def play_route():
 						if family == 1:
 							temp =  "player takes family route\n"
 							message.append(temp)
+							if p.married == False:
+								p.married = True
+								temp = "player got remarried\n"
+								message.append(temp)
 							cur_position = 37
 						else:
 							temp = "player doesn't take family route\n"
@@ -140,6 +147,36 @@ def play_route():
 						p.done = True
 						roll = 0
 						end_of_game = end_of_game + 1
+						child_money = p.children * 50000
+						p.bankroll = p.bankroll + child_money
+						temp = "player " + p.name + " has made $" + str(child_money) + " by exploiting their children\n"
+						message.append(temp)
+						if p.loan_counter > 0:
+							p.loan_counter = 1
+					elif cur_position == 25:
+						temp = "player " + p.name + " has just married an English Major\n"
+						message.append(temp)
+						p.married = True
+						cur_position = cur_position + 1
+					elif cur_position == 45:
+						children = random.randint(0,20)
+						if children >= 0 and children < 12:
+							p.children = p.children + 1
+							temp = "player " + p.name + " has had one child\n"
+							message.append(temp)
+						elif children >= 12 and children < 17:
+							p.children = p.children + 2
+							temp = "player " + p.name + " has had twins\n"
+							message.append(temp)
+						elif p.children >= 17 and p.children < 20:
+							p.children = p.children + 3
+							temp = "player " + p.name + " has had triplets\n"
+							message.append(temp)
+						else:
+							p.children = p.children + 8
+							temp = "player " + p.name + " has had eight children\n"
+							message.append(temp)
+						
 					else:
 						cur_position = cur_position + 1
 
@@ -150,14 +187,107 @@ def play_route():
 						p.bankroll = p.bankroll + careers[p.career].salary 
 						temp = "player " + p.name + " got paid and now has " + str(p.bankroll) + " dollars\n"
 						message.append(temp)
+
 				p.position = cur_position
-				temp = "player ends turn on space " + str(p.position) + "\n"
+
+				if cur_position == 4 or cur_position == 26:
+					children = random.randint(0,20)
+					if children >= 0 and children < 12:
+						p.children = p.children + 1
+					elif children >= 12 and children < 17:
+						p.children = p.children + 2
+					elif p.children >= 17 and p.children < 20:
+						p.children = p.children + 3
+					else:
+						p.children = p.children + 8
+					temp = "player " + p.name + " has had " + str(children) + " children\n"
+					message.append(temp)
+
+				if cur_position == 38 or cur_position == 43:
+					p.children = p.children + 1
+					temp = "player " + p.name + " has had a child\n"
+					message.append(temp)
+
+				if cur_position == 39 or cur_position == 44:
+					p.children = p.children + 2
+					temp = "player " + p.name + " has had twins\n"
+					message.append(temp)
+
+				if cur_position == 42:
+					p.children = p.children + 3
+					temp = "player " + p.name + " has had triplets\n"
+					message.append(temp)
+
+				if cur_position == 18 or cur_position == 34 or cur_position == 66:
+					if p.loan_counter > 0:
+						p.loan_counter = 1
+						temp = "The loan sharks have come collecting! Player " + p.name + " has to pay off their loans this turn!\n"
+						message.append(temp)
+
+				if cur_position == 52 or cur_position == 28 or cur_position == 64:
+					p.married = False
+					temp = "Player " + p.name + " got caught cheating and got a divorce\n"
+					message.append(temp)
+
+				if cur_position == 56:
+					p.married = True
+					temp = "Player " + p.name + " got remarried\n"
+					message.append(temp) 
+
+				if cur_position <= 73:
+					if p.married == True:
+						p.bankroll = p.bankroll + 20000
+						temp = "player " + p.name + "'s spouse got paid $20000. player " + p.name + " now has $" + str(p.bankroll) + "\n"
+						message.append(temp)
+					child_support = p.children
+					child_support = child_support*10000
+					p.bankroll = p.bankroll - child_support
+					temp = "player " + p.name + " had to pay " + str(child_support) + " in child support\n"
+					message.append(temp)
+
+				if p.loan_counter > 0:
+					p.loan_counter = p.loan_counter - 1
+					temp = "player " + p.name + " has to pay off their loan in " + str(p.loan_counter) + " turns\n"
+					message.append(temp)
+
+				if p.loan_counter == 0:
+					p.bankroll = p.bankroll - 175000
+					temp = "player " + p.name + " had to pay off their loan. player " + p.name + " now has $" + str(p.bankroll) + "\n"
+					message.append(temp)
+
+				counter = 0
+				turns = 0
+				while p.bankroll < 0:
+					p.bankroll = p.bankroll + 150000
+					if p.loan_counter > 0:
+						if counter > 0:
+							turns = 1
+						else: 
+							turns = 2
+						p.loan_counter = p.loan_counter + turns
+					else:
+						p.loan_counter = 2
+					counter = counter + 1
+					temp = "player " + p.name + " had to take out a loan for $150000. They have " + str(p.loan_counter) + " turns to pay it off\n"
+					message.append(temp)
+
+				temp = "player ends turn on space " + str(p.position) + " and has $" + str(p.bankroll) + "\n"
 				message.append(temp)
 
 			else:
 				temp = "player is already retired\n"
 				message.append(temp)
 
+
+	max_money = -10000000000000
+	winner = -1
+	for p in players:
+		if p.bankroll > max_money:
+			winner = p.name
+			max_money = p.bankroll
+
+	temp = "Player " + p.name + " has won Life and finished with $" + str(max_money) + "\n"
+	message.append(temp)
 
 	return render_template('create_game.html',message=message, careers=careers)
 
