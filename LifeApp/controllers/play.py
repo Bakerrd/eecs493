@@ -42,7 +42,6 @@ def play_route():
 						college = random.randint(0,1)
 						if p.expelled == True:
 							college = 0
-							
 						if college == 1:
 							temp = "player is going to college\n"
 							message.append(temp)
@@ -50,17 +49,18 @@ def play_route():
 							p.bankroll = p.bankroll - 125000
 							temp = "player had to pay $125000 to go to college\n"
 							message.append(temp)
+							roll = roll + 1
 						else: 
 							temp =  "player starting career\n"
 							message.append(temp)
 							career_one = random.randint(8,15)
+							roll = roll + 1
 							c_one_taken = False
 							while c_one_taken == False:
 								if career_one in taken_career:
 									career_one = random.randint(8,15)
 								else:
 									c_one_taken = True
-
 							career_two = random.randint(8,15)
 							c_two_taken = False
 							while c_two_taken == False:
