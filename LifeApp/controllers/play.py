@@ -265,11 +265,37 @@ def play_route():
 					temp = "player " + p.name + " had to pay " + str(child_support) + " in child support\n"
 					message.append(temp)
 
+				if p.loan_counter > 0:
+					p.loan_counter = p.loan_counter - 1
+					temp = "player " + p.name + " has to pay off their loan in " + str(p.loan_counter) + " turns\n"
+					message.append(temp)
+
+				if p.loan_counter == 0:
+					loan_cost = 175000*p.num_loans
+					p.bankroll = p.bankroll - loan_cost
+					p.num_loans = 0
+					p.loan_counter = -1
+					temp = "player " + p.name + " had to pay off their loan for $" + str(loan_cost) + ". player " + p.name + " now has $" + str(p.bankroll) + "\n"
+					message.append(temp)
+
+				posval =  p.bankroll * -1
+				temp = "inverse bankroll is " + str(posval) + "\n"
+				message.append(temp)
+				temp_phouse = p.house
+
+				if temp_phouse != -1:
+					if p.bankroll > 0 and posval >= houses[p.house].sell_price:
+						p.bankroll = p.bankroll + houses[p.house].sell_price
+						taken_house.pop(p.house)
+						temp = "player " + p.name + " sold their house to help with their debt. House " + str(p.house) + " is back on the market!\n"
+						message.append(temp)
+						p.house = -1
+
 				if (p.children > 0 or p.married == True) and p.house == -1:
 					house_one = random.randint(0,9)
 					house_one_taken = False
 					while house_one_taken == False:
-						if house_one in taken_house:
+						if house_one in taken_house or house_one == temp_phouse:
 							house_one = random.randint(0,9)
 						else:
 							house_one_taken = True
@@ -277,7 +303,7 @@ def play_route():
 					house_two = random.randint(0,9)
 					house_two_taken = False
 					while house_two_taken == False:
-						if house_two in taken_house or house_one == house_two:
+						if house_two in taken_house or house_one == house_two or house_two == temp_phouse:
 							house_two = random.randint(0,9)
 						else:
 							house_two_taken = True
@@ -294,20 +320,6 @@ def play_route():
 						p.bankroll = p.bankroll - houses[house_two].cost
 						temp = "player " + p.name + " bought house " + str(house_two) + " for $" + str(houses[house_two].cost) + "\n"
 						message.append(temp)
-
-
-				if p.loan_counter > 0:
-					p.loan_counter = p.loan_counter - 1
-					temp = "player " + p.name + " has to pay off their loan in " + str(p.loan_counter) + " turns\n"
-					message.append(temp)
-
-				if p.loan_counter == 0:
-					loan_cost = 175000*p.num_loans
-					p.bankroll = p.bankroll - loan_cost
-					p.num_loans = 0
-					p.loan_counter = -1
-					temp = "player " + p.name + " had to pay off their loan for $" + str(loan_cost) + ". player " + p.name + " now has $" + str(p.bankroll) + "\n"
-					message.append(temp)
 
 				counter = 0
 				turns = 0
@@ -331,6 +343,9 @@ def play_route():
 
 				temp = "player ends turn on space " + str(p.position) + " and has $" + str(p.bankroll) + "\n"
 				message.append(temp)
+				if p.done == True and p.bankroll > 1000000:
+					temp = "player " + p.name + " has moved to the Caymans\n"
+					message.append(temp) 
 
 			else:
 				temp = "player is already retired\n"
