@@ -265,7 +265,7 @@ def play_route():
 					temp = "player " + p.name + " had to pay " + str(child_support) + " in child support\n"
 					message.append(temp)
 
-				if p.children > 0 and p.house == -1:
+				if (p.children > 0 or p.married == True) and p.house == -1:
 					house_one = random.randint(0,9)
 					house_one_taken = False
 					while house_one_taken == False:
@@ -305,27 +305,29 @@ def play_route():
 					loan_cost = 175000*p.num_loans
 					p.bankroll = p.bankroll - loan_cost
 					p.num_loans = 0
+					p.loan_counter = -1
 					temp = "player " + p.name + " had to pay off their loan for $" + str(loan_cost) + ". player " + p.name + " now has $" + str(p.bankroll) + "\n"
 					message.append(temp)
 
 				counter = 0
 				turns = 0
-				while p.bankroll < 0:
-					p.bankroll = p.bankroll + 150000
-					p.num_loans = p.num_loans + 1
-					if p.loan_counter > 0:
-						if counter > 0:
-							turns = 1
-						else: 
-							turns = 2
-						p.loan_counter = p.loan_counter + turns
-					else:
-						p.loan_counter = 2
-					counter = counter + 1
-					temp = "player " + p.name + " had to take out a loan for $150000. They have " + str(p.loan_counter) + " turns to pay it off\n"
-					message.append(temp)
-					temp = "player " + p.name + " has " + str(p.num_loans) + " loan(s)\n"
-					message.append(temp)
+				if p.done == False:
+					while p.bankroll < 0:
+						p.bankroll = p.bankroll + 150000
+						p.num_loans = p.num_loans + 1
+						if p.loan_counter > 0:
+							if counter > 0:
+								turns = 1
+							else: 
+								turns = 2
+							p.loan_counter = p.loan_counter + turns
+						else:
+							p.loan_counter = 2
+						counter = counter + 1
+						temp = "player " + p.name + " had to take out a loan for $150000. They have " + str(p.loan_counter) + " turns to pay it off\n"
+						message.append(temp)
+						temp = "player " + p.name + " has " + str(p.num_loans) + " loan(s)\n"
+						message.append(temp)
 
 				temp = "player ends turn on space " + str(p.position) + " and has $" + str(p.bankroll) + "\n"
 				message.append(temp)
