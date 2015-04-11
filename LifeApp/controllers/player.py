@@ -10,5 +10,7 @@ class AIPlayer:
 		self.children = 0
 		self.loan_counter = -1
 		self.expelled = False
+		self.num_loans = 0
+		self.house = -1
 
 

@@ -21,19 +21,21 @@ def play_route():
 	end_of_game = 0
 	taken_career = []
 	taken_ccareer = []
+	taken_house = []
 
 	careers = Careers.query.all()
+	houses = Houses.query.all()
 
 	while end_of_game != 4:
 		for p in players:
 			temp = "\n\n"
 			message.append(temp)
-			temp = "starting " + p.name + "'s turn\n" 
+			temp = "starting player " + p.name + "'s turn\n" 
 			message.append(temp)
 			if p.done == False:
 				cur_position = p.position
 				roll = random.randint(1, 10)
-				temp = "player starting from position " + str(cur_position) + " and rolled " + str(roll) + "\n"
+				temp = "player " + p.name + " starting from position " + str(cur_position) + " and rolled " + str(roll) + "\n"
 				message.append(temp)
 				while roll > 0:
 					if cur_position == -1:
@@ -41,14 +43,14 @@ def play_route():
 						if p.expelled == True:
 							college = 0
 						if college == 1:
-							temp = "player is going to college\n"
+							temp = "player " + p.name + " is going to college\n"
 							message.append(temp)
 							cur_position = 0
 							p.bankroll = p.bankroll - 125000
-							temp = "player had to pay $125000 to go to college\n"
+							temp = "player " + p.name + " had to pay $125000 to go to college\n"
 							message.append(temp)
 						else: 
-							temp =  "player starting career\n"
+							temp =  "player " + p.name + " is starting career\n"
 							message.append(temp)
 							career_one = random.randint(8,15)
 							c_one_taken = False
@@ -68,12 +70,12 @@ def play_route():
 							if(careers[career_one].salary >= careers[career_two].salary):
 								p.career = career_one
 								taken_career.append(career_one)
-								temp = "player is taking career " + str(career_one) + "\n"
+								temp = "player " + p.name + " is taking career " + str(career_one) + "\n"
 								message.append(temp)
 							else:
 								p.career = career_two
 								taken_career.append(career_two)
-								temp = "player is taking career " + str(career_two) + "\n"
+								temp = "player " + p.name + " is taking career " + str(career_two) + "\n"
 								message.append(temp)
 
 
@@ -85,7 +87,7 @@ def play_route():
 						cc_one_taken = False
 						while cc_one_taken == False:
 							if ccareer_one in taken_ccareer:
-								ccareer_one = random.randint(8,15)
+								ccareer_one = random.randint(0,7)
 							else:
 								cc_one_taken = True
 
@@ -93,33 +95,33 @@ def play_route():
 						cc_two_taken = False
 						while cc_two_taken == False:
 							if ccareer_two in taken_career or ccareer_one == ccareer_two:
-								ccareer_two = random.randint(8,15)
+								ccareer_two = random.randint(0,7)
 							else:
 								cc_two_taken = True
 
 						if(careers[ccareer_one].salary >= careers[ccareer_two].salary):
 							p.career = ccareer_one
 							taken_ccareer.append(ccareer_one)
-							temp = "player is taking career " + str(ccareer_one) + "\n"
+							temp = "player " + p.name + " is taking career " + str(ccareer_one) + "\n"
 							message.append(temp)
 						else:
 							p.career = ccareer_two
 							taken_ccareer.append(ccareer_two)
-							temp = "player is taking career " + str(ccareer_two) + "\n"
+							temp = "player " + p.name + " is taking career " + str(ccareer_two) + "\n"
 							message.append(temp)
 						cur_position = 13
 					elif cur_position == 36:
 						family = random.randint(0,1)
 						if family == 1:
-							temp =  "player takes family route\n"
+							temp =  "player " + p.name + " takes family route\n"
 							message.append(temp)
 							if p.married == False:
 								p.married = True
-								temp = "player got remarried\n"
+								temp = "player " + p.name + " got remarried\n"
 								message.append(temp)
 							cur_position = 37
 						else:
-							temp = "player doesn't take family route\n"
+							temp = "player " + p.name + " doesn't take family route\n"
 							message.append(temp)
 							cur_position = 46
 					elif cur_position == 45:
@@ -149,6 +151,9 @@ def play_route():
 						child_money = p.children * 50000
 						p.bankroll = p.bankroll + child_money
 						temp = "player " + p.name + " has made $" + str(child_money) + " by exploiting their children\n"
+						message.append(temp)
+						p.bankroll = p.bankroll + houses[p.house].sell_price
+						temp = "player " + p.name + " has made $" + str(houses[p.house].sell_price) + " by selling their house\n"
 						message.append(temp)
 						if p.loan_counter > 0:
 							p.loan_counter = 1
@@ -207,6 +212,10 @@ def play_route():
 						p.children = p.children + 8
 						temp = "player " + p.name + " has had 8 children\n"
 						message.append(temp)
+					if cur_position == 4:
+						p.expelled = True
+						p.position = -1
+						temp = "player " + p.name + "dropped out of school to take care of their child\n"
 
 				if cur_position == 38 or cur_position == 43:
 					p.children = p.children + 1
@@ -240,7 +249,7 @@ def play_route():
 					message.append(temp) 
 
 				if cur_position == 7:
-					cur_position = -1
+					p.position = -1
 					p.expelled = True
 					temp = "Player " + p.name + " was expelled\n"
 					message.append(temp)
@@ -256,20 +265,54 @@ def play_route():
 					temp = "player " + p.name + " had to pay " + str(child_support) + " in child support\n"
 					message.append(temp)
 
+				if p.children > 0 and p.house == -1:
+					house_one = random.randint(0,9)
+					house_one_taken = False
+					while house_one_taken == False:
+						if house_one in taken_house:
+							house_one = random.randint(0,9)
+						else:
+							house_one_taken = True
+
+					house_two = random.randint(0,9)
+					house_two_taken = False
+					while house_two_taken == False:
+						if house_two in taken_house or house_one == house_two:
+							house_two = random.randint(0,9)
+						else:
+							house_two_taken = True
+
+					if(houses[house_one].cost >= houses[house_two].cost):
+						p.house = house_one
+						p.bankroll = p.bankroll - houses[house_one].cost
+						taken_house.append(house_one)
+						temp = "player " + p.name + " bought house " + str(house_one) + " for $" + str(houses[house_one].cost) + "\n"
+						message.append(temp)
+					else:
+						p.house = house_two
+						taken_house.append(house_two)
+						p.bankroll = p.bankroll - houses[house_two].cost
+						temp = "player " + p.name + " bought house " + str(house_two) + " for $" + str(houses[house_two].cost) + "\n"
+						message.append(temp)
+
+
 				if p.loan_counter > 0:
 					p.loan_counter = p.loan_counter - 1
 					temp = "player " + p.name + " has to pay off their loan in " + str(p.loan_counter) + " turns\n"
 					message.append(temp)
 
 				if p.loan_counter == 0:
-					p.bankroll = p.bankroll - 175000
-					temp = "player " + p.name + " had to pay off their loan. player " + p.name + " now has $" + str(p.bankroll) + "\n"
+					loan_cost = 175000*p.num_loans
+					p.bankroll = p.bankroll - loan_cost
+					p.num_loans = 0
+					temp = "player " + p.name + " had to pay off their loan for $" + str(loan_cost) + ". player " + p.name + " now has $" + str(p.bankroll) + "\n"
 					message.append(temp)
 
 				counter = 0
 				turns = 0
 				while p.bankroll < 0:
 					p.bankroll = p.bankroll + 150000
+					p.num_loans = p.num_loans + 1
 					if p.loan_counter > 0:
 						if counter > 0:
 							turns = 1
@@ -280,6 +323,8 @@ def play_route():
 						p.loan_counter = 2
 					counter = counter + 1
 					temp = "player " + p.name + " had to take out a loan for $150000. They have " + str(p.loan_counter) + " turns to pay it off\n"
+					message.append(temp)
+					temp = "player " + p.name + " has " + str(p.num_loans) + " loan(s)\n"
 					message.append(temp)
 
 				temp = "player ends turn on space " + str(p.position) + " and has $" + str(p.bankroll) + "\n"
@@ -293,6 +338,8 @@ def play_route():
 	max_money = -10000000000000
 	winner = -1
 	for p in players:
+		temp = "Player " + p.name + " finished with $" + str(p.bankroll) + "\n"
+		message.append(temp)
 		if p.bankroll > max_money:
 			winner = p.name
 			max_money = p.bankroll
