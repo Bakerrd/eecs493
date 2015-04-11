@@ -9,5 +9,6 @@ class AIPlayer:
 		self.married = False
 		self.children = 0
 		self.loan_counter = -1
+		self.expelled = False
 
 

@@ -40,6 +40,9 @@ def play_route():
 					message.append(temp)
 					if cur_position == -1:
 						college = random.randint(0,1)
+						if p.expelled == True:
+							college = 0
+							
 						if college == 1:
 							temp = "player is going to college\n"
 							message.append(temp)
@@ -233,6 +236,12 @@ def play_route():
 					p.married = True
 					temp = "Player " + p.name + " got remarried\n"
 					message.append(temp) 
+
+				if cur_position == 7:
+					cur_position = -1
+					p.expelled = True
+					temp = "Player " + p.name + " was expelled\n"
+					message.append(temp)
 
 				if cur_position <= 73:
 					if p.married == True:
