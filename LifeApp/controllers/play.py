@@ -36,8 +36,6 @@ def play_route():
 				temp = "player starting from position " + str(cur_position) + " and rolled " + str(roll) + "\n"
 				message.append(temp)
 				while roll > 0:
-					temp = "space " + str(cur_position) + "\n"
-					message.append(temp)
 					if cur_position == -1:
 						college = random.randint(0,1)
 						if p.expelled == True:
@@ -49,12 +47,10 @@ def play_route():
 							p.bankroll = p.bankroll - 125000
 							temp = "player had to pay $125000 to go to college\n"
 							message.append(temp)
-							roll = roll + 1
 						else: 
 							temp =  "player starting career\n"
 							message.append(temp)
 							career_one = random.randint(8,15)
-							roll = roll + 1
 							c_one_taken = False
 							while c_one_taken == False:
 								if career_one in taken_career:
@@ -197,14 +193,20 @@ def play_route():
 					children = random.randint(0,20)
 					if children >= 0 and children < 12:
 						p.children = p.children + 1
+						temp = "player " + p.name + " has had a child\n"
+						message.append(temp)
 					elif children >= 12 and children < 17:
 						p.children = p.children + 2
+						temp = "player " + p.name + " has had twins\n"
+						message.append(temp)
 					elif p.children >= 17 and p.children < 20:
 						p.children = p.children + 3
+						temp = "player " + p.name + " has had triplets\n"
+						message.append(temp)
 					else:
 						p.children = p.children + 8
-					temp = "player " + p.name + " has had " + str(children) + " children\n"
-					message.append(temp)
+						temp = "player " + p.name + " has had 8 children\n"
+						message.append(temp)
 
 				if cur_position == 38 or cur_position == 43:
 					p.children = p.children + 1
