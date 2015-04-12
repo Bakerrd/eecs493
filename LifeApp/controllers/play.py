@@ -231,7 +231,7 @@ def play_route():
 					temp = "player " + p.name + " has $" + str(p.bankroll)
 					message.append(temp)
 					p.children_spouse()
-					temp = "player " + p.name + " had to pay for"  + str(p.children) + " children in child support\n"
+					temp = "player " + p.name + " had to pay for "  + str(p.children) + " children in child support\n"
 					message.append(temp)
 					if p.married == True:
 						temp = "player " + p.name + " got money from their spouse. Now has $" + str(p.bankroll)
@@ -283,22 +283,11 @@ def play_route():
 				counter = 0
 				turns = 0
 				if p.done == False:
-					while p.bankroll < 0:
-						p.bankroll = p.bankroll + 150000
-						p.num_loans = p.num_loans + 1
-						if p.loan_counter > 0:
-							if counter > 0:
-								turns = 1
-							else: 
-								turns = 2
-							p.loan_counter = p.loan_counter + turns
-						else:
-							p.loan_counter = 2
-						counter = counter + 1
-						temp = "player " + p.name + " had to take out a loan for $150000. They have " + str(p.loan_counter) + " turns to pay it off\n"
-						message.append(temp)
-						temp = "player " + p.name + " has " + str(p.num_loans) + " loan(s)\n"
-						message.append(temp)
+					p.get_loans()
+					amount = p.num_loans * 150000
+					back = p.num_loans * 175000
+					temp = "player " + p.name + " now has " + str(p.num_loans) + " for a total of $" + str(amount) + ". They will need to pay $" + str(back) + " back in " + str(p.loan_counter) + " turns"
+					message.append(temp)
 
 				temp = "player ends turn on space " + str(p.position) + " and has $" + str(p.bankroll) + "\n"
 				message.append(temp)

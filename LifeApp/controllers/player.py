@@ -40,5 +40,21 @@ class AIPlayer:
 	def divorce(self):
 		self.married = False
 
+	def get_loans(self):
+		counter = 0
+		while self.bankroll < 0:
+			self.bankroll = self.bankroll + 150000
+			self.num_loans = self.num_loans + 1
+			if self.loan_counter > 0:
+				if counter > 0:
+					turns = 1
+				else: 
+					turns = 2
+				self.loan_counter = self.loan_counter + turns
+			else:
+				self.loan_counter = 2
+			counter = counter + 1
+
+
 
 
