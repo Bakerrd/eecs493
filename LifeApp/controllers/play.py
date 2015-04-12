@@ -194,6 +194,11 @@ def play_route():
 
 				p.position = cur_position
 
+				if p.position not in board.special:
+					p.bankroll = p.bankroll + board.tiles[p.position].value
+					temp = " player " + p.name + " landed on a non special tile and got $" + str(board.tiles[p.position].value) + "\n"
+					message.append
+
 				if cur_position == 4 or cur_position == 26:
 					children = random.randint(0,20)
 					if children >= 0 and children < 12:
