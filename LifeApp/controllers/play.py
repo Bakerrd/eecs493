@@ -5,6 +5,7 @@ from ..config import *
 from helpers import *
 from player import *
 from static import *
+from play_helper import *
 import random
 
 play = Blueprint('play', __name__, template_folder='templates')
@@ -163,23 +164,10 @@ def play_route():
 						p.married = True
 						cur_position = cur_position + 1
 					elif cur_position == 45:
-						children = random.randint(0,20)
-						if children >= 0 and children < 12:
-							p.children = p.children + 1
-							temp = "player " + p.name + " has had one child\n"
-							message.append(temp)
-						elif children >= 12 and children < 17:
-							p.children = p.children + 2
-							temp = "player " + p.name + " has had twins\n"
-							message.append(temp)
-						elif p.children >= 17 and p.children < 20:
-							p.children = p.children + 3
-							temp = "player " + p.name + " has had triplets\n"
-							message.append(temp)
-						else:
-							p.children = p.children + 8
-							temp = "player " + p.name + " has had eight children\n"
-							message.append(temp)
+						num_children = random_child()
+						temp = "player " + p.name + " just had " + str(num_children) + " children\n"
+						message.append(temp)
+						p.add_children(num_children)
 						
 					else:
 						cur_position = cur_position + 1
@@ -200,40 +188,27 @@ def play_route():
 					message.append(temp)
 
 				if cur_position == 4 or cur_position == 26:
-					children = random.randint(0,20)
-					if children >= 0 and children < 12:
-						p.children = p.children + 1
-						temp = "player " + p.name + " has had a child\n"
-						message.append(temp)
-					elif children >= 12 and children < 17:
-						p.children = p.children + 2
-						temp = "player " + p.name + " has had twins\n"
-						message.append(temp)
-					elif p.children >= 17 and p.children < 20:
-						p.children = p.children + 3
-						temp = "player " + p.name + " has had triplets\n"
-						message.append(temp)
-					else:
-						p.children = p.children + 8
-						temp = "player " + p.name + " has had 8 children\n"
-						message.append(temp)
+					num_children = random_child()
+					temp = "player " + p.name + " just had " + str(num_children) + " children\n"
+					message.append(temp)
+					p.add_children(num_children)
 					if cur_position == 4:
-						p.expelled = True
-						p.position = -1
+						p.expel()
 						temp = "player " + p.name + "dropped out of school to take care of their child\n"
+						message.append(temp)
 
 				if cur_position == 38 or cur_position == 43:
-					p.children = p.children + 1
+					p.add_children(1)
 					temp = "player " + p.name + " has had a child\n"
 					message.append(temp)
 
 				if cur_position == 39 or cur_position == 44:
-					p.children = p.children + 2
+					p.add_children(2)
 					temp = "player " + p.name + " has had twins\n"
 					message.append(temp)
 
 				if cur_position == 42:
-					p.children = p.children + 3
+					p.add_children(3)
 					temp = "player " + p.name + " has had triplets\n"
 					message.append(temp)
 
@@ -254,8 +229,7 @@ def play_route():
 					message.append(temp) 
 
 				if cur_position == 7:
-					p.position = -1
-					p.expelled = True
+					p.expel()
 					temp = "Player " + p.name + " was expelled\n"
 					message.append(temp)
 

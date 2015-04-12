@@ -13,4 +13,11 @@ class AIPlayer:
 		self.num_loans = 0
 		self.house = -1
 
+	def add_children(self, val):
+		self.children = self.children + val
+
+	def expel(self):
+		self.expelled = True
+		self.position = -1
+
 
