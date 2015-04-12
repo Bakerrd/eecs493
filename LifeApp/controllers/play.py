@@ -283,24 +283,11 @@ def play_route():
 					temp = "player " + p.name + " had to pay off their loan for $" + str(loan_cost) + ". player " + p.name + " now has $" + str(p.bankroll) + "\n"
 					message.append(temp)
 
-				posval =  p.bankroll * -1
-				temp = "inverse bankroll is " + str(posval) + "\n"
-				message.append(temp)
-				temp_phouse = p.house
-
-				if p.house != -1:
-					if p.bankroll > 0 and posval >= 500000:
-						p.bankroll = p.bankroll + houses[p.house].sell_price
-						taken_house.pop(p.house)
-						temp = "player " + p.name + " sold their house to help with their debt. House " + str(p.house) + " is back on the market!\n"
-						message.append(temp)
-						p.house = -1
-
 				if (p.children > 0 or p.married == True) and p.house == -1:
 					house_one = random.randint(0,9)
 					house_one_taken = False
 					while house_one_taken == False:
-						if house_one in taken_house or house_one == temp_phouse:
+						if house_one in taken_house:
 							house_one = random.randint(0,9)
 						else:
 							house_one_taken = True
@@ -308,7 +295,7 @@ def play_route():
 					house_two = random.randint(0,9)
 					house_two_taken = False
 					while house_two_taken == False:
-						if house_two in taken_house or house_one == house_two or house_two == temp_phouse:
+						if house_two in taken_house or house_one == house_two:
 							house_two = random.randint(0,9)
 						else:
 							house_two_taken = True
