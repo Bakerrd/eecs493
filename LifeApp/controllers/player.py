@@ -20,4 +20,25 @@ class AIPlayer:
 		self.expelled = True
 		self.position = -1
 
+	def children_spouse(self):
+		child_support = self.children * 10000
+		self.bankroll = self.bankroll - child_support
+		if self.married == True:
+			self.bankroll = self.bankroll + 20000
+
+	def end_game(self,val):
+		self.bankroll = self.bankroll + val
+		if self.loan_counter > 0:
+			self.loan_counter = 1
+		child_money = self.children*50000
+		self.bankroll = self.bankroll + child_money
+		self.done = True
+
+	def marriage(self):
+		self.married = True
+
+	def divorce(self):
+		self.married = False
+
+
 

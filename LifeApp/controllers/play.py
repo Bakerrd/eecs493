@@ -146,22 +146,16 @@ def play_route():
 					elif cur_position == 89:
 						temp = "player " + p.name + " has retired\n"
 						message.append(temp)
-						p.done = True
 						roll = 0
 						end_of_game = end_of_game + 1
-						child_money = p.children * 50000
-						p.bankroll = p.bankroll + child_money
-						temp = "player " + p.name + " has made $" + str(child_money) + " by exploiting their children\n"
+						p.end_game(houses[p.house].sell_price)
+						temp = "after dealing with kids/house, player " + p.name + " has $" + str(p.bankroll)
 						message.append(temp)
-						p.bankroll = p.bankroll + houses[p.house].sell_price
-						temp = "player " + p.name + " has made $" + str(houses[p.house].sell_price) + " by selling their house\n"
-						message.append(temp)
-						if p.loan_counter > 0:
-							p.loan_counter = 1
+					
 					elif cur_position == 25:
+						p.marriage()
 						temp = "player " + p.name + " has just married an English Major\n"
 						message.append(temp)
-						p.married = True
 						cur_position = cur_position + 1
 					elif cur_position == 45:
 						num_children = random_child()
@@ -219,12 +213,12 @@ def play_route():
 						message.append(temp)
 
 				if cur_position == 52 or cur_position == 28 or cur_position == 64:
-					p.married = False
+					p.divorce()
 					temp = "Player " + p.name + " got caught cheating and got a divorce\n"
 					message.append(temp)
 
 				if cur_position == 56:
-					p.married = True
+					p.marriage()
 					temp = "Player " + p.name + " got remarried\n"
 					message.append(temp) 
 
@@ -234,15 +228,14 @@ def play_route():
 					message.append(temp)
 
 				if cur_position <= 73:
-					if p.married == True:
-						p.bankroll = p.bankroll + 20000
-						temp = "player " + p.name + "'s spouse got paid $20000. player " + p.name + " now has $" + str(p.bankroll) + "\n"
-						message.append(temp)
-					child_support = p.children
-					child_support = child_support*10000
-					p.bankroll = p.bankroll - child_support
-					temp = "player " + p.name + " had to pay " + str(child_support) + " in child support\n"
+					temp = "player " + p.name + " has $" + str(p.bankroll)
 					message.append(temp)
+					p.children_spouse()
+					temp = "player " + p.name + " had to pay for"  + str(p.children) + " children in child support\n"
+					message.append(temp)
+					if p.married == True:
+						temp = "player " + p.name + " got money from their spouse. Now has $" + str(p.bankroll)
+						message.append(temp)
 
 				if p.loan_counter > 0:
 					p.loan_counter = p.loan_counter - 1
