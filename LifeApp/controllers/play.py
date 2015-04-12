@@ -39,6 +39,7 @@ def play_route():
 				temp = "player " + p.name + " starting from position " + str(cur_position) + " and rolled " + str(roll) + "\n"
 				message.append(temp)
 				while roll > 0:
+					#College Path
 					if cur_position == -1:
 						college = random.randint(0,1)
 						if p.expelled == True:
@@ -53,6 +54,7 @@ def play_route():
 						else: 
 							temp =  "player " + p.name + " is starting career\n"
 							message.append(temp)
+							#Regular Career
 							career_one = random.randint(8,15)
 							c_one_taken = False
 							while c_one_taken == False:
@@ -80,12 +82,13 @@ def play_route():
 								message.append(temp)
 
 
-							cur_position = 11
+							cur_position = 11	
 					elif cur_position == 10:
 						temp = "end of college fork\n"
 						message.append(temp)
 						ccareer_one = random.randint(0,7)
 						cc_one_taken = False
+						#College Career
 						while cc_one_taken == False:
 							if ccareer_one in taken_ccareer:
 								ccareer_one = random.randint(0,7)
@@ -111,10 +114,13 @@ def play_route():
 							temp = "player " + p.name + " is taking career " + str(ccareer_two) + "\n"
 							message.append(temp)
 						cur_position = 13
+
+					#Family Road
 					elif cur_position == 36:
 						family = random.randint(0,1)
 						if family == 1:
 							temp =  "player " + p.name + " takes family route\n"
+							#Remarried
 							message.append(temp)
 							if p.married == False:
 								p.married = True
@@ -129,6 +135,8 @@ def play_route():
 						temp =  "end of family fork\n"
 						message.append(temp)
 						cur_position = 50
+
+					#Risky Road
 					elif cur_position == 73:
 						risky = random.randint(0,1)
 						if risky == 1:
@@ -139,10 +147,13 @@ def play_route():
 							temp = "player takes safe route\n"
 							message.append(temp)
 							cur_position = 78
+					
 					elif cur_position == 77:
 						temp = "end of risky fork\n"
 						message.append(temp)
 						cur_position = 82
+
+					#Retirement
 					elif cur_position == 89:
 						temp = "player " + p.name + " has retired\n"
 						message.append(temp)
@@ -152,11 +163,14 @@ def play_route():
 						temp = "after dealing with kids/house, player " + p.name + " has $" + str(p.bankroll)
 						message.append(temp)
 					
+					#Guarenteed Marriage
 					elif cur_position == 25:
 						p.marriage()
 						temp = "player " + p.name + " has just married an English Major\n"
 						message.append(temp)
 						cur_position = cur_position + 1
+
+					#Guaranteed random number of children
 					elif cur_position == 45:
 						num_children = random_child()
 						temp = "player " + p.name + " just had " + str(num_children) + " children\n"
@@ -168,6 +182,7 @@ def play_route():
 
 					roll = roll - 1
 
+					#check if the space is a payday
 					if cur_position in board.paydays:
 						# need to have salary
 						p.bankroll = p.bankroll + careers[p.career].salary 
@@ -176,57 +191,70 @@ def play_route():
 
 				p.position = cur_position
 
+				#SQUARE YOU END ON
+
+				#Non special spaces
 				if p.position not in board.special:
 					p.bankroll = p.bankroll + board.tiles[p.position].value
 					temp = " player " + p.name + " landed on a non special tile and got $" + str(board.tiles[p.position].value) + "\n"
 					message.append(temp)
 
+				#Random number of children
 				if cur_position == 4 or cur_position == 26:
 					num_children = random_child()
 					temp = "player " + p.name + " just had " + str(num_children) + " children\n"
 					message.append(temp)
 					p.add_children(num_children)
+					#Dropout
 					if cur_position == 4:
 						p.expel()
-						temp = "player " + p.name + "dropped out of school to take care of their child\n"
+						temp = "player " + p.name + " dropped out of school to take care of their child\n"
 						message.append(temp)
 
+				#Child
 				if cur_position == 38 or cur_position == 43:
 					p.add_children(1)
 					temp = "player " + p.name + " has had a child\n"
 					message.append(temp)
 
+				#Twins
 				if cur_position == 39 or cur_position == 44:
 					p.add_children(2)
 					temp = "player " + p.name + " has had twins\n"
 					message.append(temp)
 
+				#Triplets
 				if cur_position == 42:
 					p.add_children(3)
 					temp = "player " + p.name + " has had triplets\n"
 					message.append(temp)
 
+				#Player set upon by loan sharks
 				if cur_position == 18 or cur_position == 34 or cur_position == 66:
 					if p.loan_counter > 0:
 						p.loan_counter = 1
 						temp = "The loan sharks have come collecting! Player " + p.name + " has to pay off their loans this turn!\n"
 						message.append(temp)
 
-				if cur_position == 52 or cur_position == 28 or cur_position == 64:
+				#Player gets a divorce
+				if cur_position == 52 or cur_position == 28 or cur_position == 60:
 					p.divorce()
 					temp = "Player " + p.name + " got caught cheating and got a divorce\n"
 					message.append(temp)
 
+				#Player gets remarried
 				if cur_position == 56:
 					p.marriage()
 					temp = "Player " + p.name + " got remarried\n"
 					message.append(temp) 
 
+				#Player is expelled
 				if cur_position == 7:
 					p.expel()
 					temp = "Player " + p.name + " was expelled\n"
 					message.append(temp)
 
+				#Player pays money for children, gets money from spouse
 				if cur_position <= 73:
 					temp = "player " + p.name + " has $" + str(p.bankroll)
 					message.append(temp)
@@ -237,11 +265,13 @@ def play_route():
 						temp = "player " + p.name + " got money from their spouse. Now has $" + str(p.bankroll)
 						message.append(temp)
 
+				#Update loan_counter
 				if p.loan_counter > 0:
 					p.loan_counter = p.loan_counter - 1
 					temp = "player " + p.name + " has to pay off their loan in " + str(p.loan_counter) + " turns\n"
 					message.append(temp)
 
+				#Player pays off loans
 				if p.loan_counter == 0:
 					loan_cost = 175000*p.num_loans
 					p.bankroll = p.bankroll - loan_cost
@@ -250,6 +280,7 @@ def play_route():
 					temp = "player " + p.name + " had to pay off their loan for $" + str(loan_cost) + ". player " + p.name + " now has $" + str(p.bankroll) + "\n"
 					message.append(temp)
 
+				#Player buys a house
 				if (p.children > 0 or p.married == True) and p.house == -1:
 					house_one = random.randint(0,9)
 					house_one_taken = False
@@ -282,6 +313,7 @@ def play_route():
 
 				counter = 0
 				turns = 0
+				#Player takes out loans until they have positive $$
 				if p.done == False:
 					p.get_loans()
 					amount = p.num_loans * 150000
