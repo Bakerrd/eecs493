@@ -283,8 +283,8 @@ def play_route():
 				message.append(temp)
 				temp_phouse = p.house
 
-				if temp_phouse != -1:
-					if p.bankroll > 0 and posval >= houses[p.house].sell_price:
+				if p.house != -1:
+					if p.bankroll > 0 and posval >= 500000:
 						p.bankroll = p.bankroll + houses[p.house].sell_price
 						taken_house.pop(p.house)
 						temp = "player " + p.name + " sold their house to help with their debt. House " + str(p.house) + " is back on the market!\n"
