@@ -29,13 +29,18 @@ def play_route():
 
 	while end_of_game != 4:
 		for p in players:
-			temp = "\n\n"
-			message.append(temp)
 			temp = "starting player " + p.name + "'s turn\n" 
 			message.append(temp)
 			if p.done == False:
 				cur_position = p.position
 				roll = random.randint(1, 10)
+				for q in players:
+						if p != q:
+							if roll == q.pay_square:
+								p.bankroll = p.bankroll - 20000
+								q.bankroll = q.bankroll + 20000
+								temp = "Player " + p.name + " paid Player " + q.name + " $20000"
+								message.append(temp) 
 				temp = "player " + p.name + " starting from position " + str(cur_position) + " and rolled " + str(roll) + "\n"
 				message.append(temp)
 				while roll > 0:
@@ -71,11 +76,13 @@ def play_route():
 									c_two_taken = True
 
 							if(careers[career_one].salary >= careers[career_two].salary):
+								p.pay_square = career_one - 5
 								p.career = career_one
 								taken_career.append(career_one)
 								temp = "player " + p.name + " is taking career " + str(career_one) + "\n"
 								message.append(temp)
 							else:
+								p.pay_square = career_two - 5
 								p.career = career_two
 								taken_career.append(career_two)
 								temp = "player " + p.name + " is taking career " + str(career_two) + "\n"
@@ -104,11 +111,13 @@ def play_route():
 								cc_two_taken = True
 
 						if(careers[ccareer_one].salary >= careers[ccareer_two].salary):
+							p.pay_square = ccareer_one + 3
 							p.career = ccareer_one
 							taken_ccareer.append(ccareer_one)
 							temp = "player " + p.name + " is taking career " + str(ccareer_one) + "\n"
 							message.append(temp)
 						else:
+							p.pay_square = ccareer_two + 3
 							p.career = ccareer_two
 							taken_ccareer.append(ccareer_two)
 							temp = "player " + p.name + " is taking career " + str(ccareer_two) + "\n"

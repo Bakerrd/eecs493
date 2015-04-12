@@ -12,6 +12,7 @@ class AIPlayer:
 		self.expelled = False
 		self.num_loans = 0
 		self.house = -1
+		self.pay_square = -1
 
 	def add_children(self, val):
 		self.children = self.children + val
