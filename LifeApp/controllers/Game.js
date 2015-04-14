@@ -6,10 +6,11 @@ function log(msg) { //Used for outputting
 }
 
 function Game() {
-	this.players = []
-	for i in range(0,4):
-	player = AIPlayer(str(i));
-	this.players.append(player);
+	this.players = [];
+	for(i=0; i < 4; i++){
+		var player = AIPlayer(i.toString());
+		this.players.push(player);
+	}
 	this.board = Board();
 	this.end_of_game = 0;
 	this.curPlayer = 0;
@@ -19,28 +20,49 @@ function Game() {
 
 	careers = Careers.query.all();
 	houses = Houses.query.all();
-}
-
+	}
 Game.prototype = {
 Start_Turn:function() {
 	//Render Spinner, get spinner value
 	Play_Turn(players[curPlayer], spinnerVal);
-},
-Prompt_College_Career:function() {
+}
+};
+Game.prototype = {
+random_child:function() {
+	var children = random.randint(0,20);
+	if(children >= 0 and children < 12)
+		return 1;
+	else if(children >= 12 && children < 17)
+		return 2;
+	else if children >= 17 and children < 20:
+		return 3;
+	else:
+		return 8;
+}
+};
+Game.prototype = {
+Prompt_College_Career:function(player) {
 	//Creates Dialog Box with generate and select buttons
 	//Connect Generate with Generate_Regular_Career
 	//Connect Select with choose_career_script(selectedVal)
-},
-Prompt_Regular_Career:function() {
+}
+};
+Game.prototype = {
+Prompt_Regular_Career:function(player) {
 	//Creates Dialog Box with generate and select buttons
 	//Connect Generate button with Generate_Regular_Career
 	//Connect Select with choose_career_script(selectedVal)
-},
-Prompt_Regular_Career:function() {
+}
+};
+Game.prototype = {
+Prompt_House:function(player) {
 	//Creates Dialog Box with generate and select buttons
 	//Connect Generate button with Generate_House_Options
 	//Connect Select with choose_house_script(selectedVal)
-},
+}
+};
+
+Game.prototype = {
 Generate_House_Options:function(player) {
 	//Render Spinner, get spinner value
 		var house_one = random.randint(0,9);
@@ -61,44 +83,16 @@ Generate_House_Options:function(player) {
 
 		
 		
-		$('p:first').html('House 1: '+str(houses[house_one])+' <br> Cost: '+houses[house_one].cost);
+		$('p:first').html('House 1: '+houses[house_one].toString()+' <br> Cost: '+houses[house_one].cost);
 				//Insert Button for select 1
-		$('p:second').html('House 2: '+str(houses[house_two])+' <br> Cost: '+houses[house_two].cost);
+		$('p:second').html('House 2: '+houses[house_two].toString()+' <br> Cost: '+houses[house_two].cost);
 
-},
-Choose_Career:function(player,career_one, career_two, college) {
-	//Dialog box with choices
-	$('p:first').html('Career 1: '+careers[career_one].title+' <br> Salary: '+careers[career_one].salary);
-	//Insert Button for select 1
-	$('p:second').html('Career 2: '+careers[career_two].title+' <br> Salary: '+careers[career_two].salary);
-	//Insert Button for select 2
-	/*
-	if(box.chosen == careers[career_one]){
-		player.career = str(careers[career_one]);
-		player.salary = careers[career_one].salary;
-		if(college)
-			p.pay_square = career_one + 3;
-		else
-			p.pay_square = career_one - 5;
-		taken_ccareer.append(ccareer_one);
-		temp = "player " + p.name + " is taking career " + str(ccareer_one) + "\n";
-		log(temp);
-		}
-	if(box.chosen == careers[career_two]){
-		player.career = str(careers[career_two]);
-		player.salary = careers[career_two].salary;
-		if(college)
-			p.pay_square = career_two + 3;
-		else
-			p.pay_square = career_two - 5;
-		taken_ccareer.append(ccareer_two);
-		temp = "player " + p.name + " is taking career " + str(ccareer_two) + "\n";
-		log(temp);
-		}
-*/
-},
+}
+};
+
+	Game.prototype = {
 Choose_Career_Script:function(career_choice) {
-		player.career = str(careers[career_choice]);
+		player.career = careers[career_choice].toString();
 		player.salary = careers[career_choice].salary;
 		if(career_choice <= 7){
 			p.pay_square = career_choice + 3;
@@ -109,25 +103,33 @@ Choose_Career_Script:function(career_choice) {
 			taken_ccareer.append(career_choice);
 		}
 		
-		temp = "player " + p.name + " is taking career " + str(career_choice) + "\n";
+		temp = "player " + p.name + " is taking career " + career_choice.toString() + "\n";
 		log(temp);
-},
+		}
+}
+};
+
+
+	Game.prototype = {
 Choose_House_Script:function(house_choice) {
-	//Dialog box with choices, test if price is > bankroll
+	//Sets the player up with the selected house
 	player.house = house_choice;
 	taken_house.append(house_choice);
-	temp = "player " + player.name + " bought house " + str(house_one) + " for $" + str(houses[house_one].cost) + "\n";
+	temp = "player " + player.name + " bought house " + house_one.toString() + " for $" + houses[house_one].cost.toString() + "\n";
 	log(temp);
 	player.updateBankroll(chosen.val);
-},
+}
+};
+
+	Game.prototype = {
 Generate_Regular_Career:function(p) {
 	//Render Spinner, get spinner value
 	var career_one = random.randint(8,15);
 	var c_one_taken = false;
 	while(c_one_taken == false){
-		if($.inArray(career_one, taken_career)
+		if($.inArray(career_one, taken_career))
 			career_one = random.randint(8,15);
-		else
+		else:
 			c_one_taken = true;
 	}
 	var career_two = random.randint(8,15)
@@ -136,14 +138,16 @@ Generate_Regular_Career:function(p) {
 	while(c_two_taken == false){
 		if($.inArray(career_one, taken_career) || career_one == career_two)
 			career_two = random.randint(8,15);
-		else
+		else:
 			c_two_taken = true;
 	}
 	$('p:first').html('Career 1: '+careers[career_one].title+' <br> Salary: '+careers[career_one].salary);
 	//Insert Button for select 1
 	$('p:second').html('Career 2: '+careers[career_two].title+' <br> Salary: '+careers[career_two].salary);
 	//Choose_Career(p, career_one, career_two, false);					
-},
+}
+};
+	Game.prototype = {
 Generate_College_Career:function(p) {
 	//Render Spinner, get spinner value
 	var temp = "end of college fork\n";
@@ -152,7 +156,7 @@ Generate_College_Career:function(p) {
 	var cc_one_taken = false;
 	//College Career
 	while(cc_one_taken == false){
-		if($.inArray(ccareer_one, taken_ccareer)
+		if($.inArray(ccareer_one, taken_ccareer))
 			ccareer_one = random.randint(0,7);
 		else
 			cc_one_taken = true;
@@ -162,30 +166,37 @@ Generate_College_Career:function(p) {
 	while(cc_two_taken == false){
 		if($.inArray(ccareer_two, taken_ccareer) || ccareer_one == ccareer_two)
 			ccareer_two = random.randint(0,7);
-		else
+		else:
 			cc_two_taken = true;
 	}
 	$('p:first').html('Career 1: '+careers[ccareer_one].title+' <br> Salary: '+careers[ccareer_one].salary);
 	//Insert Button for select 1
 	$('p:second').html('Career 2: '+careers[ccareer_two].title+' <br> Salary: '+careers[ccareer_two].salary);
 	//Choose_Career(p, ccareer_one, ccareer_two, true);
-},
+}
+};
+
+Game.prototype = {
 College_Prompt:function(p) {
 	var college = windowPromptVal;
 	if(college == 1){
 		temp = "player " + p.name + " is going to college\n"
 		log(temp);
-		cur_position = 0;
-		p.bankroll = p.bankroll - 125000;
+		p.updateBankroll(-125000);
 		temp = "player " + p.name + " had to pay $125000 to go to college\n"
 		log(temp);
+		return true;
 	}
 		else{
 			temp =  "player " + p.name + " is starting career\n";
 			log(temp);
-			Get_Regular_Career(p);
+			Prompt_Regular_Career(p);
+			return false;
 		}
-},
+}
+};
+
+Game.prototype = {
 Play_Turn:function(p, roll) {
 	temp = "starting player " + p.name + "'s turn\n" 
 		log(temp)
@@ -202,128 +213,125 @@ Play_Turn:function(p, roll) {
 							log(temp); 
 					}
 			}
-			temp = "player " + p.name + " starting from position " + str(cur_position) + " and rolled " + str(roll) + "\n";
+			temp = "player " + p.name + " starting from position " + cur_position.toString() + " and rolled " + roll.toString() + "\n";
 			log(temp);
 			while roll > 0{
-				#College Path
-				if(cur_position == -1){
+				//College Path
+				if(cur_position == -1){ //Start of Game, college or not college
 					if(p.expelled == false)
-						College_Prompt(p); //Gets if wants to attend college
-					if college == 1:
-						temp = "player " + p.name + " is going to college\n"
-						log(temp);
-						cur_position = 0;
-						p.updateBankroll(-125000);
-						temp = "player " + p.name + " had to pay $125000 to go to college\n"
-						log(temp)
-					else: 
-						temp =  "player " + p.name + " is starting career\n"
-						log(temp)
-						#Regular Career
-						
-
-						cur_position = 11
+						if(!College_Prompt(p)) //Gets if wants to attend college true = yes, false = no, if false move to 11, runs prompt
+							cur_position = 11;
+						else
+							cur_position = 0; // Goes through college path
 				}	
-				elif cur_position == 10:
-					temp = "end of college fork\n"
-					log(temp)
-					Get_College_Career(p)
-					cur_position = 13
-
-				#Family Road
-				elif cur_position == 36:
-					family = random.randint(0,1)
-					if family == 1:
-						temp =  "player " + p.name + " takes family route\n"
+				else if( cur_position == 10){
+					temp = "end of college fork\n";
+					log(temp);
+					Prompt_College_Career(p);
+					cur_position = 13;
+				}
+				//Family Road
+				else if(cur_position == 36){
+					family = random.randint(0,1);
+					if(family == 1){
+						temp =  "player " + p.name + " takes family route\n";
 						#Remarried
 						log(temp)
 						if p.married == False:
 							p.married = true
-							temp = "player " + p.name + " got remarried\n"
+							temp = "player " + p.name + " got remarried\n";
 							log(temp)
 						cur_position = 37
-					else:
-						temp = "player " + p.name + " doesn't take family route\n"
-						log(temp)
-						cur_position = 46
-				elif cur_position == 45:
-					temp =  "end of family fork\n"
-					log(temp)
-					cur_position = 50
-
-				#Risky Road
-				elif cur_position == 73:
+					}
+					else{
+						temp = "player " + p.name + " doesn't take family route\n";
+						log(temp);
+						cur_position = 46;
+					}
+				}
+				else if(cur_position == 45){
+					temp =  "end of family fork\n";
+					log(temp);
+					cur_position = 50;
+				}
+				//Risky Road
+				else if(cur_position == 73){
 					risky = random.randint(0,1)
 					if risky == 1:
-						temp = "player takes risky route\n"
-						log(temp)
-						cur_position = 74
+						temp = "player takes risky route\n";
+						log(temp);
+						cur_position = 74;
 					else:
-						temp = "player takes safe route\n"
-						log(temp)
-						cur_position = 78
-				
-				elif cur_position == 77:
-					temp = "end of risky fork\n"
-					log(temp)
-					cur_position = 82
+						temp = "player takes safe route\n";
+						log(temp);
+						cur_position = 78;
+				}
+				else if(cur_position == 77){
+					temp = "end of risky fork\n";
+					log(temp);
+					cur_position = 82;
+				}
+				//Retirement
+				else if(cur_position == 89){
+					temp = "player " + p.name + " has retired\n";
+					log(temp);
+					roll = 0;
+					end_of_game = end_of_game + 1;
+					p.end_game(houses[p.house].sell_price);
+					temp = "after dealing with kids/house, player " + p.name + " has $" + p.bankroll.toString();
+					log(temp);
+				}
+				//Guarenteed Marriage
+				else if(cur_position == 25){
+					p.marriage();
+					temp = "player " + p.name + " has just married an English Major\n";
+					log(temp);
+					cur_position = cur_position + 1;
+				}
+				//Guaranteed random number of children
+				else if(cur_position == 45){
+					num_children = random_child();
+					temp = "player " + p.name + " just had " + num_children.toString() + " children\n";
+					log(temp);
+					p.add_children(num_children);
+				}
+				else //End of conditionals
+					cur_position = cur_position + 1;
 
-				#Retirement
-				elif cur_position == 89:
-					temp = "player " + p.name + " has retired\n"
-					log(temp)
-					roll = 0
-					end_of_game = end_of_game + 1
-					p.end_game(houses[p.house].sell_price)
-					temp = "after dealing with kids/house, player " + p.name + " has $" + str(p.bankroll)
-					log(temp)
-				
-				#Guarenteed Marriage
-				elif cur_position == 25:
-					p.marriage()
-					temp = "player " + p.name + " has just married an English Major\n"
-					log(temp)
-					cur_position = cur_position + 1
+				roll = roll - 1;
 
-				#Guaranteed random number of children
-				elif cur_position == 45:
-					num_children = random_child()
-					temp = "player " + p.name + " just had " + str(num_children) + " children\n"
-					log(temp)
-					p.add_children(num_children)
-					
-				else:
-					cur_position = cur_position + 1
+				//check if the space is a payday
 
-				roll = roll - 1
+				if(board.tiles[cur_position].payday){
+					//need to have salary
+					p.updateBankroll(p.salary);
+					temp = "player " + p.name + " got paid and now has " + p.bankroll.toString() + " dollars\n";
+					log(temp);
+				}
+			p.position = cur_position;
+			}///END OF WHILE LOOP FOR ROLL > 0
+			End_Turn(p);
 
-				#check if the space is a payday
-				if cur_position in board.paydays:
-					# need to have salary
-					p.bankroll = p.bankroll + careers[p.career].salary 
-					temp = "player " + p.name + " got paid and now has " + str(p.bankroll) + " dollars\n"
-					log(temp)
+		if(p.retired){
+			temp = "player is already retired\n";
+			log(temp);
+		}
 
-			p.position = cur_position
-
-			
-
-		else:
-			temp = "player is already retired\n"
-			log(temp)
-},
+}
+};
+	Game.prototype = {
 End_Turn:function(p){
 	// Non special spaces
 	if ($.inArray(p.position, board.special)){
 		p.bankroll += board.tiles[p.position].value;
-		temp = " player " + p.name + " landed on a non special tile and got $" + str(board.tiles[p.position].value) + "\n";
+		temp = " player " + p.name + " landed on a non special tile and got $" + board.tiles[p.position].value.toString() + "\n";
 		log(temp);
 	}
 
 	// Random number of children
 	if (cur_position == 4 || cur_position == 26){
 		num_children = random_child();
-		temp = "player " + p.name + " just had " + str(num_children) + " children\n";
+		temp = "player " + p.name + " just had " + num_children.toString() + " children\n";
 		log(temp);
 		p.add_children(num_children);
 		// Dropout
@@ -438,9 +446,11 @@ End_Turn:function(p){
 		temp = "player " + p.name + " has moved to the Caymans\n";
 		log(temp);
 	}
-}
+};
 };
 
+
+// Player Class 
 function Player(name) {
 	this.done = false;
 	this.bankroll = 10000;
@@ -506,4 +516,26 @@ get_loans:function(){
 	}
 }
 };
+
+
+// Tile Class
+function Tile(title, value, payday, special) {
+	this.title = title;
+	this.value = value;
+	this.payday = payday;
+	this.special = special;
+}
+
+
+// Board Class
+function Board(){
+	this.tiles = [];
+	this.paydays = [12, 21, 31, 40, 48, 54, 64, 70, 76, 79];
+	this.special = [4,7,12,18,21,25,26,28,31,34,37,38,39,40,42,43,44,45,48,52,54,56,60,64,66,70,76,79];
+	for(int i = 0; i < 90; i++){
+		var title = "tile " + i.toString();
+		var new_tile = Tile(title, 10000);
+		this.tiles.push(new_tile);
+	}
+}
 
