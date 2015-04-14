@@ -1,19 +1,111 @@
     
 function log(msg) { //Used for outputting
-    setTimeout(function() {
-        throw new Error(msg);
-    }, 0);
+    console.log(msg);
 }
+
+
+// Player Class 
+function Player(name) {
+	this.done = false;
+	this.bankroll = 10000;
+	this.position = -1;
+	this.name = name;
+	this.career = null;
+	this.married = false;
+	this.children = 0;
+	this.loan_counter = -1;
+	this.expelled = false;
+	this.num_loans = 0;
+	this.house = -1;
+	this.pay_square = -1;
+}
+
+Player.prototype = {
+add_children:function(val){
+	this.children = this.children + val;
+}, 
+expel:function(){
+	this.expelled = true;
+	this.position = -1;
+},
+children_spouse:function(){
+	var child_support = this.children * 10000;
+	this.bankroll -= child_support;
+	if (this.married == true){
+		this.bankroll += 20000;
+	}
+}, 
+end_game:function(val){
+	this.bankroll += val;
+	if (this.loan_counter > 0){
+		this.loan_counter = 1;
+	}
+	var child_money = this.children * 50000;
+	this.bankroll += child_money;
+	this.done = true;
+}, 
+marriage:function(){
+	this.married = true;
+}, 
+divorce:function(){
+	this.married = false;
+}, 
+get_loans:function(){
+	var counter = 0;
+	var turns = 0;
+	while (this.bankroll < 0){
+		this.bankroll += 150000;
+		this.num_loans++;
+		if (this.loan_counter > 0){
+			if (counter > 0){
+				turns = 1;
+			} else {
+				turns = 2;
+			}
+			this.loan_counter += turns;
+		} else {
+			this.loan_counter = 2;
+		}
+		counter++;
+	}
+}, 
+updateBankroll:function(val){
+	this.bankroll += val;
+}
+};
+
+
+// Tile Class
+function Tile(title, value, payday, special) {
+	this.title = title;
+	this.value = value;
+	this.payday = payday;
+	this.special = special;
+}
+
+
+// Board Class
+function Board(){
+	this.tiles = [];
+	this.paydays = [12, 21, 31, 40, 48, 54, 64, 70, 76, 79];
+	this.special = [4,7,12,18,21,25,26,28,31,34,37,38,39,40,42,43,44,45,48,52,54,56,60,64,66,70,76,79];
+	for(var i = 0; i < 90; i++){
+		var title = "tile " + i.toString();
+		var new_tile = new Tile(title, 10000);
+		this.tiles.push(new_tile);
+	}
+}
+
 
 
 // Game Class
 function Game() {
 	this.players = [];
 	for(i=0; i < 4; i++){
-		var player = Player(i.toString());
+		var player = new Player(i.toString());
 		this.players.push(player);
 	}
-	this.board = Board();
+	this.board = new Board();
 	this.end_of_game = 0;
 	this.curPlayer = 0;
 	this.taken_career = [];
@@ -23,22 +115,24 @@ function Game() {
 	// Careers and Houses????
 	this.careers = [];
 	this.houses = [];
-
-	this.Play_Game();
 }
 
 Game.prototype = {
 Play_Game:function(){
-	while (!this.Check_End_Game){
+	console.log("play_game");
+	var end = this.Check_End_Game();
+	while (!end){
 		for (var i=0; i<4; i++){
 			this.curPlayer = i;
 			this.Start_Turn();
 		}
+		end = this.Check_End_Game();
 	}
 },
 Start_Turn:function() {
 	//Render Spinner, get spinner value
 	var spinnerVal = Math.floor(Math.random() * 11);
+	console.log("start_turn with spin of " + spinnerVal.toString()); 
 	this.Play_Turn(this.players[this.curPlayer], spinnerVal);
 },
 random_child:function() {
@@ -47,9 +141,9 @@ random_child:function() {
 		return 1;
 	else if(children >= 12 && children < 17)
 		return 2;
-	else if children >= 17 and children < 20:
+	else if (children >= 17 && children < 20)
 		return 3;
-	else:
+	else
 		return 8;
 },
 Prompt_College_Career:function(player) {
@@ -167,7 +261,7 @@ Generate_College_Career:function(p) {
 	//Choose_Career(p, ccareer_one, ccareer_two, true);
 },
 College_Prompt:function(p) {
-	var college = windowPromptVal;
+	var college = Math.floor(Math.random() * 2);
 	if(college == 1){
 		var temp = "player " + p.name + " is going to college\n"
 		log(temp);
@@ -190,7 +284,7 @@ Play_Turn:function(p, roll) {
 		//Need to get roll from spinner
 		// roll = Math.floor((Math.random() * 10) + 1);
 		for(q in this.players){
-			if p != q{
+			if (p != q){
 				if (roll == q.pay_square){
 					p.updateBankroll(-20000);
 					q.updateBankroll(20000);
@@ -218,16 +312,17 @@ Play_Turn:function(p, roll) {
 			}
 			//Family Road
 			else if(cur_position == 36){
-				var family = Math.floor((Math.random() * 2)));
+				var family = Math.floor((Math.random() * 2));
 				if(family == 1){
 					temp =  "player " + p.name + " takes family route\n";
 					// Remarried
 					log(temp);
-					if p.married == False:
+					if (p.married == false){
 						p.married = true;
 						temp = "player " + p.name + " got remarried\n";
 						log(temp);
-					cur_position = 37;
+						cur_position = 37;
+					}
 				} else {
 					temp = "player " + p.name + " doesn't take family route\n";
 					log(temp);
@@ -241,7 +336,7 @@ Play_Turn:function(p, roll) {
 			}
 			//Risky Road
 			else if(cur_position == 73){
-				risky = Math.floor((Math.random() * 2)))
+				risky = Math.floor((Math.random() * 2))
 				if (risky == 1){
 					temp = "player takes risky route\n";
 					log(temp);
@@ -314,7 +409,7 @@ End_Turn:function(p, cur_position){
 
 	// Random number of children
 	if (cur_position == 4 || cur_position == 26){
-		var num_children = random_child();
+		var num_children = this.random_child();
 		temp = "player " + p.name + " just had " + num_children.toString() + " children\n";
 		log(temp);
 		p.add_children(num_children);
@@ -408,7 +503,7 @@ End_Turn:function(p, cur_position){
 	}
 
 	// Player buys a house
-	if (p.children > 0 || p.married == true) && (p.house == -1){
+	if ((p.children > 0 || p.married == true) && (p.house == -1)){
 		this.Prompt_House(p);
 	}
 
@@ -443,95 +538,9 @@ Check_End_Game:function(){
 };
 
 
-// Player Class 
-function Player(name) {
-	this.done = false;
-	this.bankroll = 10000;
-	this.position = -1;
-	this.name = name;
-	this.career = null;
-	this.married = false;
-	this.children = 0;
-	this.loan_counter = -1;
-	this.expelled = false;
-	this.num_loans = 0;
-	this.house = -1;
-	this.pay_square = -1;
-}
-
-Player.prototype = {
-add_children:function(val){
-	this.children = this.children + val;
-}, 
-expel:function(){
-	this.expelled = true;
-	this.position = -1;
-},
-children_spouse:function(){
-	var child_support = this.children * 10000;
-	this.bankroll -= child_support;
-	if (this.married == true){
-		this.bankroll += 20000;
-	}
-}, 
-end_game:function(val){
-	this.bankroll += val;
-	if (this.loan_counter > 0){
-		this.loan_counter = 1;
-	}
-	var child_money = this.children * 50000;
-	this.bankroll += child_money;
-	this.done = true;
-}, 
-marriage:function(){
-	this.married = true;
-}, 
-divorce:function(){
-	this.married = false;
-}, 
-get_loans:function(){
-	var counter = 0;
-	var turns = 0;
-	while (this.bankroll < 0){
-		this.bankroll += 150000;
-		this.num_loans++;
-		if (this.loan_counter > 0){
-			if (counter > 0){
-				turns = 1;
-			} else {
-				turns = 2;
-			}
-			this.loan_counter += turns;
-		} else {
-			this.loan_counter = 2;
-		}
-		counter++;
-	}
-}, 
-updateBankroll:function(val){
-	this.bankroll += val;
-}
-};
-
-
-// Tile Class
-function Tile(title, value, payday, special) {
-	this.title = title;
-	this.value = value;
-	this.payday = payday;
-	this.special = special;
-}
-
-
-// Board Class
-function Board(){
-	this.tiles = [];
-	this.paydays = [12, 21, 31, 40, 48, 54, 64, 70, 76, 79];
-	this.special = [4,7,12,18,21,25,26,28,31,34,37,38,39,40,42,43,44,45,48,52,54,56,60,64,66,70,76,79];
-	for(int i = 0; i < 90; i++){
-		var title = "tile " + i.toString();
-		var new_tile = Tile(title, 10000);
-		this.tiles.push(new_tile);
-	}
+function New_Game(){
+	console.log("you made it");
+	game = new Game();
+	game.Play_Game();
 }
 
