@@ -1,3 +1,24 @@
 body {
 	height: 1000px;
 }
+
+.board {
+	background-image: url('/static/images/game_board_final_real.png');
+	background-size: 100%, 100%;
+	height: 750px;
+	background-repeat: no-repeat;
+}
+
+.playerStats {
+	margin-right: 0px;
+	border: 5px solid black;
+	margin-left: auto;
+	text-align: left;
+	width: 30%;
+}
+
+.playerBankrolls{
+	margin-top: 57%;
+	width: 30%;
+	border: 5px solid black;
+}
