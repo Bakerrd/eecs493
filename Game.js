@@ -27,19 +27,21 @@
 	}
 	}
 	Game.prototype = {
-    Prompt_College_Career:function() {
+    Prompt_College_Career:function(player) {
 		//Creates Dialog Box with generate and select buttons
 		//Connect Generate with Generate_Regular_Career
 		//Connect Select with choose_career_script(selectedVal)
 	}
 	}
-	Prompt_Regular_Career:function() {
+	Game.prototype = {
+	Prompt_Regular_Career:function(player) {
 		//Creates Dialog Box with generate and select buttons
 		//Connect Generate button with Generate_Regular_Career
 		//Connect Select with choose_career_script(selectedVal)
 	}
 	}
-	Prompt_Regular_Career:function() {
+	Game.prototype = {
+	Prompt_House:function(player) {
 		//Creates Dialog Box with generate and select buttons
 		//Connect Generate button with Generate_House_Options
 		//Connect Select with choose_house_script(selectedVal)
@@ -74,40 +76,6 @@
 	}
 	}
 
-	//Creates the dialog box to choose career
-	Game.prototype = {
-    Choose_Career:function(player,career_one, career_two, college) {
-		//Dialog box with choices
-		$('p:first').html('Career 1: '+careers[career_one].title+' <br> Salary: '+careers[career_one].salary);
-		//Insert Button for select 1
-		$('p:second').html('Career 2: '+careers[career_two].title+' <br> Salary: '+careers[career_two].salary);
-		//Insert Button for select 2
-		/*
-		if(box.chosen == careers[career_one]){
-			player.career = str(careers[career_one]);
-			player.salary = careers[career_one].salary;
-			if(college)
-				p.pay_square = career_one + 3;
-			else
-				p.pay_square = career_one - 5;
-			taken_ccareer.append(ccareer_one);
-			temp = "player " + p.name + " is taking career " + str(ccareer_one) + "\n";
-			log(temp);
-			}
-		if(box.chosen == careers[career_two]){
-			player.career = str(careers[career_two]);
-			player.salary = careers[career_two].salary;
-			if(college)
-				p.pay_square = career_two + 3;
-			else
-				p.pay_square = career_two - 5;
-			taken_ccareer.append(ccareer_two);
-			temp = "player " + p.name + " is taking career " + str(ccareer_two) + "\n";
-			log(temp);
-			}
-*/
-	}
-	}
 		Game.prototype = {
     Choose_Career_Script:function(career_choice) {
 			player.career = str(careers[career_choice]);
@@ -201,14 +169,16 @@
 			temp = "player " + p.name + " is going to college\n"
 			log(temp);
 			cur_position = 0;
-			p.bankroll = p.bankroll - 125000;
+			p.updateBankroll(-125000);
 			temp = "player " + p.name + " had to pay $125000 to go to college\n"
 			log(temp);
+			return true;
 		}
 			else{
 				temp =  "player " + p.name + " is starting career\n";
 				log(temp);
-				Get_Regular_Career(p);
+				Prompt_Regular_Career(p);
+				return false;
 			}
 	}
 	}
@@ -234,32 +204,19 @@
 				log(temp);
 				while roll > 0{
 					#College Path
-					if(cur_position == -1){
+					if(cur_position == -1){ //Start of Game, college or not college
 						if(p.expelled == false)
-							College_Prompt(p); //Gets if wants to attend college
-						if college == 1:
-							temp = "player " + p.name + " is going to college\n"
-							log(temp);
-							cur_position = 0;
-							p.updateBankroll(-125000);
-							temp = "player " + p.name + " had to pay $125000 to go to college\n"
-							log(temp)
-						else: 
-							temp =  "player " + p.name + " is starting career\n"
-							log(temp)
-							#Regular Career
-							
-
-							cur_position = 11
+							if(College_Prompt(p)) //Gets if wants to attend college
+								cur_position = 11;
 					}	
-					elif cur_position == 10:
-						temp = "end of college fork\n"
-						log(temp)
-						Get_College_Career(p)
-						cur_position = 13
-
+					else if( cur_position == 10){}
+						temp = "end of college fork\n";
+						log(temp);
+						Prompt_College_Career(p);
+						cur_position = 13;
+					}
 					#Family Road
-					elif cur_position == 36:
+					else if cur_position == 36:
 						family = random.randint(0,1)
 						if family == 1:
 							temp =  "player " + p.name + " takes family route\n"
@@ -274,13 +231,13 @@
 							temp = "player " + p.name + " doesn't take family route\n"
 							log(temp)
 							cur_position = 46
-					elif cur_position == 45:
+					else if cur_position == 45:
 						temp =  "end of family fork\n"
 						log(temp)
 						cur_position = 50
 
 					#Risky Road
-					elif cur_position == 73:
+					else if cur_position == 73:
 						risky = random.randint(0,1)
 						if risky == 1:
 							temp = "player takes risky route\n"
@@ -291,13 +248,13 @@
 							log(temp)
 							cur_position = 78
 					
-					elif cur_position == 77:
+					else if cur_position == 77:
 						temp = "end of risky fork\n"
 						log(temp)
 						cur_position = 82
 
 					#Retirement
-					elif cur_position == 89:
+					else if cur_position == 89:
 						temp = "player " + p.name + " has retired\n"
 						log(temp)
 						roll = 0
@@ -307,14 +264,14 @@
 						log(temp)
 					
 					#Guarenteed Marriage
-					elif cur_position == 25:
+					else if cur_position == 25:
 						p.marriage()
 						temp = "player " + p.name + " has just married an English Major\n"
 						log(temp)
 						cur_position = cur_position + 1
 
 					#Guaranteed random number of children
-					elif cur_position == 45:
+					else if cur_position == 45:
 						num_children = random_child()
 						temp = "player " + p.name + " just had " + str(num_children) + " children\n"
 						log(temp)
@@ -326,9 +283,9 @@
 					roll = roll - 1
 
 					#check if the space is a payday
-					if cur_position in board.paydays:
+					if(cur_position in board.paydays{}
 						# need to have salary
-						p.bankroll = p.bankroll + careers[p.career].salary 
+						p.updateBankroll(p.salary);
 						temp = "player " + p.name + " got paid and now has " + str(p.bankroll) + " dollars\n"
 						log(temp)
 
