@@ -43,3 +43,12 @@ CREATE TABLE Houses (
 	sell_price INTEGER NOT NULL,
 	PRIMARY KEY (house_id)
 );
+
+CREATE TABLE Tiles (
+	title VARCHAR(25) NOT NULL,
+	value INTEGER NOT NULL,
+	description VARCHAR(100) NOT NULL,
+	x INTEGER NOT NULL,
+	y INTEGER NOT NULL,
+	PRIMARY KEY (title),
+);

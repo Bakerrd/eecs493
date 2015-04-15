@@ -89,16 +89,18 @@ class Houses(db.Model):
 class Tiles(db.Model):
 
     __tablename__ = 'Tiles'
-    tile_id = db.Column(db.Integer, primary_key=True)
-    label = db.Column(db.String(25))
-    amount = db.Column(db.Integer)
-    username = db.Column(db.String(20), db.ForeignKey('User.username'))
+    title = db.Column(db.String(25), primary_key=True)
+    value = db.Column(db.Integer)
+    description = db.Colum(db.String(100))
+    x = db.Column(db.Integer)
+    y = db.Column(db.Integer)
 
-    def __init__(self, tile_id, label, amount, username):
-        self.tile_id = tile_id
-        self.label = label
-        self.amount = amount
-        self.username = username
+    def __init__(self, title, value, description, x, y):
+        self.title = title
+        self.value = value
+        self.description = description
+        self.x = x
+        self.y = y
 
     def __repr__(self):
-        return 'Tile:' + str(self.tile_id)
+        return 'Tile:' + str(self.title)
