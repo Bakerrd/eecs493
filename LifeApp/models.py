@@ -91,11 +91,10 @@ class Tiles(db.Model):
     __tablename__ = 'Tiles'
     title = db.Column(db.String(25), primary_key=True)
     value = db.Column(db.Integer)
-    description = db.Colum(db.String(100))
     x = db.Column(db.Integer)
     y = db.Column(db.Integer)
 
-    def __init__(self, title, value, description, x, y):
+    def __init__(self, title, value, x, y):
         self.title = title
         self.value = value
         self.description = description
