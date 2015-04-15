@@ -32,7 +32,7 @@ CREATE TABLE Careers (
 	career_id INTEGER NOT NULL AUTO_INCREMENT,
 	title VARCHAR(25) NOT NULL,
 	salary INTEGER NOT NULL,
-	college ENUM('yes', 'no'),
+	img_path VARCHAR(30) NOT NULL,
 	PRIMARY KEY (career_id)
 );
 
@@ -42,13 +42,4 @@ CREATE TABLE Houses (
 	cost INTEGER NOT NULL,
 	sell_price INTEGER NOT NULL,
 	PRIMARY KEY (house_id)
-);
-
-CREATE TABLE Tiles (
-	tile_id INTEGER NOT NULL AUTO_INCREMENT,
-	label VARCHAR(25) NOT NULL,
-	amount INTEGER NOT NULL,
-	username VARCHAR(20),
-	PRIMARY KEY (tile_id),
-	FOREIGN KEY (username) REFERENCES User(username)
 );

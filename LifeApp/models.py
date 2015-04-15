@@ -58,11 +58,13 @@ class Careers(db.Model):
     career_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(25))
     salary = db.Column(db.Integer)
+    img_path = db.Column(db.String(30))
 
-    def __init__(self, career_id, title, salary):
+    def __init__(self, career_id, title, salary, img_path):
         self.career_id = career_id
         self.title = title
         self.salary = salary
+        self.img_path = img_path
 
     def __repr__(self):
         return 'Career:' + str(self.career_id)
