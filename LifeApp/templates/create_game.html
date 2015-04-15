@@ -1,25 +1,81 @@
 {% extends "base.html" %}
 {% block content %}
 
+<script type = "text/javascript">
+	function show(id){
+		document.getElementById(id).style.visibility = "visible";
+	} 
+	function hide(id){
+		document.getElementById(id).style.visibility = "hidden";
+	}
+</script>
+
 <br><br><br>
 
-<div class="jumbotron">
+<div class="jumbotron" id = "game_screen">
+
+
 	<div class="board">
+		<!-- Human Player Stat Box -->
 		<div class = "playerStats">
-			<p style = "color: white; font-size: 100%; margin: 0px">Bankroll: $</p>
-			<p style = "color: white; font-size: 100%; margin: 0px">Amount Owed In Loans: $</p>
-			<p style = "color: white; font-size: 100%; margin: 0px">Debt Collectors in in:  turns</p>
-			<p style = "color: white; font-size: 100%; margin: 0px">Career: </p>
-			<p style = "color: white; font-size: 100%; margin: 0px">Married: true/false</p>
-			<p style = "color: white; font-size: 100%; margin: 0px">Children: 9000</p>
-			<p style = "color: white; font-size: 100%; margin: 0px">House: Resort</p>
+			<p style = "color: white; font-size: 100%; margin: 0px"><span id = 'heading'>Bankroll: </span><span id = 'response'>$ </span></p>
+			<p style = "color: white; font-size: 100%; margin: 0px"><span id = 'heading'>Amount Owed In Loans: </span><span id = 'response'>$ </span></p>
+			<p style = "color: white; font-size: 100%; margin: 0px"><span id = 'heading'>Career: </span><span id = 'response'>stripper </span></p>
+			<p style = "color: white; font-size: 100%; margin: 0px"><span id = 'heading'>Married: </span><span id = 'response'> true </span></p>
+			<p style = "color: white; font-size: 100%; margin: 0px"><span id = 'heading'>Children: </span><span id = 'response'>askdlfja </span></p>
+			<p style = "color: white; font-size: 100%; margin: 0px"><span id = 'heading'>House: </span><span id = 'response'>$ </span></p>
 		</div>
+		<!-- End of Human Player Stat Box -->
+
+		<!-- Player Stat Popup Boxes -->
+		<div class = "player_hover_stats">
+			<div id = 'p0br_stats'>
+				<p style = "color: #ff85cb; font-size: 125%; margin: 0px">Player 0 </p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Bankroll: </span><span id = 'response'>$ </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Amount In Loans: </span><span id = 'response'>$ </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Career: </span><span id = 'response'>stripper </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Married: </span><span id = 'response'> true </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Children: </span><span id = 'response'>askdlfja </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>House: </span><span id = 'response'>$ </span></p>
+			</div>
+			<div id = 'p1br_stats'>
+				<p style = "color: #ff85cb; font-size: 125%; margin: 0px">Player 1 </p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Bankroll: </span><span id = 'response'>$ </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Amount  In Loans: </span><span id = 'response'>$ </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Career: </span><span id = 'response'>stripper </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Married: </span><span id = 'response'> true </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Children: </span><span id = 'response'>askdlfja </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>House: </span><span id = 'response'>$ </span></p>
+			</div>
+			<div id = 'p2br_stats'>
+				<p style = "color: #ff85cb; font-size: 125%; margin: 0px">Player 2 </p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Bankroll: </span><span id = 'response'>$ </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Amount In Loans: </span><span id = 'response'>$ </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Career: </span><span id = 'response'>stripper </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Married: </span><span id = 'response'> true </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Children: </span><span id = 'response'>askdlfja </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>House: </span><span id = 'response'>$ </span></p>
+			</div>
+			<div id = 'p3br_stats'>
+				<p style = "color: #ff85cb; font-size: 125%; margin: 0px">Player 3 </p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Bankroll: </span><span id = 'response'>$ </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Amount In Loans: </span><span id = 'response'>$ </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Career: </span><span id = 'response'>stripper </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Married: </span><span id = 'response'> true </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Children: </span><span id = 'response'>askdlfja </span></p>
+				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>House: </span><span id = 'response'>$ </span></p>
+			</div>
+		</div>
+		<!-- End of Player Stat Popup Boxes -->
+
+		<!--Players Bankroll Box -->
 		<div class = "playerBankrolls">
-			<p style = "color: white; font-size: 125%; margin: 0px">Player 0: $</p>
-			<p style = "color: white; font-size: 125%; margin: 0px">Player 1: $</p>
-			<p style = "color: white; font-size: 125%; margin: 0px">Player 2: $</p>
-			<p style = "color: white; font-size: 125%; margin: 0px">Player 3: $</p>
+			<p id = 'p0br' onMouseOver="show('p0br_stats')" onMouseOut="hide('p0br_stats')" style = "color: white; font-size: 125%; margin: 0px"><span id = 'heading'>Player 0: </span><span id = 'response'>$ 10000</span></p>
+			<p id = 'p1br' onMouseOver="show('p1br_stats')" onMouseOut="hide('p1br_stats')" style = "color: white; font-size: 125%; margin: 0px"><span id = 'heading'>Player 1: </span><span id = 'response'>$ 10000</span></p>
+			<p id = 'p2br' onMouseOver="show('p2br_stats')" onMouseOut="hide('p2br_stats')" style = "color: white; font-size: 125%; margin: 0px"><span id = 'heading'>Player 2: </span><span id = 'response'>$ 10000</span></p>
+			<p id = 'p3br' onMouseOver="show('p3br_stats')" onMouseOut="hide('p3br_stats')"style = "color: white; font-size: 125%; margin: 0px"><span id = 'heading'>Player 3: </span><span id = 'response'>$ 10000</span></p>
 		</div>
+		<!-- End of Players Bankroll Box -->
 	</div>
 </div>
 

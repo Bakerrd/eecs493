@@ -1,16 +1,93 @@
+/*
+blue: #53bbf4;
+green: #b1eb00;
+pink: #ff85cb;
+red: #ff432e;
+grey: #7f7f7f;
+orange: #ffac00;
+*/
+
+
 body {
-	height: 1000px;
+	height: 768px;
+	width: 100%;
+	background-image: url('/static/images/background.jpg');
+	background-size: 100%, 100%;
+	background-repeat: repeat;
 }
 
+#game_screen {
+	height: 1000px;
+	width: auto;
+}
+
+/*Public Index */
+#logosplash {
+	height: 350px;
+	width: 100%;
+}
+
+#fillertext {
+	margin-top: 5%;
+	border-top: 5px solid black;
+	text-align: center;
+}
+
+#indexheading{
+	margin-top: 5%;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size: 200%;
+	color: black;
+}
+
+#indextext{
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size: 150%;
+	color: black;
+}
+
+a:hover #indexlogin {
+	color: #53bbf4;
+	font-size: 250%;
+}
+
+a {
+	text-decoration: none;
+}
+
+#indexcreate a{
+	color: black;
+	text-decoration: none;
+
+}
+
+#indexcreate a:hover{
+	color: #ff85cb;
+	font-size: 200%;
+}
+
+
+#indexcreate a:visited {
+	text-decoration: none;
+}
+
+
+
+/*End of Public Index */
+
 .board {
+	position: relative;
 	background-image: url('/static/images/game_board_final_real.png');
 	background-size: 100%, 100%;
-	height: 750px;
 	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
 }
 
 .playerStats {
-	margin-right: 0px;
+	position: absolute;
+	top: 0;
+	right: 0;
 	border: 5px solid black;
 	margin-left: auto;
 	text-align: left;
@@ -18,7 +95,56 @@ body {
 }
 
 .playerBankrolls{
-	margin-top: 57%;
+	position: absolute;
+	bottom: 0;
 	width: 30%;
 	border: 5px solid black;
+}
+
+.player_hover_stats{
+	position: relative;
+	top: 37%;
+	left: 37%;
+}
+
+#p0br_stats{
+	position: absolute;
+	top: 0;
+	background-color: #7f7f7f;
+	border: 5px solid black;
+	visibility: hidden;
+	width: 30%;
+}
+#p1br_stats{
+	position: absolute;
+	top: 0;
+	background-color: #7f7f7f;
+	border: 5px solid black;
+	visibility: hidden;
+	width: 30%;
+}
+#p2br_stats{
+	position: absolute;
+	top: 0;
+	background-color: #7f7f7f;
+	border: 5px solid black;
+	visibility: hidden;
+	width: 30%;
+}
+#p3br_stats{
+	position: absolute;
+	top: 0;
+	background-color: #7f7f7f;
+	border: 5px solid black;
+	visibility: hidden;
+	width: 30%;
+}
+
+#heading {
+	color: #53bbf4;
+	font-weight: bold;
+}
+
+#response {
+	color: #b1eb00;
 }

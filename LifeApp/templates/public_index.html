@@ -5,9 +5,11 @@
 
 <div class="jumbotron">
 	<div class="container">
-		<h1>Hello world!</h1>
-		<p>welcome to the homepage</p>
-
+		<img src = "../static/images/logo_color.png" id = "logosplash">
+		<div id = 'fillertext'>
+			<p id = 'indexheading'>Getting Started</p>
+			<p id = 'indextext'>Please <span id = 'indexlogin'><a href = "{{ url_for('logout.logout_route') }}">Login</a></span> or <span id = 'indexcreate'><a href = "{{ url_for('user.user_route') }}">Create a New User</a></span>!</p>
+		</div>
 	</div>
 </div>
 
