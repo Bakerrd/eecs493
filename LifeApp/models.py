@@ -55,7 +55,7 @@ class Player(db.Model):
 class Careers(db.Model):
 
     __tablename__ = 'Careers'
-    career_id = db.Column(db.Integer, primary_key=True)
+    career_id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String(25))
     salary = db.Column(db.Integer)
     img_path = db.Column(db.String(30))
@@ -72,7 +72,7 @@ class Careers(db.Model):
 class Houses(db.Model):
 
     __tablename__ = 'Houses'
-    house_id = db.Column(db.Integer, primary_key=True)
+    house_id = db.Column(db.Integer, primary_key= True)
     title = db.Column(db.String(25))
     cost = db.Column(db.Integer)
     sell_price = db.Column(db.Integer)
@@ -89,15 +89,16 @@ class Houses(db.Model):
 class Tiles(db.Model):
 
     __tablename__ = 'Tiles'
-    title = db.Column(db.String(25), primary_key=True)
+    index = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(25))
     value = db.Column(db.Integer)
     x = db.Column(db.Integer)
     y = db.Column(db.Integer)
 
-    def __init__(self, title, value, x, y):
+    def __init__(self, index, title, value, x, y):
+        self.index = index
         self.title = title
         self.value = value
-        self.description = description
         self.x = x
         self.y = y
 

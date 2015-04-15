@@ -29,26 +29,27 @@ CREATE TABLE Player (
 );
 
 CREATE TABLE Careers (
-	career_id INTEGER NOT NULL AUTO_INCREMENT,
+	career_id INTEGER NOT NULL,
 	title VARCHAR(25) NOT NULL,
 	salary INTEGER NOT NULL,
-	img_path VARCHAR(30) NOT NULL,
+	img_path VARCHAR(60) NOT NULL,
 	PRIMARY KEY (career_id)
 );
 
 CREATE TABLE Houses (
-	house_id INTEGER NOT NULL AUTO_INCREMENT,
+	house_id INTEGER NOT NULL,
 	title VARCHAR(25) NOT NULL,
 	cost INTEGER NOT NULL,
 	sell_price INTEGER NOT NULL,
+	img_path VARCHAR(60) NOT NULL,
 	PRIMARY KEY (house_id)
 );
 
 CREATE TABLE Tiles (
-	title VARCHAR(25) NOT NULL,
+	tile_id INTEGER NOT NULL,
+	title VARCHAR(100) NOT NULL,
 	value INTEGER NOT NULL,
-	description VARCHAR(100) NOT NULL,
-	x INTEGER NOT NULL,
-	y INTEGER NOT NULL,
-	PRIMARY KEY (title),
+	x_val INTEGER NOT NULL,
+	y_val INTEGER NOT NULL,
+	PRIMARY KEY (tile_id)
 );
