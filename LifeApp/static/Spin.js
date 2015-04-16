@@ -96,6 +96,8 @@ function spinWheel() {
 		slices[currentSlice].toggleOverlay();
 		slices[newSlice].toggleOverlay();
 		currentSlice = newSlice;
+		document.getElementById("spin-value").innerHTML = currentSlice+1;
+
 	}
 }
 

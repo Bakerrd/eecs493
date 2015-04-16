@@ -159,6 +159,8 @@ function Game() {
 	this.taken_ccareer = [];
 	this.taken_house = [];
 
+	this.turn_summary = "";
+
 	this.careers = [];
 	this.houses = [];
 }
@@ -167,6 +169,7 @@ Game.prototype.Play_Game = function() {
 	console.log("play_game");
 	var end = this.Check_End_Game();
 	console.log("player " + this.curPlayer.toString() + "'s turn");
+	this.turn_summary = "";
 	this.Get_Spin();
 };
 
@@ -179,8 +182,8 @@ Game.prototype.Start_Turn = function() {
 			if (this.spin == q.pay_square){
 				p.updateBankroll(-20000);
 				q.updateBankroll(20000);
-				temp = "Player " + p.name + " paid Player " + q.name + " $20000";
-				log(temp); 
+				temp = "Player " + p.name + " paid Player " + q.name + " $20000\n";
+				this.turn_summary = this.turn_summary + temp; 
 			}
 		}
 	}
@@ -323,7 +326,7 @@ Game.prototype.Choose_Career_Script = function(career_choice) {
 	}
 	$('#chooseCareerModal').modal('hide');
 
-	console.log("player " + p.name + " has chosen career: " + p.career.title);
+	alert("player " + p.name + " has chosen career: " + p.career.title);
 	this.Play_Turn();
 };
 Game.prototype.Choose_House_Script = function(house_choice) {
@@ -347,7 +350,7 @@ Game.prototype.Choose_House_Script = function(house_choice) {
 		}
 	}
 
-	console.log("player " + p.name + " has chosen house " + p.house.title + " for a cost of $" + p.house.cost.toString());
+	alert("player " + p.name + " has chosen house " + p.house.title + " for a cost of $" + p.house.cost.toString());
 };
 Game.prototype.Generate_Regular_Career = function() {
 	//Render Spinner, get spinner value
@@ -387,7 +390,7 @@ Game.prototype.Generate_College_Career = function() {
 	//Render Spinner, get spinner value
 	var temp = "end of college fork\n";
 	console.log(this.careers);
-	log(temp);
+	this.turn_summary = this.turn_summary + temp;
 	var ccareer_one = Math.floor((Math.random() * 8));
 	var cc_one_taken = false;
 	//College Career
@@ -431,16 +434,16 @@ Game.prototype.Choose_College_Road = function(response){
 	p = this_game.players[this_game.curPlayer];
 	if(response){
 		var temp = "player " + p.name + " is going to college\n"
-		log(temp);
+		this.turn_summary = this.turn_summary + temp;
 		p.updateBankroll(-125000);
 		temp = "player " + p.name + " had to pay $125000 to go to college\n"
 		p.college = true;
 		p.position = 0;
-		log(temp);
+		this.turn_summary = this.turn_summary + temp;
 		this.Play_Turn();
 	} else {
 		var temp =  "player " + p.name + " is starting career\n";
-		log(temp);
+		this.turn_summary = this.turn_summary + temp;
 		p.college = false;
 		p.position = 11;
 		this_game.Prompt_Career(p);
@@ -450,13 +453,13 @@ Game.prototype.Play_Turn =function() {
 	p = this.players[this.curPlayer];
 	console.log(p);
 	roll = this.spin;
-	var temp = "starting player " + p.name + "'s turn with a spin of " + roll.toString();
-	log(temp);
+	// var temp = "starting player " + p.name + "'s turn with a spin of " + roll.toString() + "\n";
+	// this.turn_summary = this.turn_summary + temp;
 	if (p.done == false){
 		var cur_position = p.position;
 
-		temp = "player " + p.name + " starting from position " + cur_position.toString();
-		log(temp);
+		temp = "player " + p.name + " starting from position " + cur_position.toString() + "\n";
+		this.turn_summary = this.turn_summary + temp;
 		while (roll > 0){
 			//College Path
 			if(cur_position == -1){ //Start of Game, college or not college
@@ -468,7 +471,7 @@ Game.prototype.Play_Turn =function() {
 			}	
 			else if(cur_position == 10){
 				temp = "end of college fork\n";
-				log(temp);
+				this.turn_summary = this.turn_summary + temp;
 				this.spin = roll;
 				p.position = 13;
 				cur_position = 13;
@@ -485,7 +488,7 @@ Game.prototype.Play_Turn =function() {
 			}
 			else if(cur_position == 45){
 				temp =  "end of family fork\n";
-				log(temp);
+				this.turn_summary = this.turn_summary + temp;
 				p.position = 50;
 				cur_position = 50;
 			}
@@ -499,27 +502,27 @@ Game.prototype.Play_Turn =function() {
 			}
 			else if(cur_position == 77){
 				temp = "end of risky fork\n";
-				log(temp);
+				this.turn_summary = this.turn_summary + temp;
 				p.position = 82;
 				cur_position = 82;
 			}
 			//Retirement
 			else if(cur_position == 89){
 				temp = "player " + p.name + " has retired\n";
-				log(temp);
+				this.turn_summary = this.turn_summary + temp;
 				roll = 0;
 				this.spin = 0;
 				this.end_of_game = this.end_of_game + 1;
 				p.end_game(this.houses[p.house].sell_price);
-				temp = "after dealing with kids/house, player " + p.name + " has $" + p.bankroll.toString();
-				log(temp);
+				temp = "after dealing with kids/house, player " + p.name + " has $" + p.bankroll.toString() + "\n";
+				this.turn_summary = this.turn_summary + temp;
 			}
 			//Guarenteed Marriage
 			else if(cur_position == 25){
 				p.marriage();
 				temp = "player " + p.name + " has just married an English Major\n";
 				alert("congrats bro you got hitched");
-				log(temp);
+				this.turn_summary = this.turn_summary + temp;
 				cur_position = cur_position + 1;
 				p.position = cur_position;
 			}
@@ -527,7 +530,7 @@ Game.prototype.Play_Turn =function() {
 			else if(cur_position == 45){
 				var num_children = random_child();
 				temp = "player " + p.name + " just had " + num_children.toString() + " children\n";
-				log(temp);
+				this.turn_summary = this.turn_summary + temp;
 				p.add_children(num_children);
 			}
 			else //End of conditionals
@@ -542,7 +545,7 @@ Game.prototype.Play_Turn =function() {
 				//need to have salary
 				p.updateBankroll(p.salary);
 				temp = "player " + p.name + " got paid and now has " + p.bankroll.toString() + " dollars\n";
-				log(temp);
+				this.turn_summary = this.turn_summary + temp;
 			}
 		p.position = cur_position;
 		this.spin = 0;
@@ -551,7 +554,7 @@ Game.prototype.Play_Turn =function() {
 		this.End_Turn(p, cur_position);
 	} else {
 		temp = "player is already retired\n";
-		log(temp);
+		this.turn_summary = this.turn_summary + temp;
 	}
 };
 Game.prototype.End_Turn = function(p, cur_position){
@@ -570,13 +573,13 @@ Game.prototype.End_Turn = function(p, cur_position){
 	if (cur_position == 4 || cur_position == 26){
 		var num_children = this.random_child();
 		temp = "player " + p.name + " just had " + num_children.toString() + " children\n";
-		log(temp);
+		this.turn_summary = this.turn_summary + temp;
 		p.add_children(num_children);
 		// Dropout
 		if (cur_position == 4){
 			p.expel();
 			temp = "player " + p.name + " dropped out of school to take care of their child\n";
-			log(temp);
+			this.turn_summary = this.turn_summary + temp;
 		}
 	}
 
@@ -584,21 +587,21 @@ Game.prototype.End_Turn = function(p, cur_position){
 	if (cur_position == 38 || cur_position == 43){
 		p.add_children(1);
 		temp = "player " + p.name + " has had a child\n";
-		log(temp);
+		this.turn_summary = this.turn_summary + temp;
 	}
 
 	// Twins
 	if (cur_position == 39 || cur_position == 44){
 		p.add_children(2);
 		temp = "player " + p.name + " has had twins\n";
-		log(temp);
+		this.turn_summary = this.turn_summary + temp;
 	}
 
 	// Triplets
 	if (cur_position == 42){
 		p.add_children(3);
 		temp = "player " + p.name + " has had triplets\n";
-		log(temp);
+		this.turn_summary = this.turn_summary + temp;
 	}
 
 	// Player set upon by loan sharks
@@ -606,7 +609,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 		if (p.loan_counter > 0){
 			p.loan_counter = 1;
 			temp = "The loan sharks have come collecting! Player " + p.name + " has to pay off their loans this turn!\n";
-			log(temp);
+			this.turn_summary = this.turn_summary + temp;
 		}
 	}
 
@@ -614,33 +617,33 @@ Game.prototype.End_Turn = function(p, cur_position){
 	if (cur_position == 52 || cur_position == 28 || cur_position == 60){
 		p.divorce();
 		temp = "Player " + p.name + " got caught cheating and got a divorce\n";
-		log(temp);
+		this.turn_summary = this.turn_summary + temp;
 	}
 
 	// Player gets remarried
 	if (cur_position == 56){
 		p.marriage();
 		temp = "Player " + p.name + " got remarried\n";
-		log(temp);
+		this.turn_summary = this.turn_summary + temp;
 	}
 
 	// Player is expelled
 	if (cur_position == 7){
 		p.expel();
 		temp = "Player " + p.name + " was expelled\n";
-		log(temp);
+		this.turn_summary = this.turn_summary + temp;
 	}
 
 	// Player pays money for children, gets money from spouse
 	if (cur_position <= 73){
 		temp = "player " + p.name + " has $" + p.bankroll.toString();
-		log(temp);
+		this.turn_summary = this.turn_summary + temp + "\n";
 		p.children_spouse();
 		temp = "player " + p.name + " had to pay for "  + p.children.toString() + " children in child support\n";
-		log(temp);
+		this.turn_summary = this.turn_summary + temp;
 		if (p.married == true){
-			temp = "player " + p.name + " got money from their spouse. Now has $" + p.bankroll.toString();
-			log(temp);
+			temp = "player " + p.name + " got money from their spouse. Now has $" + p.bankroll.toString() + "\n";
+			this.turn_summary = this.turn_summary + temp;
 		}
 	}
 
@@ -648,7 +651,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 	if (p.loan_counter > 0){
 		p.loan_counter = p.loan_counter - 1;
 		temp = "player " + p.name + " has to pay off their loan in " + p.loan_counter.toString() + " turns\n";
-		log(temp);
+		this.turn_summary = this.turn_summary + temp;
 	}
 
 	// Player pays off loans
@@ -658,7 +661,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 		p.num_loans = 0;
 		p.loan_counter = -1;
 		temp = "player " + p.name + " had to pay off their loan for $" + loan_cost.toString() + ". player " + p.name + " now has $" + p.bankroll.toString() + "\n";
-		log(temp);
+		this.turn_summary = this.turn_summary + temp;
 	}
 
 	// Player buys a house
@@ -673,22 +676,23 @@ Game.prototype.End_Turn = function(p, cur_position){
 		p.get_loans();
 		var amount = p.num_loans * 150000;
 		var back = p.num_loans * 175000;
-		temp = "player " + p.name + " now has " + p.num_loans.toString() + " for a total of $" + amount.toString() + ". They will need to pay $" + back.toString() + " back in " + p.loan_counter.toString() + " turns";
-		log(temp);
+		temp = "player " + p.name + " now has " + p.num_loans.toString() + " for a total of $" + amount.toString() + ". They will need to pay $" + back.toString() + " back in " + p.loan_counter.toString() + " turns\n";
+		this.turn_summary = this.turn_summary + temp;
 	}
 
 	p.position = cur_position;
 	///END OF WHILE LOOP FOR ROLL > 0
 	temp = "player ends turn on space " + p.position.toString() + " and has $" + p.bankroll.toString() + "\n";
 	
-	log(temp);
+	this.turn_summary = this.turn_summary + temp;
 	if (p.done == true && p.bankroll > 1000000){
 		temp = "player " + p.name + " has moved to the Caymans\n";
-		log(temp);
+		this.turn_summary = this.turn_summary + temp;
 	}
 
 	this.curPlayer++;
 	this.curPlayer = this.curPlayer%4;
+	document.getElementById('eot_body').textContent = this.turn_summary;
 	$('#end_of_turn_modal').modal('show');
 
 };
