@@ -1,15 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
 
-<br><br>
+<script type = "text/javascript">
+	function show(id){
+		document.getElementById(id).style.visibility = "visible";
+	} 
+	function hide(id){
+		document.getElementById(id).style.visibility = "hidden";
+	}
+</script>
+
+<br><br><br>
 
 <div class="jumbotron">
 	<div class="container">
 		<img src = "../static/images/welcome_to_logo.png" id = "loggedinlogosplash">
-		<h1 id = 'indexheading'>Hello {{ session['username']}}! </h1>
-		<p>welcome to the homepage</p>
+		<div id = "loggedintext">
+			<h1 id = 'loggedinindexheading'>Hello {{ session['username']}}! </h1>
+			<p>Would you like to <span id = 'creategame'><a href="{{url_for('play.play_route')}}"> start a new game</a> or would you like to <span id = 'instructions'>read the instructions</span> first?</p>
+		</div>
 
-		<a href ="{{url_for('play.play_route')}}"><button>Create Game</button></a>
 	</div>
 </div>
 
