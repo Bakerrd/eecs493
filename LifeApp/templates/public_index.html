@@ -8,7 +8,8 @@
 		<img src = "../static/images/logo_color.png" id = "logosplash">
 		<div id = 'fillertext'>
 			<p id = 'indexheading'>Getting Started</p>
-			<p id = 'indextext'>Please <span id = 'indexlogin'><a href = "{{ url_for('logout.logout_route') }}">Login</a></span> or Create a <span id = 'indexcreate'><a href = "{{ url_for('user.user_route') }}">New User</a></span>!</p>
+
+			<p id = 'indextext'>Please <span id = 'indexlogin'><a href = "{{ url_for('login.login_route') }}">login</a></span> or <span id = 'indexcreate'><a href = "{{ url_for('user.user_route') }}">create a new user</a></span>!</p>
 		</div>
 	</div>
 </div>
