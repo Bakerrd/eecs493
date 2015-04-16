@@ -5,7 +5,8 @@
 
 <div class="jumbotron">
 	<div class="container">
-		<h1>Hello {{ session['username']}}! </h1>
+		<img src = "../static/images/welcome_to_logo.png" id = "loggedinlogosplash">
+		<h1 id = 'indexheading'>Hello {{ session['username']}}! </h1>
 		<p>welcome to the homepage</p>
 
 		<a href ="{{url_for('play.play_route')}}"><button>Create Game</button></a>
