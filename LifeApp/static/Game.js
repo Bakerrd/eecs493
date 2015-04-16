@@ -1,8 +1,17 @@
-    
+
 function log(msg) { //Used for outputting
     console.log(msg);
 }
 
+function show(id){
+	console.log("show");
+	document.getElementById(id).style.display = "block";
+}
+
+function hide(id){
+	console.log("hide");
+	document.getElementById(id).style.display = "none";
+}
 
 // Player Class 
 function Player(name) {
@@ -29,19 +38,19 @@ expel:function(){
 	this.position = -1;
 },
 children_spouse:function(){
-	var child_support = this.children * 10000;
-	this.bankroll -= child_support;
+	var child_support = (this.children * 10000) * -1;
+	this.updateBankroll(child_support);
 	if (this.married == true){
 		this.bankroll += 20000;
 	}
 }, 
 end_game:function(val){
-	this.bankroll += val;
+	this.updateBankroll(val);
 	if (this.loan_counter > 0){
 		this.loan_counter = 1;
 	}
 	var child_money = this.children * 50000;
-	this.bankroll += child_money;
+	this.updateBankroll(child_money);
 	this.done = true;
 }, 
 marriage:function(){
@@ -54,7 +63,7 @@ get_loans:function(){
 	var counter = 0;
 	var turns = 0;
 	while (this.bankroll < 0){
-		this.bankroll += 150000;
+		this.updateBankroll(150000);
 		this.num_loans++;
 		if (this.loan_counter > 0){
 			if (counter > 0){
@@ -71,6 +80,19 @@ get_loans:function(){
 }, 
 updateBankroll:function(val){
 	this.bankroll += val;
+	var id = "";
+	if (this.name == "0"){
+		id = "p0_bank";
+	} else if (this.name == "1"){
+		id = "p1_bank";
+	} else if (this.name == "2"){
+		id = "p2_bank";
+	} else if (this.name == "3"){
+		id = "p3_bank";
+	}
+	console.log(id);
+	document.getElementById(id).innerHTML = this.bankroll;
+
 }
 };
 
@@ -131,9 +153,20 @@ Play_Game:function(){
 },
 Start_Turn:function() {
 	//Render Spinner, get spinner value
+	this.load_active_stats();
 	var spinnerVal = Math.floor(Math.random() * 11);
 	console.log("start_turn with spin of " + spinnerVal.toString()); 
 	this.Play_Turn(this.players[this.curPlayer], spinnerVal);
+},
+load_active_stats:function() {
+	var p = this.players[this.curPlayer];
+	document.getElementById('active_player').innerHTML = p.name;
+	document.getElementById('active_br').innerHTML = p.bankroll;
+	document.getElementById('active_loans').innerHTML = p.loan_counter;
+	document.getElementById('active_career').innerHTML = p.career;
+	document.getElementById('active_married').innerHTML = p.married;
+	document.getElementById('active_children').innerHTML = p.children;
+	document.getElementById('active_house').innerHTML = p.house;
 },
 random_child:function() {
 	var children = Math.floor((Math.random() * 21));

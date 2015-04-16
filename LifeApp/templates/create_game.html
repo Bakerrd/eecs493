@@ -12,58 +12,59 @@
 
 <br><br><br>
 
-<div class="jumbotron" id = "game_screen">
+<div class="jumbotron" id="game_screen">
 
 
 	<div class="board">
 		<!-- Human Player Stat Box -->
-		<div class = "playerStats">
-			<p style = "color: white; font-size: 100%; margin: 0px"><span id = 'heading'>Bankroll: </span><span id = 'response'>$ </span></p>
-			<p style = "color: white; font-size: 100%; margin: 0px"><span id = 'heading'>Amount Owed In Loans: </span><span id = 'response'>$ </span></p>
-			<p style = "color: white; font-size: 100%; margin: 0px"><span id = 'heading'>Career: </span><span id = 'response'>stripper </span></p>
-			<p style = "color: white; font-size: 100%; margin: 0px"><span id = 'heading'>Married: </span><span id = 'response'> true </span></p>
-			<p style = "color: white; font-size: 100%; margin: 0px"><span id = 'heading'>Children: </span><span id = 'response'>askdlfja </span></p>
-			<p style = "color: white; font-size: 100%; margin: 0px"><span id = 'heading'>House: </span><span id = 'response'>$ </span></p>
+		<div class="playerStats">
+			<p style="color: white; font-size: 200%; margin: 0px"><span id='heading'>Player </span><span id='active_player'></span></p>
+			<p style="color: white; font-size: 100%; margin: 0px"><span id='heading'>Bankroll: $ </span><span id='active_br'></span></p>
+			<p style="color: white; font-size: 100%; margin: 0px"><span id='heading'>Amount Owed In Loans: $ </span><span id='active_loans'></span></p>
+			<p style="color: white; font-size: 100%; margin: 0px"><span id='heading'>Career: </span><span id='active_career'></span></p>
+			<p style="color: white; font-size: 100%; margin: 0px"><span id='heading'>Married: </span><span id='active_married'></span></p>
+			<p style="color: white; font-size: 100%; margin: 0px"><span id='heading'>Children: </span><span id='active_children'></span></p>
+			<p style="color: white; font-size: 100%; margin: 0px"><span id='heading'>House: </span><span id='active_house'></span></p>
 		</div>
 		<!-- End of Human Player Stat Box -->
 
 		<!-- Player Stat Popup Boxes -->
-		<div class = "player_hover_stats">
-			<div id = 'p0br_stats'>
-				<p style = "color: #ff85cb; font-size: 125%; margin: 0px">Player 0 </p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Bankroll: </span><span id = 'response'>$ </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Amount In Loans: </span><span id = 'response'>$ </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Career: </span><span id = 'response'>stripper </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Married: </span><span id = 'response'> true </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Children: </span><span id = 'response'>askdlfja </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>House: </span><span id = 'response'>$ </span></p>
+		<div class="player_hover_stats">
+			<div id='p0br_stats'>
+				<p style="color: #ff85cb; font-size: 125%; margin: 0px">Player 0 </p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Bankroll: </span><span id='response'>$ </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Amount In Loans: </span><span id='response'>$ </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Career: </span><span id='response'>stripper </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Married: </span><span id='response'> true </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Children: </span><span id='response'>askdlfja </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>House: </span><span id='response'>$ </span></p>
 			</div>
-			<div id = 'p1br_stats'>
-				<p style = "color: #ff85cb; font-size: 125%; margin: 0px">Player 1 </p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Bankroll: </span><span id = 'response'>$ </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Amount  In Loans: </span><span id = 'response'>$ </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Career: </span><span id = 'response'>stripper </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Married: </span><span id = 'response'> true </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Children: </span><span id = 'response'>askdlfja </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>House: </span><span id = 'response'>$ </span></p>
+			<div id='p1br_stats'>
+				<p style="color: #ff85cb; font-size: 125%; margin: 0px">Player 1 </p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Bankroll: </span><span id='response'>$ </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Amount  In Loans: </span><span id='response'>$ </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Career: </span><span id='response'>stripper </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Married: </span><span id='response'> true </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Children: </span><span id='response'>askdlfja </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>House: </span><span id='response'>$ </span></p>
 			</div>
-			<div id = 'p2br_stats'>
-				<p style = "color: #ff85cb; font-size: 125%; margin: 0px">Player 2 </p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Bankroll: </span><span id = 'response'>$ </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Amount In Loans: </span><span id = 'response'>$ </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Career: </span><span id = 'response'>stripper </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Married: </span><span id = 'response'> true </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Children: </span><span id = 'response'>askdlfja </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>House: </span><span id = 'response'>$ </span></p>
+			<div id='p2br_stats'>
+				<p style="color: #ff85cb; font-size: 125%; margin: 0px">Player 2 </p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Bankroll: </span><span id='response'>$ </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Amount In Loans: </span><span id='response'>$ </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Career: </span><span id='response'>stripper </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Married: </span><span id='response'> true </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Children: </span><span id='response'>askdlfja </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>House: </span><span id='response'>$ </span></p>
 			</div>
-			<div id = 'p3br_stats'>
-				<p style = "color: #ff85cb; font-size: 125%; margin: 0px">Player 3 </p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Bankroll: </span><span id = 'response'>$ </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Amount In Loans: </span><span id = 'response'>$ </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Career: </span><span id = 'response'>stripper </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Married: </span><span id = 'response'> true </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>Children: </span><span id = 'response'>askdlfja </span></p>
-				<p style = "font-size: 100%; margin: 0px"><span id = 'heading'>House: </span><span id = 'response'>$ </span></p>
+			<div id='p3br_stats'>
+				<p style="color: #ff85cb; font-size: 125%; margin: 0px">Player 3 </p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Bankroll: </span><span id='response'>$ </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Amount In Loans: </span><span id='response'>$ </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Career: </span><span id='response'>stripper </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Married: </span><span id='response'> true </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>Children: </span><span id='response'>askdlfja </span></p>
+				<p style="font-size: 100%; margin: 0px"><span id='heading'>House: </span><span id='response'>$ </span></p>
 			</div>
 		</div>
 		<!-- End of Player Stat Popup Boxes -->
@@ -76,18 +77,18 @@
 		<div class="modal fade" id="chooseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
  			<div class="modal-dialog">
     			<div class="modal-content">
-     				<div class="modal-header" style = "text-align: center">
+     				<div class="modal-header" style="text-align: center">
         				<h4 class="modal-title" id="myModalLabel">Choose A Career</h4>
       				</div>
       				<div class="modal-body">
-        				<div id = 'leftImage'>
+        				<div id='leftImage'>
         					<button data-dismiss="modal">
-        						<img src = '/static/images/careers/debt_collector_icon.png'>
+        						<img src='/static/images/careers/debt_collector_icon.png'>
         					</button>
         				</div>
-        				<div id = 'rightImage'>
+        				<div id='rightImage'>
         					<button data-dismiss="modal">
-        						<img src = '/static/images/careers/meth_manufacturer_icon.png'>
+        						<img src='/static/images/careers/meth_manufacturer_icon.png'>
         					</button>
         				</div>
       				</div>
@@ -102,7 +103,7 @@
 		<div class="modal fade" id="okModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
  			<div class="modal-dialog">
     			<div class="modal-content">
-     				<div class="modal-header" style = "text-align: center">
+     				<div class="modal-header" style="text-align: center">
         				<h4 class="modal-title" id="myModalLabel">This Happened to you</h4>
       				</div>
       				<div class="modal-body">
@@ -119,11 +120,11 @@
 
 
 		<!--Players Bankroll Box -->
-		<div class = "playerBankrolls">
-			<p id = 'p0br' onMouseOver="show('p0br_stats')" onMouseOut="hide('p0br_stats')" style = "color: white; font-size: 125%; margin: 0px"><span id = 'heading'>Player 0: </span><span id = 'response'>$ 10000</span></p>
-			<p id = 'p1br' onMouseOver="show('p1br_stats')" onMouseOut="hide('p1br_stats')" style = "color: white; font-size: 125%; margin: 0px"><span id = 'heading'>Player 1: </span><span id = 'response'>$ 10000</span></p>
-			<p id = 'p2br' onMouseOver="show('p2br_stats')" onMouseOut="hide('p2br_stats')" style = "color: white; font-size: 125%; margin: 0px"><span id = 'heading'>Player 2: </span><span id = 'response'>$ 10000</span></p>
-			<p id = 'p3br' onMouseOver="show('p3br_stats')" onMouseOut="hide('p3br_stats')"style = "color: white; font-size: 125%; margin: 0px"><span id = 'heading'>Player 3: </span><span id = 'response'>$ 10000</span></p>
+		<div class="playerBankrolls">
+			<p id='p0br' onMouseOver="show('p0br_stats')" onMouseOut="hide('p0br_stats')" style="color: white; font-size: 125%; margin: 0px"><span id='heading'>Player 0: </span><span id='p0_bank'>$ 10000</span></p>
+			<p id='p1br' onMouseOver="show('p1br_stats')" onMouseOut="hide('p1br_stats')" style="color: white; font-size: 125%; margin: 0px"><span id='heading'>Player 1: </span><span id='p1_bank'>$ 10000</span></p>
+			<p id='p2br' onMouseOver="show('p2br_stats')" onMouseOut="hide('p2br_stats')" style="color: white; font-size: 125%; margin: 0px"><span id='heading'>Player 2: </span><span id='p2_bank'>$ 10000</span></p>
+			<p id='p3br' onMouseOver="show('p3br_stats')" onMouseOut="hide('p3br_stats')"style="color: white; font-size: 125%; margin: 0px"><span id='heading'>Player 3: </span><span id='p3_bank'>$ 10000</span></p>
 		</div>
 
 		<!-- End of Players Bankroll Box -->
