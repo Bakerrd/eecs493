@@ -38,10 +38,11 @@
 
 
 
+
 <div class="jumbotron" id="game_screen">
 
 
-	<div class="board">
+	<div class="board" id="board">
 
 		<!-- Spin Wheel Modal -->
 		<div class="modal fade" id="spinModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -332,8 +333,6 @@
 <br><br><br><br>
 
 <script>
-
-
 document.getElementById("generate_career").addEventListener("click", function(event){
 	console.log(this_game);
 	if (this_game.players[this_game.curPlayer].college){
