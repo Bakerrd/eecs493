@@ -17,10 +17,81 @@
 		<img src = "../static/images/welcome_to_logo.png" id = "loggedinlogosplash">
 		<div id = "loggedintext">
 			<h1 id = 'loggedinindexheading'>Hello {{ session['username']}}! </h1>
-			<p>Would you like to <span id = 'creategame'><a href="{{url_for('play.play_route')}}"> start a new game</a> or would you like to <span onclick="show('theinstructions')" id = 'instructions'>read the instructions</span> first?</p>
-			<div class = 'theinstructions'>
-				<p>WOO!!<p>
-			</div>
+			<p>Would you like to <span id = 'creategame'><a href="{{url_for('play.play_route')}}"> start a new game</a> or would you like to <span data-toggle="modal" data-target="#okModal" id = 'instructions'><a href = "#">read the instructions</a></span> first?</p>
+			<div class="modal fade" id="okModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ 			<div class="modal-dialog">
+    			<div class="modal-content">
+     				<div class="modal-header" style="text-align: center">
+        				<h4 class="modal-title" id="myModalLabel">Instructions</h4>
+      				</div>
+      				<div class="modal-body">
+        				<!-- ACCORDIAN -->
+        				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+						  <div class="panel panel-default">
+						    <div class="panel-heading" role="tab" id="headingOne">
+						      <h4 class="panel-title">
+						        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						          Life Events
+						        </a>
+						      </h4>
+						    </div>
+						    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+						      <div class="panel-body">
+						       	things
+						      </div>
+						    </div>
+						  </div>
+						  <div class="panel panel-default">
+						    <div class="panel-heading" role="tab" id="headingTwo">
+						      <h4 class="panel-title">
+						        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+						          Tile Types
+						        </a>
+						      </h4>
+						    </div>
+						    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+						      <div class="panel-body">
+						       	tile types
+						      </div>
+						    </div>
+						</div>
+						<div class="panel panel-default">
+						    <div class="panel-heading" role="tab" id="headingThree">
+						      <h4 class="panel-title">
+						        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+						          Careers
+						        </a>
+						      </h4>
+						    </div>
+						    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+						      <div class="panel-body">
+						       	<img id = 'career' src = '../static/images/Career.png'>
+						       	<img id = 'college_career' src = '../static/images/College_Career.png'>
+						      </div>
+						    </div>
+		  				</div>
+		  				<div class="panel panel-default">
+						    <div class="panel-heading" role="tab" id="headingFour">
+						      <h4 class="panel-title">
+						        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+						          Houses
+						        </a>
+						      </h4>
+						    </div>
+						    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+						      <div class="panel-body">
+						       	<img id = 'houses' src = '../static/images/Houses.png'>
+						      </div>
+						    </div>
+		  				</div>
+        				<!-- END OF ACCORDIAN -->
+      				</div>
+      				<div class="modal-footer">
+        					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      				</div>
+    			</div>
+  			</div>
+  		</div>
 		</div>
 
 	</div>

@@ -2,6 +2,8 @@ from flask import *
 from werkzeug import secure_filename
 
 import os
+from json import dumps
+from sqlalchemy.orm import class_mapper
 
 from ..config import *
 from ..models import *
@@ -59,8 +61,7 @@ def get_current_user():
     else:
         return None				
 
-
-# game stuff
-
-def create_game():
-	return True
+def serialize(model):
+	columns = [c.key for c in class_mapper(model.__class__).columns]
+	return dict((c, getattr(model, c)) for c in columns)
+	
