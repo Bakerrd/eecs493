@@ -13,9 +13,14 @@
 </div>
 {% endif %}
 
+<h2>Login</h2>
 <form action="" method="post">
     <p><input type="text" name="username" placeholder="Username">
     <p><input type="password" name="password" placeholder="Password">
     <p><input type="submit" value="Login">
 </form>
+
+<div id="createinstead">
+  <p id="createonlogin">  <a href = "{{ url_for('logout.logout_route') }}" style="color:#000000"> Don't have an account yet? Click here to create one! </a> </p>
+</div>
 {% endblock %}
