@@ -46,14 +46,21 @@ body {
 	color: black;
 }
 
-a:hover #indexlogin {
+#indexlogin a {
+	color: black;
+	text-decoration: none;
+}
+
+#indexlogin a:hover {
 	color: #53bbf4;
 	font-size: 250%;
 }
 
-a {
-	text-decoration: none;
+#indexlogin a:visited {
+	color: #53bbf4;
+	font-size: 250%;
 }
+
 
 #indexcreate a{
 	color: black;
@@ -72,8 +79,19 @@ a {
 }
 
 
-
 /*End of Public Index */
+
+/*PopUp*/
+#leftImage{
+	float:left;
+}
+
+#rightImage{
+	float:right;
+}
+
+
+/*End of PopUp*/
 
 .board {
 	position: relative;
