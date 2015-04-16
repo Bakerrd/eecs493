@@ -6,12 +6,10 @@ function log(msg) { //Used for outputting
 }
 
 function show(id){
-	console.log("show");
 	document.getElementById(id).style.visibility = "visible";
 }
 
 function hide(id){
-	console.log("hide");
 	document.getElementById(id).style.visibility = "hidden";
 }
 
@@ -40,7 +38,7 @@ function Player(name, index) {
 	this.career = null;
 	this.married = false;
 	this.children = 0;
-	this.loan_counter = -1;
+	this.loan_counter = 0;
 	this.expelled = false;
 	this.num_loans = 0;
 	this.house = null;
@@ -49,6 +47,15 @@ function Player(name, index) {
 	this.family = false;
 	this.college = false;
 }
+
+Player.prototype.init_popup = function(){
+	document.getElementById("p" + this.name + "_hover_br").innerHTML = this.bankroll;
+	document.getElementById("p" + this.name + "_hover_loans").innerHTML = this.loan_counter;
+	document.getElementById("p" + this.name + "_hover_career").innerHTML = "N/A";
+	document.getElementById("p" + this.name + "_hover_married").innerHTML = "No";
+	document.getElementById("p" + this.name + "_hover_children").innerHTML = this.children;
+	document.getElementById("p" + this.name + "_hover_house").innerHTML = "N/A";
+};
 
 Player.prototype.add_children = function(val){
 	this.children = this.children + val;
@@ -61,7 +68,7 @@ Player.prototype.children_spouse = function(){
 	var child_support = (this.children * 10000) * -1;
 	this.updateBankroll(child_support);
 	if (this.married == true){
-		this.bankroll += 20000;
+		this.updateBankroll(20000);
 	}
 };
 Player.prototype.end_game = function(val){
@@ -101,17 +108,22 @@ Player.prototype.get_loans = function(){
 Player.prototype.updateBankroll = function(val){
 	this.bankroll += val;
 	var id = "";
+	var id2 = "";
 	if (this.name == "0"){
 		id = "p0_bank";
+		id2 = "p0_hover_br";
 	} else if (this.name == "1"){
 		id = "p1_bank";
+		id2 = "p1_hover_br";
 	} else if (this.name == "2"){
 		id = "p2_bank";
+		id2 = "p2_hover_br";
 	} else if (this.name == "3"){
 		id = "p3_bank";
+		id2 = "p3_hover_br";
 	}
-	console.log(id);
 	document.getElementById(id).innerHTML = this.bankroll;
+	document.getElementById(id2).innerHTML = this.bankroll;
 
 };
 
@@ -552,7 +564,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 	// Non special spaces
 	var temp = "";
 	if ($.inArray(p.position, this.board.special)){
-		p.bankroll += this.board.tiles[p.position].value;
+		p.updateBankroll(this.board.tiles[p.position].value);
 		temp = " player " + p.name + " landed on a non special tile and got $" + this.board.tiles[p.position].value.toString() + "\n";
 		log(temp);
 	}
@@ -645,7 +657,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 	// Player pays off loans
 	if (p.loan_counter == 0){
 		var loan_cost = 175000*p.num_loans;
-		p.bankroll -= loan_cost;
+		p.updateBankroll(loan_cost*-1);
 		p.num_loans = 0;
 		p.loan_counter = -1;
 		temp = "player " + p.name + " had to pay off their loan for $" + loan_cost.toString() + ". player " + p.name + " now has $" + p.bankroll.toString() + "\n";
