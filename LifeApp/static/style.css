@@ -20,6 +20,7 @@ body {
 	font-family: "Candara", Verdana, sans-serif;
 }
 
+
 #game_screen {
 	height: 1000px;
 	width: auto;
@@ -105,9 +106,21 @@ body {
 	text-decoration: none;
 }
 
+#creategame a:hover {
+	font-size: 102%;
+}
+
 #instructions {
 	color: #ff85cb;
 	font-weight: bold;
+}
+
+#instruction:hover{
+	font-size: 102%;
+}
+
+.theinstructions{
+	visibility: hidden;
 }
 
 /*End of Logged in home page*/
