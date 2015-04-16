@@ -17,7 +17,10 @@
 		<img src = "../static/images/welcome_to_logo.png" id = "loggedinlogosplash">
 		<div id = "loggedintext">
 			<h1 id = 'loggedinindexheading'>Hello {{ session['username']}}! </h1>
-			<p>Would you like to <span id = 'creategame'><a href="{{url_for('play.play_route')}}"> start a new game</a> or would you like to <span id = 'instructions'>read the instructions</span> first?</p>
+			<p>Would you like to <span id = 'creategame'><a href="{{url_for('play.play_route')}}"> start a new game</a> or would you like to <span onclick="show('theinstructions')" id = 'instructions'>read the instructions</span> first?</p>
+			<div class = 'theinstructions'>
+				<p>WOO!!<p>
+			</div>
 		</div>
 
 	</div>
