@@ -110,17 +110,18 @@ body {
 	font-size: 102%;
 }
 
-#instructions {
+#instructions a{
 	color: #ff85cb;
 	font-weight: bold;
 }
 
-#instruction:hover{
+#instructions a:hover{
 	font-size: 102%;
 }
 
-.theinstructions{
+#theinstructions{
 	visibility: hidden;
+	text-align: left;
 }
 
 /*End of Logged in home page*/
