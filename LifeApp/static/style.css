@@ -7,24 +7,38 @@ grey: #7f7f7f;
 orange: #ffac00;
 */
 
+#bar {
+	width: 50px;
+	height: 35px;
+	top: 0;
+}
 
 body {
 	height: 768px;
 	width: 100%;
-	background-image: url('/static/images/background.jpg');
-	background-size: 100%, 100%;
-	background-repeat: repeat;
+	background-color: #53bbf4;
+	font-family: "Candara", Verdana, sans-serif;
 }
+
 
 #game_screen {
 	height: 1000px;
 	width: auto;
 }
 
+#loggedintext{
+	text-align: center;
+
+}
 /*Public Index */
 #logosplash {
 	height: 350px;
 	width: 100%;
+}
+
+#loggedinlogosplash {
+	height: 400px;
+	width: 125%;
 }
 
 #fillertext {
@@ -35,13 +49,11 @@ body {
 
 #indexheading{
 	margin-top: 5%;
-	font-family: "Comic Sans MS", cursive, sans-serif;
 	font-size: 200%;
 	color: black;
 }
 
 #indextext{
-	font-family: "Comic Sans MS", cursive, sans-serif;
 	font-size: 150%;
 	color: black;
 }
@@ -53,14 +65,11 @@ body {
 
 #indexlogin a:hover {
 	color: #53bbf4;
-	font-size: 250%;
 }
 
 #indexlogin a:visited {
-	color: #53bbf4;
-	font-size: 250%;
+	text-decoration: none;
 }
-
 
 #indexcreate a{
 	color: black;
@@ -70,7 +79,6 @@ body {
 
 #indexcreate a:hover{
 	color: #ff85cb;
-	font-size: 200%;
 }
 
 
@@ -89,6 +97,36 @@ body {
 #rightImage{
 	float:right;
 }
+
+/*Logged in homepage*/
+
+#creategame a{
+	color: #53bbf4;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#creategame a:hover {
+	font-size: 102%;
+}
+
+#instructions {
+	color: #ff85cb;
+	font-weight: bold;
+}
+
+#instruction:hover{
+	font-size: 102%;
+}
+
+.theinstructions{
+	visibility: hidden;
+}
+
+/*End of Logged in home page*/
+
+
+
 
 
 /*End of PopUp*/
