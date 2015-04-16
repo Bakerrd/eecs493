@@ -76,12 +76,14 @@ class Houses(db.Model):
     title = db.Column(db.String(25))
     cost = db.Column(db.Integer)
     sell_price = db.Column(db.Integer)
+    img_path = db.Column(db.String(50))
     
-    def __init__(self, house_id, title, cost, sell_price):
+    def __init__(self, house_id, title, cost, sell_price, img_path):
         self.house_id = house_id
         self.title = title
         self.cost = cost
         self.sell_price = sell_price
+        self.img_path = img_path
 
     def __repr__(self):
         return 'House:' + str(self.house_id)

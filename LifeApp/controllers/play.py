@@ -27,7 +27,7 @@ def play_route():
 
 	json_h_list = []
 	for h in houses:
-		house = {'house_id': h.house_id, 'title': h.title, 'cost': h.cost, 'sell_price': h.sell_price}
+		house = {'house_id': h.house_id, 'title': h.title, 'cost': h.cost, 'sell_price': h.sell_price, 'img_path': h.img_path}
 		json_h_list.append(house)
 	house_list = json.dumps(json_h_list)
 

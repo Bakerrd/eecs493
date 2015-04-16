@@ -19,7 +19,9 @@
 	var title = '{{ h.title }}';
 	var cost = '{{ h.cost }}';
 	var sell_price = '{{ h.sell_price }}';
-	var house = new House(title, cost, sell_price);
+	var img_path = '{{ h.img_path }}';
+	console.log(img_path);
+	var house = new House(title, cost, sell_price, img_path);
 	this_game.houses.push(house);
 </script>
 {% endfor %}
@@ -94,7 +96,7 @@
 		</div>
 		<!-- End of Player Stat Popup Boxes -->
 		<!-- Button trigger modal -->
-		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#chooseCareerModal">
+		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#chooseHouseModal">
  			 Choice Modal
 		</button>
 
@@ -108,33 +110,33 @@
       				<div class="modal-body">
       				<div class="row">
       					<div class="col-md-3">
-        				<div id = 'leftImage'>
-        					<button onclick="Choose_Career({{curPlayer}}, left.index);" data-dismiss="modal">
-        						<img src = '/static/images/careers/debt_collector_icon.png'>
+        				<div id='leftImage'>
+        					<button data-dismiss="modal">
+        						<img id='left_career_img' src='/static/images/careers/debt_collector_icon.png'>
         					</button>
         				</div>
         			</div>
         			<div class="col-md-3">
-        				<div id = 'leftTitle'>
-        					<p>Generate Careers</p>
+        				<div id='left_career_title'>
+        					<p></p>
         				</div>
-        				<div id = 'leftSalary'>
-        					<p>Generate Careers</p>
+        				<div id='left_career_salary'>
+        					<p></p>
         				</div>
         			</div>
         			<div class="col-md-3">
-        				<div id = 'rightImage'>
-        					<button onclick="Choose_Career({{curPlayer}}, right.index);" data-dismiss="modal">
-        						<img src = '/static/images/careers/meth_manufacturer_icon.png'>
+        				<div id='rightImage'>
+        					<button data-dismiss="modal">
+        						<img id='right_career_img' src='/static/images/careers/meth_manufacturer_icon.png'>
         					</button>
         				</div>
         			</div>
         			<div class="col-md-3">
-        				<div id = 'rightTitle'>
-        					<p>Generate Careers</p>
+        				<div id='right_career_title'>
+        					<p></p>
         				</div>
-        				<div id = 'rightSalary'>
-        					<p>Generate Careers</p>
+        				<div id='right_career_salary'>
+        					<p></p>
         				</div>
         			</div>
         			</div>
@@ -151,39 +153,53 @@
 		<div class="modal fade" id="chooseHouseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
  			<div class="modal-dialog">
     			<div class="modal-content">
-     				<div class="modal-header" style = "text-align: center">
+     				<div class="modal-header" style="text-align: center">
         				<h4 class="modal-title" id="myModalLabel">Choose A House</h4>
       				</div>
       				<div class="modal-body">
-        				<div id = 'leftHouseImage'>
-        					<button onclick="Choose_House({{curPlayer}}, left.index);" data-dismiss="modal">
-        						<img src = '/static/images/houses/hotel_room_icon.png'>
+      				<div class="row">
+      					<div class="col-md-3">
+        				<div id='leftImage'>
+        					<button data-dismiss="modal">
+        						<img id='left_house_img' src='/static/images/careers/debt_collector_icon.png'>
         					</button>
         				</div>
-        				<div id = 'leftHouseTitle'>
-        					<p>Generate Houses</p>
+        			</div>
+        			<div class="col-md-3">
+        				<div id='left_house_title'>
+        					<p></p>
         				</div>
-        				<div id = 'leftCost'>
-        					<p>Generate Houses</p>
+        				<div id='left_house_cost'>
+        					<p></p>
         				</div>
-        				<div id = 'leftSellPrice'>
-        					<p>Generate Houses</p>
+        				<div id='left_house_sellprice'>
+        					<p></p>
         				</div>
-        				<button onclick="Generate_House_Options();">Generate Houses!</button>
-        				<div id = 'rightHouseImage'>
-        					<button onclick="Choose_House({{curPlayer}}, right.index);" data-dismiss="modal">
-        						<img src = '/static/images/houses/teepee_icon.png'>
+        			</div>
+        			<div class="col-md-3">
+        				<div id='rightImage'>
+        					<button data-dismiss="modal">
+        						<img id='right_house_img' src='/static/images/careers/meth_manufacturer_icon.png'>
         					</button>
         				</div>
-        				<div id = 'rightHouseTitle'>
-        					<p>Generate Houses</p>
+        			</div>
+        			<div class="col-md-3">
+        				<div id='right_house_title'>
+        					<p></p>
         				</div>
-        				<div id = 'rightCost'>
-        					<p>Generate Houses</p>
+        				<div id='right_house_cost'>
+        					<p></p>
         				</div>
-        				<div id = 'rightSellPrice'>
-        					<p>Generate Houses</p>
+        				<div id='right_house_sellprice'>
+        					<p></p>
         				</div>
+        			</div>
+        			</div>
+        			<div class="row">
+      					<div style="text-align:center">
+	        				<button type="button" id="generate_house">Generate Houses!</button>
+	        			</div>
+        			</div>
       				</div>
     			</div>
   			</div>
@@ -193,7 +209,7 @@
  			 Press Ok Modal
 		</button>
 
-		<div class="modal fade" id="okModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal fade" id="tileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
  			<div class="modal-dialog">
     			<div class="modal-content">
      				<div class="modal-header" style="text-align: center">
@@ -203,7 +219,7 @@
         				<p> you paid this much</p>
       				</div>
       				<div class="modal-footer">
-        					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        					<button type="button" class="btn btn-default" data-dismiss="modal">Collect</button>
       					</div>
 
     			</div>
@@ -216,8 +232,8 @@
      				<div class="modal-header" style = "text-align: center">
         				<h4 class="modal-title" id="myModalLabel">Enter Risky Road?</h4>
       				</div>
-      				<button type="button" onclick="Choose_Risky_Road(p,1) " class="btn btn-default" data-dismiss="modal">Yes</button>
-      				<button type="button" onclick="Choose_Risky_Road(p,0) " class="btn btn-default" data-dismiss="modal">No</button>
+      				<button type="button" id="risky_road_y" class="btn btn-default" data-dismiss="modal">Yes</button>
+      				<button type="button" id="risky_road_n" class="btn btn-default" data-dismiss="modal">No</button>
     			</div>
   			</div>
   		</div>
@@ -227,8 +243,8 @@
      				<div class="modal-header" style = "text-align: center">
         				<h4 class="modal-title" id="myModalLabel">Enter Family Road?</h4>
       				</div>
-      				<button type="button" onclick="Choose_Family_Road(p,1) " class="btn btn-default" data-dismiss="modal">Yes</button>
-      				<button type="button" onclick="Choose_Family_Road(p,0) " class="btn btn-default" data-dismiss="modal">No</button>
+      				<button type="button" id="family_road_y" class="btn btn-default" data-dismiss="modal">Yes</button>
+      				<button type="button" id="family_road_n" class="btn btn-default" data-dismiss="modal">No</button>
     			</div>
   			</div>
   		</div>
@@ -254,8 +270,57 @@
 <script>
 document.getElementById("generate_career").addEventListener("click", function(event){
 	console.log(this_game);
-	this_game.random_shit();
+	if (this_game.players[this_game.curPlayer].college){
+		this_game.Generate_College_Career();
+	} else {
+		this_game.Generate_Regular_Career();
+	}
 }, false);
+
+document.getElementById("left_career_img").addEventListener("click", 
+	function(event){
+		this_game.Choose_Career_Script(0);
+}, false);
+
+document.getElementById("right_career_img").addEventListener("click", 
+	function(event){
+		this_game.Choose_Career_Script(1);
+}, false);
+
+document.getElementById("generate_house").addEventListener("click", function(event){
+		this_game.Generate_House_Options();
+}, false);
+
+document.getElementById("left_house_img").addEventListener("click", 
+	function(event){
+		this_game.Choose_House_Script(0);
+}, false);
+
+document.getElementById("right_house_img").addEventListener("click", 
+	function(event){
+		this_game.Choose_House_Script(1);
+}, false);
+
+document.getElementById("risky_road_y").addEventListener("click", function(event){
+	console.log(this_game);
+	this_game.Choose_Risky_Road(1);
+}, false);
+
+document.getElementById("risky_road_n").addEventListener("click", function(event){
+	console.log(this_game);
+	this_game.Choose_Risky_Road(0);
+}, false);
+
+document.getElementById("family_road_y").addEventListener("click", function(event){
+	console.log(this_game);
+	this_game.Choose_Family_Road(1);
+}, false);
+
+document.getElementById("family_road_n").addEventListener("click", function(event){
+	console.log(this_game);
+	this_game.Choose_Family_Road(0);
+}, false);
+
 </script>
 
   

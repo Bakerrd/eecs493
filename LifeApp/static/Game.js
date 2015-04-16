@@ -15,11 +15,6 @@ function hide(id){
 	document.getElementById(id).style.visibility = "hidden";
 }
 
-function init_game(){
-	this_game = new Game();
-}
-
-
 // Career Class
 function Career(name, salary, img_path){
 	this.title = name;
@@ -27,18 +22,18 @@ function Career(name, salary, img_path){
 	this.img_path = img_path;
 }
 
-
 // House Class
-function House(title, cost, sell_price){
+function House(title, cost, sell_price, img_path){
 	this.title = title;
 	this.cost = cost;
 	this.sell_price = sell_price;
+	this.img_path = img_path;
 }
 
-
 // Player Class 
-function Player(name) {
+function Player(name, index) {
 	this.done = false;
+	this.index = index;
 	this.bankroll = 10000;
 	this.position = -1;
 	this.name = name;
@@ -48,26 +43,28 @@ function Player(name) {
 	this.loan_counter = -1;
 	this.expelled = false;
 	this.num_loans = 0;
-	this.house = -1;
+	this.house = null;
 	this.pay_square = -1;
+	this.risky = false;
+	this.family = false;
+	this.college = false;
 }
 
-Player.prototype = {
-add_children:function(val){
+Player.prototype.add_children = function(val){
 	this.children = this.children + val;
-}, 
-expel:function(){
+};
+Player.prototype.expel = function(){
 	this.expelled = true;
 	this.position = -1;
-},
-children_spouse:function(){
+};
+Player.prototype.children_spouse = function(){
 	var child_support = (this.children * 10000) * -1;
 	this.updateBankroll(child_support);
 	if (this.married == true){
 		this.bankroll += 20000;
 	}
-}, 
-end_game:function(val){
+};
+Player.prototype.end_game = function(val){
 	this.updateBankroll(val);
 	if (this.loan_counter > 0){
 		this.loan_counter = 1;
@@ -75,14 +72,14 @@ end_game:function(val){
 	var child_money = this.children * 50000;
 	this.updateBankroll(child_money);
 	this.done = true;
-}, 
-marriage:function(){
+};
+Player.prototype.marriage = function(){
 	this.married = true;
-}, 
-divorce:function(){
+}; 
+Player.prototype.divorce = function(){
 	this.married = false;
-}, 
-get_loans:function(){
+};
+Player.prototype.get_loans = function(){
 	var counter = 0;
 	var turns = 0;
 	while (this.bankroll < 0){
@@ -100,8 +97,8 @@ get_loans:function(){
 		}
 		counter++;
 	}
-}, 
-updateBankroll:function(val){
+};
+Player.prototype.updateBankroll = function(val){
 	this.bankroll += val;
 	var id = "";
 	if (this.name == "0"){
@@ -116,7 +113,6 @@ updateBankroll:function(val){
 	console.log(id);
 	document.getElementById(id).innerHTML = this.bankroll;
 
-}
 };
 
 
@@ -128,7 +124,6 @@ function Tile(title, value, x, y) {
 	this.y = y;
 }
 
-
 // Board Class
 function Board(){
 	this.tiles = [];
@@ -136,13 +131,12 @@ function Board(){
 	this.special = [4,7,12,18,21,25,26,28,31,34,37,38,39,40,42,43,44,45,48,52,54,56,60,64,66,70,76,79];
 }
 
-
 // Game Class
 function Game() {
 	this.players = [];
 	for(i=0; i < 4; i++){
 		var player = new Player(i.toString());
-		this.players.push(player);
+		this.players.push(player, i);
 	}
 	this.board = new Board();
 	this.end_of_game = 0;
@@ -151,13 +145,11 @@ function Game() {
 	this.taken_ccareer = [];
 	this.taken_house = [];
 
-	// Careers and Houses????
 	this.careers = [];
 	this.houses = [];
 }
 
-Game.prototype = {
-Play_Game:function(){
+Game.prototype.Play_Game = function() {
 	console.log("play_game");
 	var end = this.Check_End_Game();
 	while (!end){
@@ -167,15 +159,17 @@ Play_Game:function(){
 		}
 		end = this.Check_End_Game();
 	}
-},
-Start_Turn:function() {
+};
+
+Game.prototype.Start_Turn = function() {
 	//Render Spinner, get spinner value
 	this.load_active_stats();
 	var spinnerVal = Math.floor(Math.random() * 11);
 	console.log("start_turn with spin of " + spinnerVal.toString()); 
 	this.Play_Turn(this.players[this.curPlayer], spinnerVal);
-},
-load_active_stats:function() {
+};
+
+Game.prototype.load_active_stats = function() {
 	var p = this.players[this.curPlayer];
 	document.getElementById('active_player').innerHTML = p.name;
 	document.getElementById('active_br').innerHTML = p.bankroll;
@@ -184,8 +178,9 @@ load_active_stats:function() {
 	document.getElementById('active_married').innerHTML = p.married;
 	document.getElementById('active_children').innerHTML = p.children;
 	document.getElementById('active_house').innerHTML = p.house;
-},
-random_child:function() {
+};
+
+Game.prototype.random_child = function() {
 	var children = Math.floor((Math.random() * 21));
 	if(children >= 0 && children < 12)
 		return 1;
@@ -195,22 +190,30 @@ random_child:function() {
 		return 3;
 	else
 		return 8;
-},
-Prompt_College_Career:function(player) {
+};
+
+Game.prototype.Prompt_College_Career = function(player) {
 	//Creates Dialog Box with generate and select buttons
 	//Connect Generate with Generate_Regular_Career
 	//Connect Select with choose_career_script(selectedVal)
 	var prompt= document.getElementById('ChooseCareerModal'); //? 	 	
-	prompt.hidden = "false"; 
-},
-Prompt_Regular_Career:function(player) {
+	prompt.hidden = "false";
+	$scope.curPlayer = player.index; 
+};
+
+Game.prototype.Prompt_Regular_Career = function(player) {
 	//Creates Dialog Box with generate and select buttons
 	//Connect Generate button with Generate_Regular_Career
 	//Connect Select with choose_career_script(selectedVal)
-},
-Prompt_Risky_Road:function(p){
+	var prompt= document.getElementById('ChooseCareerModal'); //? 	 	
+	prompt.hidden = "false";
+	$scope.curPlayer = player.index; 
+};
+
+Game.prototype.Prompt_Risky_Road = function(p){
 	var prompt= document.getElementById('riskyModal'); //?
 	prompt.hidden = "false";
+	$scope.curPlayer = player.index; 
 	var risky = Math.floor((Math.random() * 2));
 		if (risky == 1){
 			return true;
@@ -218,10 +221,12 @@ Prompt_Risky_Road:function(p){
 		else {
 			return false;
 		}
-},
-Prompt_Family_Road:function(p){
+};
+
+Game.prototype.Prompt_Family_Road = function(p){
 	var prompt= document.getElementById('familyModal'); //?
 	prompt.hidden = "false";
+	$scope.curPlayer = player.index; 
 	var family = Math.floor((Math.random() * 2));
 		if (family == 1){
 			return true;
@@ -229,97 +234,115 @@ Prompt_Family_Road:function(p){
 		else {
 			return false;
 		}
-},
-Choose_Risky_Road:function(p, response){
+};
+
+Game.prototype.Choose_Risky_Road = function(response){
+	p = this_game.players[this_game.curPlayer];
 	if(response)
-		this.players[p].risky = true;
+		p.risky = true;
 	else
-		this.players[p].risky = false;
-},
-Choose_Family_Road:function(p, response){
+		p.risky = false;
+};
+
+Game.prototype.Choose_Family_Road = function(response){
+	p = this_game.players[this_game.curPlayer];
 	if(response)
-		this.players[p].family = true;
+		p.family = true;
 	else
-		this.players[p].family = false;
-},
-Prompt_House:function(player) {
+		p.family = false;
+};
+
+Game.prototype.Prompt_House = function(player) {
 	//Creates Dialog Box with generate and select buttons
 	//Connect Generate button with Generate_House_Options
 	//Connect Select with choose_house_script(selectedVal)
-},
-Generate_House_Options:function(player) {
+};
+
+Game.prototype.Generate_House_Options = function() {
 	//Render Spinner, get spinner value
 	var house_one = Math.floor((Math.random() * 10));
 	var house_one_taken = false;
 			while (house_one_taken == false){
-				if($.inArray(house_one, this.taken_house)) //Checks if house one is taken
+				if(house_one in this.taken_house) //Checks if house one is taken
 					house_one = Math.floor((Math.random() * 10));
 				else
 					house_one_taken = true;
 			}
 	var house_two = Math.floor((Math.random() * 10));
 	var house_two_taken = false;
-	while (house_two_taken == False){
-		if($.inArray(house_one, this.taken_house) || house_one == house_two)
+	while (house_two_taken == false){
+		if((house_one in this.taken_house) || (house_one == house_two))
 			house_two = Math.floor((Math.random() * 10));
 		else
 			house_two_taken = true;
 	}
 
-	//Set up left house in prompt EDIT
-		var lTitle= document.getElementById('leftHouseTitle');
-		lTitle.textContent = houses[house_one].title;
-		var lCost= document.getElementById('leftCost');
-		lCost.textContent = houses[house_one].cost;
-		var lSell= document.getElementById('leftSellPrice');
-		lSell.textContent = houses[house_one].sell_price;
-		var lImage= document.getElementById('leftHouseImage');
-		lImage.image = houses[house_one].imgPath;
-		///Set up right career in prompt
-		var rTitle= document.getElementById('rightHouseTitle');
-		rTitle.textContent = houses[house_two].title;
-		var rCost= document.getElementById('rightCost');
-		rCost.textContent = houses[house_two].cost;
-		var rSell= document.getElementById('rightSellPrice');
-		rSell.textContent = houses[house_two].sell_price;
-		var rImage= document.getElementById('rightHouseImage');
-		rImage.image = houses[house_two].imgPath;
-	
-	
-	// $('p:first').html('House 1: '+this.houses[house_one].toString()+' <br> Cost: '+this.houses[house_one].cost);
-	// 		//Insert Button for select 1
-	// $('p:second').html('House 2: '+this.houses[house_two].toString()+' <br> Cost: '+this.houses[house_two].cost);
+	var lTitle= document.getElementById('left_house_title');
+	lTitle.textContent = this_game.houses[house_one].title;
+	var lCost= document.getElementById('left_house_cost');
+	lCost.textContent = this_game.houses[house_one].cost;
+	var lSell= document.getElementById('left_house_sellprice');
+	lSell.textContent = this_game.houses[house_one].sell_price;
+	var lImage= document.getElementById('left_house_img').src = this_game.houses[house_one].img_path;
+	///Set up right career in prompt
+	var rTitle= document.getElementById('right_house_title');
+	rTitle.textContent = this_game.houses[house_two].title;
+	var rCost= document.getElementById('right_house_cost');
+	rCost.textContent = this_game.houses[house_two].cost;
+	var rSell= document.getElementById('right_house_sellprice');
+	rSell.textContent = this_game.houses[house_two].sell_price;
+	var rImage= document.getElementById('right_house_img').src = this_game.houses[house_two].img_path;
 
-},
-Choose_Career_Script:function(p, career_choice) {
-	this.players[p].career = this.careers[career_choice].toString();
-	this.players[p].salary = this.careers[career_choice].salary;
-	if(career_choice <= 7){
-		this.players[p].pay_square = career_choice + 3;
-		this.taken_career.append(career_choice);
+};
+Game.prototype.Choose_Career_Script = function(career_choice) {
+	p = this.players[this.curPlayer];
+	if (career_choice == 0){
+		var career = document.getElementById('leftTitle').textContent;
+		for (i=0; i<this_game.careers.length; i++){
+			if (career == this_game.careers[i].title){
+				p.career = this_game.careers[i];
+			}
+		}
+	} else {
+		var career = document.getElementById('rightTitle').textContent;
+		for (i=0; i<this_game.careers.length; i++){
+			if (career == this_game.careers[i].title){
+				p.career = this_game.careers[i];
+			}
+		}
 	}
-	else{
-		this.players[p].pay_square = career_choice - 5;
-		this.taken_ccareer.append(career_choice);
-	}
-	
-	var temp = "player " + this.players[p].name + " is taking career " + career_choice.toString() + "\n";
-	log(temp);
-},
-Choose_House_Script:function(p, house_choice) {
+
+	console.log("player " + p.name + " has chosen career: " + p.career.title);
+};
+Game.prototype.Choose_House_Script = function(house_choice) {
 	//Sets the player up with the selected house
-	this.players[p].house = house_choice;
-	this.taken_house.append(house_choice);
-	var temp = "player " + this.players[p].name + " bought house " + this.houses[house_choice].name.toString() + " for $" + this.houses[house_choice].cost.toString() + "\n";
-	log(temp);
-	this.players[p].updateBankroll(this.houses[house_choice].cost);
-},
-Generate_Regular_Career:function() {
+	p = this.players[this.curPlayer];
+	if (house_choice == 0){
+		var house = document.getElementById('left_house_title').textContent;
+		for (i=0; i<this_game.houses.length; i++){
+			if (house == this_game.houses[i].title){
+				p.house = this_game.houses[i];
+				p.updateBankroll(p.house.cost*-1);
+			}
+		}
+	} else {
+		var house = document.getElementById('right_house_title').textContent;
+		for (i=0; i<this_game.houses.length; i++){
+			if (house == this_game.houses[i].title){
+				p.house = this_game.houses[i];
+				p.updateBankroll(p.house.cost*-1);
+			}
+		}
+	}
+
+	console.log("player " + p.name + " has chosen house " + p.house.title + " for a cost of $" + p.house.cost.toString());
+};
+Game.prototype.Generate_Regular_Career = function() {
 	//Render Spinner, get spinner value
 	var career_one = Math.floor((Math.random() * 8) + 8);
 	var c_one_taken = false;
 	while(c_one_taken == false){
-		if($.inArray(career_one, this.taken_career))
+		if(career_one in this.taken_career)
 			career_one = Math.floor((Math.random() * 8) + 8);
 		else
 			c_one_taken = true;
@@ -328,33 +351,27 @@ Generate_Regular_Career:function() {
 	var c_two_taken = false;
 	
 	while(c_two_taken == false){
-		if($.inArray(career_one, this.taken_career) || career_one == career_two)
+		if((career_one in this.taken_career) || (career_one == career_two))
 			career_two = Math.floor((Math.random() * 8) + 8);
 		else
 			c_two_taken = true;
 	}
 
 	///Set up left career in prompt
-	var lTitle= document.getElementById('leftTitle');
+	var lTitle= document.getElementById('left_career_title');
 	lTitle.textContent = this.careers[career_one].title;
-	var lSalary= document.getElementById('leftSalary');
+	var lSalary= document.getElementById('left_career_salary');
 	lSalary.textContent = this.careers[career_one].salary;
-	var lImage= document.getElementById('leftImage');
-	lImage.image = this.careers[career_one].imgPath;
+	var lImage= document.getElementById('left_career_img').src = this.careers[career_one].img_path;
 	///Set up right career in prompt
-	var rTitle= document.getElementById('rightTitle');
+	var rTitle= document.getElementById('right_career_title');
 	rTitle.textContent = this.careers[career_two].title;
-	var rSalary= document.getElementById('rightSalary');
+	var rSalary= document.getElementById('right_career_salary');
 	rSalary.textContent = this.careers[career_two].salary;
-	var rImage= document.getElementById('rightImage');
-	rImage.image = this.careers[career_two].imgPath;
-
-	// $('p:first').html('Career 1: '+this.careers[career_one].title+' <br> Salary: '+this.careers[career_one].salary);
-	// //Insert Button for select 1
-	// $('p:second').html('Career 2: '+this.careers[career_two].title+' <br> Salary: '+this.careers[career_two].salary);
-	//Choose_Career(p, career_one, career_two, false);					
-},
-Generate_College_Career:function() {
+	var rImage= document.getElementById('right_career_img').src = this.careers[career_two].img_path;
+					
+};
+Game.prototype.Generate_College_Career = function() {
 	//Render Spinner, get spinner value
 	var temp = "end of college fork\n";
 	console.log(this.careers);
@@ -363,7 +380,6 @@ Generate_College_Career:function() {
 	var cc_one_taken = false;
 	//College Career
 	while(cc_one_taken == false){
-		console.log("here");
 		if(ccareer_one in this.taken_ccareer)
 			ccareer_one = Math.floor((Math.random() * 8));
 		else
@@ -372,36 +388,26 @@ Generate_College_Career:function() {
 	var ccareer_two = Math.floor((Math.random() * 8));
 	var	cc_two_taken = false;
 	while(cc_two_taken == false){
-		console.log("here again");
 		if((ccareer_two in this.taken_ccareer) || (ccareer_one == ccareer_two))
 			ccareer_two = Math.floor((Math.random() * 8));
 		else
 			cc_two_taken = true;
 	}
 
-	var lTitle= document.getElementById('leftTitle');
+	var lTitle= document.getElementById('left_career_title');
 	lTitle.textContent = this.careers[ccareer_one].title;
-	var lSalary= document.getElementById('leftSalary');
+	var lSalary= document.getElementById('left_career_salary');
 	lSalary.textContent = this.careers[ccareer_one].salary;
-	var lImage= document.getElementById('leftImage');
-	lImage.image = this.careers[ccareer_one].imgPath;
+	var lImage= document.getElementById('left_career_img').src = this.careers[ccareer_one].img_path;
 
-	var rTitle= document.getElementById('rightTitle');
+	var rTitle= document.getElementById('right_career_title');
 	rTitle.textContent = this.careers[ccareer_two].title;
-	var rSalary= document.getElementById('rightSalary');
+	var rSalary= document.getElementById('right_career_salary');
 	rSalary.textContent = this.careers[ccareer_two].salary;
-	var rImage= document.getElementById('rightImage');
-	rImage.image = this.careers[ccareer_two].imgPath;
+	var rImage= document.getElementById('right_career_img').src = this.careers[ccareer_two].img_path;
 
-	// $('p:first').html('Career 1: '+this.careers[ccareer_one].title+' <br> Salary: '+this.careers[ccareer_one].salary);
-	// //Insert Button for select 1
-	// $('p:second').html('Career 2: '+this.careers[ccareer_two].title+' <br> Salary: '+this.careers[ccareer_two].salary);
-	//Choose_Career(p, ccareer_one, ccareer_two, true);
-},
-random_shit:function(){
-	console.log("fuck off lahey");
-},
-College_Prompt:function(p) {
+};
+Game.prototype.College_Prompt = function(p) {
 	var college = Math.floor(Math.random() * 2);
 	if(college == 1){
 		var temp = "player " + p.name + " is going to college\n"
@@ -417,8 +423,8 @@ College_Prompt:function(p) {
 		this.Prompt_Regular_Career(p);
 		return false;
 	}
-},
-Play_Turn:function(p, roll) {
+};
+Game.prototype.Play_Turn =function(p, roll) {
 	var temp = "starting player " + p.name + "'s turn\n";
 	log(temp);
 	if (p.done == false){
@@ -454,8 +460,9 @@ Play_Turn:function(p, roll) {
 			}
 			//Family Road
 			else if(cur_position == 36){
-				var family = Math.floor((Math.random() * 2));
-				if(family == 1){
+				//var family = Math.floor((Math.random() * 2));
+				this.Prompt_Family_Road(p);
+				if(p.family){
 					temp =  "player " + p.name + " takes family route\n";
 					// Remarried
 					log(temp);
@@ -478,8 +485,9 @@ Play_Turn:function(p, roll) {
 			}
 			//Risky Road
 			else if(cur_position == 73){
-				risky = Math.floor((Math.random() * 2))
-				if (risky == 1){
+				//risky = Math.floor((Math.random() * 2));
+				this.Prompt_Risky_Road(p);
+				if (p.risky){
 					temp = "player takes risky route\n";
 					log(temp);
 					cur_position = 74;
@@ -539,8 +547,8 @@ Play_Turn:function(p, roll) {
 		temp = "player is already retired\n";
 		log(temp);
 	}
-},
-End_Turn:function(p, cur_position){
+};
+Game.prototype.End_Turn = function(p, cur_position){
 	// Non special spaces
 	var temp = "";
 	if ($.inArray(p.position, this.board.special)){
@@ -662,13 +670,22 @@ End_Turn:function(p, cur_position){
 
 	///END OF WHILE LOOP FOR ROLL > 0
 	temp = "player ends turn on space " + p.position.toString() + " and has $" + p.bankroll.toString() + "\n";
+	if(!($.inArray(p.position, this.board.special)) && !($.inArray(p.position, this.board.paydays))){
+		var prompt = document.getElementById('tileModal');
+		var tileTitle = document.getElementById('myModalLabel');
+		tileTitle.textContent = this.tiles[p.position].title;
+		var tileValue= document.getElementById('modal-body');
+		tileValue.textContent = this.tiles[p.position].value;
+		prompt.hidden = "false";
+		p.updateBankroll(this.tiles[p.position].value);
+	}
 	log(temp);
 	if (p.done == true && p.bankroll > 1000000){
 		temp = "player " + p.name + " has moved to the Caymans\n";
 		log(temp);
 	}
-},
-Check_End_Game:function(){
+};
+Game.prototype.Check_End_Game = function(){
 	var end = true;
 	for (var i=0; i<this.players.length; i++){
 		if (this.players[i].done == false){
@@ -676,7 +693,6 @@ Check_End_Game:function(){
 		}
 	}
 	return end;
-}
 };
 
 function New_Game(){
