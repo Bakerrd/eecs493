@@ -70,7 +70,9 @@ function toggleSpinning() {
 		clearInterval(toggleSpinning.spinInt);
 		spinButton.removeAttribute("disabled");
 		var result = currentSlice+1;
-		alert(result);
+		console.log(result);
+		this_game.spin = result;
+		$('#start_turn_button').prop('disabled', false);
 	}
 	else {
 		// Start spinning the arrow
@@ -97,7 +99,7 @@ function spinWheel() {
 	}
 }
 
-// Document ready event
+
 document.addEventListener("DOMContentLoaded", function() {
 	// Get a handle to all necessary DOM elements
 	wheel = document.getElementById("spinner-board"); // DOM Object for the spinner board

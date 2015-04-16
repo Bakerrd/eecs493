@@ -42,6 +42,36 @@
 
 
 	<div class="board">
+
+		<!-- Spin Wheel Modal -->
+		<div class="modal fade" id="spinModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h4 class="modal-title" style="text-align:center">Spin the wheel good <span id="cur_player_spin"></span></h4>
+		      </div>
+		      <div class="modal-body">
+		        <div id="wrapper">
+				<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="400" height="400">
+					<circle cx="200" cy="200" r="180" fill="#222222"/>
+					<g id="spinner-board"></g>
+					<path id="spinner-arrow" d="M 195 200 L 195 70 L 188 70 L 200 55 L 212 70 L 205 70 205 200 Z" fill="#EEEEEE" stroke="#222222" style="stroke-width:2px"/>
+					<circle cx="200" cy="200" r="18" fill="#444444" stroke="#222222" style="stroke-width:2px"/>
+					<circle cx="200" cy="200" r="9" fill="#666666" stroke="#222222" style="stroke-width:2px"/>
+				</svg>
+				</div>
+		      </div>
+		      <div class="modal-footer">
+		      	<div class="row">
+		        <button type="button" class="btn btn-default" id="spinner-button" onclick="toggleSpinning();">SPIN</button>
+		        <button type="button" class="btn btn-primary" id="start_turn_button" disabled>Begin turn</button>
+		    </div>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+
 		<!-- Human Player Stat Box -->
 		<div class="playerStats">
 			<p style="color: white; font-size: 200%; margin: 0px"><span id='heading'>Player </span><span id='active_player'></span></p>
@@ -99,7 +129,7 @@
  			 Choice Modal
 		</button>
 
-		<!-- Modal -->
+		<!-- Choose Career modal -->
 		<div class="modal fade" id="chooseCareerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
  			<div class="modal-dialog">
     			<div class="modal-content">
@@ -149,6 +179,8 @@
   			</div>
 		</div>
 
+
+		<!-- choose house modal -->
 		<div class="modal fade" id="chooseHouseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
  			<div class="modal-dialog">
     			<div class="modal-content">
@@ -212,18 +244,46 @@
  			<div class="modal-dialog">
     			<div class="modal-content">
      				<div class="modal-header" style="text-align: center">
-        				<h4 class="modal-title" id="myModalLabel">This Happened to you</h4>
+        				<h4 class="modal-title" id="Tile_Label">This Happened to you</h4>
       				</div>
-      				<div class="modal-body">
-        				<p> you paid this much</p>
+      				<div class="modal-body"  id='Tile_Value'>
+        				<p>Shit happens.</p>
       				</div>
       				<div class="modal-footer">
-    					<button type="button" class="btn btn-default" data-dismiss="modal">Collect</button>
+    					<button type="button" class="btn btn-default" data-dismiss="modal">Accept</button>
   					</div>
     			</div>
   			</div>
   		</div>
 
+  		<div class="modal fade" id="end_of_turn_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ 			<div class="modal-dialog">
+    			<div class="modal-content">
+     				<div class="modal-header" style="text-align: center">
+        				<h4 class="modal-title" id="eot_title">This Happened to you</h4>
+      				</div>
+      				<div class="modal-body"  id='eot_body'>
+        				<p>Summary of turn...</p>
+      				</div>
+      				<div class="modal-footer">
+    					<button type="button" class="btn btn-default text-center" id="finish_turn" data-dismiss="modal">Finish Turn!</button>
+  					</div>
+    			</div>
+  			</div>
+  		</div>
+
+  		<!-- choose route modals  -->
+  		<div class="modal fade" id="collegeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ 			<div class="modal-dialog">
+    			<div class="modal-content">
+     				<div class="modal-header" style = "text-align: center">
+        				<h4 class="modal-title" id="myModalLabel">Enter College?</h4>
+      				</div>
+      				<button type="button" id="college_y" class="btn btn-default" data-dismiss="modal">Hell yes!</button>
+      				<button type="button" id="college_n" class="btn btn-default" data-dismiss="modal">Fuck no.</button>
+    			</div>
+  			</div>
+  		</div>
   		<div class="modal fade" id="riskyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
  			<div class="modal-dialog">
     			<div class="modal-content">
@@ -246,6 +306,9 @@
     			</div>
   			</div>
   		</div>
+  		<!-- end of choose route modals -->
+
+
 
 		<!--Players Bankroll Box -->
 		<div class="playerBankrolls">
@@ -265,7 +328,11 @@
 	<button onclick="New_Game();">Start the Game!</button>
 </div>
 
+<br><br><br><br>
+
 <script>
+
+
 document.getElementById("generate_career").addEventListener("click", function(event){
 	console.log(this_game);
 	if (this_game.players[this_game.curPlayer].college){
@@ -318,6 +385,23 @@ document.getElementById("family_road_n").addEventListener("click", function(even
 	console.log(this_game);
 	this_game.Choose_Family_Road(0);
 }, false);
+document.getElementById("college_y").addEventListener("click", function(event){
+	console.log(this_game);
+	this_game.Choose_College_Road(1);
+}, false);
+
+document.getElementById("college_n").addEventListener("click", function(event){
+	console.log(this_game);
+	this_game.Choose_College_Road(0);
+}, false);
+
+document.getElementById("start_turn_button").addEventListener("click", function(event){
+	this_game.Start_Turn();
+})
+
+document.getElementById("finish_turn").addEventListener("click", function(event){
+	this_game.Play_Game();
+})
 
 </script>
 

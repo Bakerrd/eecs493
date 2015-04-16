@@ -36,6 +36,7 @@ function Player(name, index) {
 	this.position = -1;
 	this.name = name;
 	this.career = null;
+	this.salary = 0;
 	this.married = false;
 	this.children = 0;
 	this.loan_counter = 0;
@@ -45,7 +46,7 @@ function Player(name, index) {
 	this.pay_square = -1;
 	this.risky = false;
 	this.family = false;
-	this.college = false;
+	this.college = null;
 }
 
 Player.prototype.init_popup = function(){
@@ -106,7 +107,7 @@ Player.prototype.get_loans = function(){
 	}
 };
 Player.prototype.updateBankroll = function(val){
-	this.bankroll += val;
+	this.bankroll = (this.bankroll+val);
 	var id = "";
 	var id2 = "";
 	if (this.name == "0"){
@@ -148,9 +149,10 @@ function Game() {
 	this.players = [];
 	for(i=0; i < 4; i++){
 		var player = new Player(i.toString());
-		this.players.push(player, i);
+		this.players.push(player);
 	}
 	this.board = new Board();
+	this.spin = 0;
 	this.end_of_game = 0;
 	this.curPlayer = 0;
 	this.taken_career = [];
@@ -164,21 +166,25 @@ function Game() {
 Game.prototype.Play_Game = function() {
 	console.log("play_game");
 	var end = this.Check_End_Game();
-	while (!end){
-		for (var i=0; i<4; i++){
-			this.curPlayer = i;
-			this.Start_Turn();
-		}
-		end = this.Check_End_Game();
-	}
+	console.log("player " + this.curPlayer.toString() + "'s turn");
+	this.Get_Spin();
 };
 
 Game.prototype.Start_Turn = function() {
 	//Render Spinner, get spinner value
-	this.load_active_stats();
-	var spinnerVal = Math.floor(Math.random() * 11);
-	console.log("start_turn with spin of " + spinnerVal.toString()); 
-	this.Play_Turn(this.players[this.curPlayer], spinnerVal);
+	$('#spinModal').modal('hide');
+	p = this.players[this.curPlayer];
+	for(q in this.players){
+		if (p != q){
+			if (this.spin == q.pay_square){
+				p.updateBankroll(-20000);
+				q.updateBankroll(20000);
+				temp = "Player " + p.name + " paid Player " + q.name + " $20000";
+				log(temp); 
+			}
+		}
+	}
+	this.Play_Turn();
 };
 
 Game.prototype.load_active_stats = function() {
@@ -204,64 +210,56 @@ Game.prototype.random_child = function() {
 		return 8;
 };
 
-Game.prototype.Prompt_College_Career = function(player) {
+Game.prototype.Prompt_Career = function(player) {
 	//Creates Dialog Box with generate and select buttons
 	//Connect Generate with Generate_Regular_Career
 	//Connect Select with choose_career_script(selectedVal)
-	var prompt= document.getElementById('ChooseCareerModal'); //? 	 	
-	prompt.hidden = "false";
-	$scope.curPlayer = player.index; 
-};
-
-Game.prototype.Prompt_Regular_Career = function(player) {
-	//Creates Dialog Box with generate and select buttons
-	//Connect Generate button with Generate_Regular_Career
-	//Connect Select with choose_career_script(selectedVal)
-	var prompt= document.getElementById('ChooseCareerModal'); //? 	 	
-	prompt.hidden = "false";
-	$scope.curPlayer = player.index; 
+	$('#chooseCareerModal').modal('show');
 };
 
 Game.prototype.Prompt_Risky_Road = function(p){
-	var prompt= document.getElementById('riskyModal'); //?
-	prompt.hidden = "false";
-	$scope.curPlayer = player.index; 
-	var risky = Math.floor((Math.random() * 2));
-		if (risky == 1){
-			return true;
-			} 
-		else {
-			return false;
-		}
+	$('#riskyModal').modal('show');
 };
 
 Game.prototype.Prompt_Family_Road = function(p){
-	var prompt= document.getElementById('familyModal'); //?
-	prompt.hidden = "false";
-	$scope.curPlayer = player.index; 
-	var family = Math.floor((Math.random() * 2));
-		if (family == 1){
-			return true;
-			} 
-		else {
-			return false;
-		}
+	$('#familyModal').modal('show');
 };
 
 Game.prototype.Choose_Risky_Road = function(response){
 	p = this_game.players[this_game.curPlayer];
-	if(response)
+	if(response){
+		console.log("risky route");
 		p.risky = true;
-	else
+		p.position = 74;
+	} else { 
+		console.log("pussy ass route");
 		p.risky = false;
+		p.position = 78;
+	}
+
+	$('#riskyModal').modal('hide');
+	this.Play_Turn();
 };
 
 Game.prototype.Choose_Family_Road = function(response){
 	p = this_game.players[this_game.curPlayer];
-	if(response)
+	if(response){
+		console.log("chooses family");
 		p.family = true;
-	else
+		if (p.married == false){
+			p.married = true;
+			p.position = 37;
+		} else {
+			p.position = 37;
+		}
+	} else{
+		console.log("chooses life of solitude");
 		p.family = false;
+		p.position = 46;
+	}
+
+	$('#familyModal').modal('hide');
+	this.Play_Turn();
 };
 
 Game.prototype.Prompt_House = function(player) {
@@ -309,22 +307,24 @@ Game.prototype.Generate_House_Options = function() {
 Game.prototype.Choose_Career_Script = function(career_choice) {
 	p = this.players[this.curPlayer];
 	if (career_choice == 0){
-		var career = document.getElementById('leftTitle').textContent;
+		var career = document.getElementById('left_career_title').textContent;
 		for (i=0; i<this_game.careers.length; i++){
 			if (career == this_game.careers[i].title){
 				p.career = this_game.careers[i];
 			}
 		}
 	} else {
-		var career = document.getElementById('rightTitle').textContent;
+		var career = document.getElementById('right_career_title').textContent;
 		for (i=0; i<this_game.careers.length; i++){
 			if (career == this_game.careers[i].title){
 				p.career = this_game.careers[i];
 			}
 		}
 	}
+	$('#chooseCareerModal').modal('hide');
 
 	console.log("player " + p.name + " has chosen career: " + p.career.title);
+	this.Play_Turn();
 };
 Game.prototype.Choose_House_Script = function(house_choice) {
 	//Sets the player up with the selected house
@@ -420,98 +420,87 @@ Game.prototype.Generate_College_Career = function() {
 
 };
 Game.prototype.College_Prompt = function(p) {
-	var college = Math.floor(Math.random() * 2);
-	if(college == 1){
+	$('#collegeModal').modal('show');
+};
+Game.prototype.Get_Spin = function() {
+	p = this.players[this.curPlayer];
+	document.getElementById('cur_player_spin').innerHTML = "Player " + p.name;
+	$('#spinModal').modal('show');
+};
+Game.prototype.Choose_College_Road = function(response){
+	p = this_game.players[this_game.curPlayer];
+	if(response){
 		var temp = "player " + p.name + " is going to college\n"
 		log(temp);
 		p.updateBankroll(-125000);
 		temp = "player " + p.name + " had to pay $125000 to go to college\n"
 		p.college = true;
+		p.position = 0;
 		log(temp);
-		return true;
+		this.Play_Turn();
 	} else {
 		var temp =  "player " + p.name + " is starting career\n";
 		log(temp);
-		this.Prompt_Regular_Career(p);
-		return false;
+		p.college = false;
+		p.position = 11;
+		this_game.Prompt_Career(p);
 	}
 };
-Game.prototype.Play_Turn =function(p, roll) {
-	var temp = "starting player " + p.name + "'s turn\n";
+Game.prototype.Play_Turn =function() {
+	p = this.players[this.curPlayer];
+	console.log(p);
+	roll = this.spin;
+	var temp = "starting player " + p.name + "'s turn with a spin of " + roll.toString();
 	log(temp);
 	if (p.done == false){
 		var cur_position = p.position;
-		//Need to get roll from spinner
-		// roll = Math.floor((Math.random() * 10) + 1);
-		for(q in this.players){
-			if (p != q){
-				if (roll == q.pay_square){
-					p.updateBankroll(-20000);
-					q.updateBankroll(20000);
-					temp = "Player " + p.name + " paid Player " + q.name + " $20000";
-					log(temp); 
-				}
-			}
-		}
-		temp = "player " + p.name + " starting from position " + cur_position.toString() + " and rolled " + roll.toString() + "\n";
+
+		temp = "player " + p.name + " starting from position " + cur_position.toString();
 		log(temp);
 		while (roll > 0){
 			//College Path
 			if(cur_position == -1){ //Start of Game, college or not college
-				if(p.expelled == false)
-					if(!this.College_Prompt(p)) //Gets if wants to attend college true = yes, false = no, if false move to 11, runs prompt
-						cur_position = 11;
-					else
-						cur_position = 0; // Goes through college path
+				if(p.expelled == false){
+					this.spin = roll;
+					this.College_Prompt(p);
+					return;
+				}
 			}	
 			else if(cur_position == 10){
 				temp = "end of college fork\n";
 				log(temp);
-				this.Prompt_College_Career(p);
+				this.spin = roll;
+				p.position = 13;
 				cur_position = 13;
+				this.Prompt_Career(p);
+				return;
 			}
 			//Family Road
 			else if(cur_position == 36){
 				//var family = Math.floor((Math.random() * 2));
+				p.position = cur_position;
+				this.spin = roll;
 				this.Prompt_Family_Road(p);
-				if(p.family){
-					temp =  "player " + p.name + " takes family route\n";
-					// Remarried
-					log(temp);
-					if (p.married == false){
-						p.married = true;
-						temp = "player " + p.name + " got remarried\n";
-						log(temp);
-						cur_position = 37;
-					}
-				} else {
-					temp = "player " + p.name + " doesn't take family route\n";
-					log(temp);
-					cur_position = 46;
-				}
+				return;
 			}
 			else if(cur_position == 45){
 				temp =  "end of family fork\n";
 				log(temp);
+				p.position = 50;
 				cur_position = 50;
 			}
 			//Risky Road
 			else if(cur_position == 73){
 				//risky = Math.floor((Math.random() * 2));
+				p.position = cur_position;
+				this.spin = roll;
 				this.Prompt_Risky_Road(p);
-				if (p.risky){
-					temp = "player takes risky route\n";
-					log(temp);
-					cur_position = 74;
-				} else {
-					temp = "player takes safe route\n";
-					log(temp);
-					cur_position = 78;
-				}
+				return;
 			}
 			else if(cur_position == 77){
 				temp = "end of risky fork\n";
 				log(temp);
+				p.position = 82;
 				cur_position = 82;
 			}
 			//Retirement
@@ -519,6 +508,7 @@ Game.prototype.Play_Turn =function(p, roll) {
 				temp = "player " + p.name + " has retired\n";
 				log(temp);
 				roll = 0;
+				this.spin = 0;
 				this.end_of_game = this.end_of_game + 1;
 				p.end_game(this.houses[p.house].sell_price);
 				temp = "after dealing with kids/house, player " + p.name + " has $" + p.bankroll.toString();
@@ -528,8 +518,10 @@ Game.prototype.Play_Turn =function(p, roll) {
 			else if(cur_position == 25){
 				p.marriage();
 				temp = "player " + p.name + " has just married an English Major\n";
+				alert("congrats bro you got hitched");
 				log(temp);
 				cur_position = cur_position + 1;
+				p.position = cur_position;
 			}
 			//Guaranteed random number of children
 			else if(cur_position == 45){
@@ -540,18 +532,20 @@ Game.prototype.Play_Turn =function(p, roll) {
 			}
 			else //End of conditionals
 				cur_position = cur_position + 1;
+				p.position = cur_position;
 
 			roll = roll - 1;
 
 			//check if the space is a payday
 
-			if(this.board.tiles[cur_position].payday){
+			if(cur_position in this.board.paydays){
 				//need to have salary
 				p.updateBankroll(p.salary);
 				temp = "player " + p.name + " got paid and now has " + p.bankroll.toString() + " dollars\n";
 				log(temp);
 			}
 		p.position = cur_position;
+		this.spin = 0;
 		}///END OF WHILE LOOP FOR ROLL > 0
 		
 		this.End_Turn(p, cur_position);
@@ -563,10 +557,13 @@ Game.prototype.Play_Turn =function(p, roll) {
 Game.prototype.End_Turn = function(p, cur_position){
 	// Non special spaces
 	var temp = "";
-	if ($.inArray(p.position, this.board.special)){
-		p.updateBankroll(this.board.tiles[p.position].value);
-		temp = " player " + p.name + " landed on a non special tile and got $" + this.board.tiles[p.position].value.toString() + "\n";
-		log(temp);
+	if(!(cur_position in this.board.special) && !(cur_position in this.board.paydays)){
+		var tileTitle = document.getElementById('Tile_Label');
+		tileTitle.textContent = this.tiles[cur_position].title;
+		var tileValue= document.getElementById('Tile_Value');
+		tileValue.textContent = this.tiles[cur_position].value;
+		$('#tileModal').modal('show');
+		p.updateBankroll(this.board.tiles[cur_position].value);
 	}
 
 	// Random number of children
@@ -680,22 +677,23 @@ Game.prototype.End_Turn = function(p, cur_position){
 		log(temp);
 	}
 
+	p.position = cur_position;
 	///END OF WHILE LOOP FOR ROLL > 0
 	temp = "player ends turn on space " + p.position.toString() + " and has $" + p.bankroll.toString() + "\n";
-	if(!($.inArray(p.position, this.board.special)) && !($.inArray(p.position, this.board.paydays))){
-		var prompt = document.getElementById('tileModal');
-		var tileTitle = document.getElementById('myModalLabel');
-		tileTitle.textContent = this.tiles[p.position].title;
-		var tileValue= document.getElementById('modal-body');
-		tileValue.textContent = this.tiles[p.position].value;
-		prompt.hidden = "false";
-		p.updateBankroll(this.tiles[p.position].value);
-	}
+	
 	log(temp);
 	if (p.done == true && p.bankroll > 1000000){
 		temp = "player " + p.name + " has moved to the Caymans\n";
 		log(temp);
 	}
+
+	this.curPlayer++;
+	this.curPlayer = this.curPlayer%4;
+	$('#end_of_turn_modal').modal('show');
+
+};
+Game.prototype.Finish_Turn = function(){
+
 };
 Game.prototype.Check_End_Game = function(){
 	var end = true;
