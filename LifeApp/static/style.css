@@ -25,6 +25,10 @@ body {
 	width: auto;
 }
 
+#loggedintext{
+	text-align: center;
+
+}
 /*Public Index */
 #logosplash {
 	height: 350px;
@@ -92,6 +96,24 @@ body {
 #rightImage{
 	float:right;
 }
+
+/*Logged in homepage*/
+
+#creategame a{
+	color: #53bbf4;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#instructions {
+	color: #ff85cb;
+	font-weight: bold;
+}
+
+/*End of Logged in home page*/
+
+
+
 
 
 /*End of PopUp*/
