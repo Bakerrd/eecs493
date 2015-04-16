@@ -1,16 +1,41 @@
 {% extends "base.html" %}
 {% block content %}
 
-<script type = "text/javascript">
-	function show(id){
-		document.getElementById(id).style.visibility = "visible";
-	} 
-	function hide(id){
-		document.getElementById(id).style.visibility = "hidden";
-	}
-</script>
 
 <br><br><br>
+
+{% for c in careers %}
+<script>
+	var salary = '{{ c.salary }}';
+	var title = '{{ c.title }}';
+	var img_path = '{{ c.img_path }}';
+	var career = new Career(title, salary, img_path);
+	this_game.careers.push(career);
+</script>
+{% endfor %}
+
+{% for h in houses %}
+<script>
+	var title = '{{ h.title }}';
+	var cost = '{{ h.cost }}';
+	var sell_price = '{{ h.sell_price }}';
+	var house = new House(title, cost, sell_price);
+	this_game.houses.push(house);
+</script>
+{% endfor %}
+
+{% for t in tiles %}
+<script>
+	var title = '{{ t.title }}';
+	var value = '{{ t.value }}';
+	var x_val = '{{ t.x_val }}';
+	var y_val = '{{ t.y_val }}';
+	var tile = new Tile(title, value, x_val, y_val);
+	this_game.board.tiles.push(tile);
+</script>
+{% endfor %}
+
+
 
 <div class="jumbotron" id="game_screen">
 
@@ -69,27 +94,95 @@
 		</div>
 		<!-- End of Player Stat Popup Boxes -->
 		<!-- Button trigger modal -->
-		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#chooseModal">
+		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#chooseCareerModal">
  			 Choice Modal
 		</button>
 
 		<!-- Modal -->
-		<div class="modal fade" id="chooseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal fade" id="chooseCareerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
  			<div class="modal-dialog">
     			<div class="modal-content">
      				<div class="modal-header" style="text-align: center">
         				<h4 class="modal-title" id="myModalLabel">Choose A Career</h4>
       				</div>
       				<div class="modal-body">
-        				<div id='leftImage'>
-        					<button data-dismiss="modal">
-        						<img src='/static/images/careers/debt_collector_icon.png'>
+      				<div class="row">
+      					<div class="col-md-3">
+        				<div id = 'leftImage'>
+        					<button onclick="Choose_Career({{curPlayer}}, left.index);" data-dismiss="modal">
+        						<img src = '/static/images/careers/debt_collector_icon.png'>
         					</button>
         				</div>
-        				<div id='rightImage'>
-        					<button data-dismiss="modal">
-        						<img src='/static/images/careers/meth_manufacturer_icon.png'>
+        			</div>
+        			<div class="col-md-3">
+        				<div id = 'leftTitle'>
+        					<p>Generate Careers</p>
+        				</div>
+        				<div id = 'leftSalary'>
+        					<p>Generate Careers</p>
+        				</div>
+        			</div>
+        			<div class="col-md-3">
+        				<div id = 'rightImage'>
+        					<button onclick="Choose_Career({{curPlayer}}, right.index);" data-dismiss="modal">
+        						<img src = '/static/images/careers/meth_manufacturer_icon.png'>
         					</button>
+        				</div>
+        			</div>
+        			<div class="col-md-3">
+        				<div id = 'rightTitle'>
+        					<p>Generate Careers</p>
+        				</div>
+        				<div id = 'rightSalary'>
+        					<p>Generate Careers</p>
+        				</div>
+        			</div>
+        			</div>
+        			<div class="row">
+      					<div style="text-align:center">
+	        				<button type="button" id="generate_career">Generate Careers!</button>
+	        			</div>
+        			</div>
+      				</div>
+    			</div>
+  			</div>
+		</div>
+
+		<div class="modal fade" id="chooseHouseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ 			<div class="modal-dialog">
+    			<div class="modal-content">
+     				<div class="modal-header" style = "text-align: center">
+        				<h4 class="modal-title" id="myModalLabel">Choose A House</h4>
+      				</div>
+      				<div class="modal-body">
+        				<div id = 'leftHouseImage'>
+        					<button onclick="Choose_House({{curPlayer}}, left.index);" data-dismiss="modal">
+        						<img src = '/static/images/houses/hotel_room_icon.png'>
+        					</button>
+        				</div>
+        				<div id = 'leftHouseTitle'>
+        					<p>Generate Houses</p>
+        				</div>
+        				<div id = 'leftCost'>
+        					<p>Generate Houses</p>
+        				</div>
+        				<div id = 'leftSellPrice'>
+        					<p>Generate Houses</p>
+        				</div>
+        				<button onclick="Generate_House_Options();">Generate Houses!</button>
+        				<div id = 'rightHouseImage'>
+        					<button onclick="Choose_House({{curPlayer}}, right.index);" data-dismiss="modal">
+        						<img src = '/static/images/houses/teepee_icon.png'>
+        					</button>
+        				</div>
+        				<div id = 'rightHouseTitle'>
+        					<p>Generate Houses</p>
+        				</div>
+        				<div id = 'rightCost'>
+        					<p>Generate Houses</p>
+        				</div>
+        				<div id = 'rightSellPrice'>
+        					<p>Generate Houses</p>
         				</div>
       				</div>
     			</div>
@@ -117,7 +210,28 @@
   			</div>
   		</div>
 
-
+  		<div class="modal fade" id="riskyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ 			<div class="modal-dialog">
+    			<div class="modal-content">
+     				<div class="modal-header" style = "text-align: center">
+        				<h4 class="modal-title" id="myModalLabel">Enter Risky Road?</h4>
+      				</div>
+      				<button type="button" onclick="Choose_Risky_Road(p,1) " class="btn btn-default" data-dismiss="modal">Yes</button>
+      				<button type="button" onclick="Choose_Risky_Road(p,0) " class="btn btn-default" data-dismiss="modal">No</button>
+    			</div>
+  			</div>
+  		</div>
+  		<div class="modal fade" id="familyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ 			<div class="modal-dialog">
+    			<div class="modal-content">
+     				<div class="modal-header" style = "text-align: center">
+        				<h4 class="modal-title" id="myModalLabel">Enter Family Road?</h4>
+      				</div>
+      				<button type="button" onclick="Choose_Family_Road(p,1) " class="btn btn-default" data-dismiss="modal">Yes</button>
+      				<button type="button" onclick="Choose_Family_Road(p,0) " class="btn btn-default" data-dismiss="modal">No</button>
+    			</div>
+  			</div>
+  		</div>
 
 		<!--Players Bankroll Box -->
 		<div class="playerBankrolls">
@@ -136,6 +250,13 @@
 <div id="button-holder">
 	<button onclick="New_Game();">Start the Game!</button>
 </div>
+
+<script>
+document.getElementById("generate_career").addEventListener("click", function(event){
+	console.log(this_game);
+	this_game.random_shit();
+}, false);
+</script>
 
   
 

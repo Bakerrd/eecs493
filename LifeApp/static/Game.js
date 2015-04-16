@@ -1,3 +1,5 @@
+var this_game = new Game();
+
 
 function log(msg) { //Used for outputting
     console.log(msg);
@@ -5,13 +7,34 @@ function log(msg) { //Used for outputting
 
 function show(id){
 	console.log("show");
-	document.getElementById(id).style.display = "block";
+	document.getElementById(id).style.visibility = "visible";
 }
 
 function hide(id){
 	console.log("hide");
-	document.getElementById(id).style.display = "none";
+	document.getElementById(id).style.visibility = "hidden";
 }
+
+function init_game(){
+	this_game = new Game();
+}
+
+
+// Career Class
+function Career(name, salary, img_path){
+	this.title = name;
+	this.salary = salary;
+	this.img_path = img_path;
+}
+
+
+// House Class
+function House(title, cost, sell_price){
+	this.title = title;
+	this.cost = cost;
+	this.sell_price = sell_price;
+}
+
 
 // Player Class 
 function Player(name) {
@@ -98,11 +121,11 @@ updateBankroll:function(val){
 
 
 // Tile Class
-function Tile(title, value, payday, special) {
+function Tile(title, value, x, y) {
 	this.title = title;
 	this.value = value;
-	this.payday = payday;
-	this.special = special;
+	this.x = x;
+	this.y = y;
 }
 
 
@@ -111,13 +134,7 @@ function Board(){
 	this.tiles = [];
 	this.paydays = [12, 21, 31, 40, 48, 54, 64, 70, 76, 79];
 	this.special = [4,7,12,18,21,25,26,28,31,34,37,38,39,40,42,43,44,45,48,52,54,56,60,64,66,70,76,79];
-	for(var i = 0; i < 90; i++){
-		var title = "tile " + i.toString();
-		var new_tile = new Tile(title, 10000);
-		this.tiles.push(new_tile);
-	}
 }
-
 
 
 // Game Class
@@ -183,11 +200,47 @@ Prompt_College_Career:function(player) {
 	//Creates Dialog Box with generate and select buttons
 	//Connect Generate with Generate_Regular_Career
 	//Connect Select with choose_career_script(selectedVal)
+	var prompt= document.getElementById('ChooseCareerModal'); //? 	 	
+	prompt.hidden = "false"; 
 },
 Prompt_Regular_Career:function(player) {
 	//Creates Dialog Box with generate and select buttons
 	//Connect Generate button with Generate_Regular_Career
 	//Connect Select with choose_career_script(selectedVal)
+},
+Prompt_Risky_Road:function(p){
+	var prompt= document.getElementById('riskyModal'); //?
+	prompt.hidden = "false";
+	var risky = Math.floor((Math.random() * 2));
+		if (risky == 1){
+			return true;
+			} 
+		else {
+			return false;
+		}
+},
+Prompt_Family_Road:function(p){
+	var prompt= document.getElementById('familyModal'); //?
+	prompt.hidden = "false";
+	var family = Math.floor((Math.random() * 2));
+		if (family == 1){
+			return true;
+			} 
+		else {
+			return false;
+		}
+},
+Choose_Risky_Road:function(p, response){
+	if(response)
+		this.players[p].risky = true;
+	else
+		this.players[p].risky = false;
+},
+Choose_Family_Road:function(p, response){
+	if(response)
+		this.players[p].family = true;
+	else
+		this.players[p].family = false;
 },
 Prompt_House:function(player) {
 	//Creates Dialog Box with generate and select buttons
@@ -213,11 +266,29 @@ Generate_House_Options:function(player) {
 			house_two_taken = true;
 	}
 
+	//Set up left house in prompt EDIT
+		var lTitle= document.getElementById('leftHouseTitle');
+		lTitle.textContent = houses[house_one].title;
+		var lCost= document.getElementById('leftCost');
+		lCost.textContent = houses[house_one].cost;
+		var lSell= document.getElementById('leftSellPrice');
+		lSell.textContent = houses[house_one].sell_price;
+		var lImage= document.getElementById('leftHouseImage');
+		lImage.image = houses[house_one].imgPath;
+		///Set up right career in prompt
+		var rTitle= document.getElementById('rightHouseTitle');
+		rTitle.textContent = houses[house_two].title;
+		var rCost= document.getElementById('rightCost');
+		rCost.textContent = houses[house_two].cost;
+		var rSell= document.getElementById('rightSellPrice');
+		rSell.textContent = houses[house_two].sell_price;
+		var rImage= document.getElementById('rightHouseImage');
+		rImage.image = houses[house_two].imgPath;
 	
 	
-	$('p:first').html('House 1: '+this.houses[house_one].toString()+' <br> Cost: '+this.houses[house_one].cost);
-			//Insert Button for select 1
-	$('p:second').html('House 2: '+this.houses[house_two].toString()+' <br> Cost: '+this.houses[house_two].cost);
+	// $('p:first').html('House 1: '+this.houses[house_one].toString()+' <br> Cost: '+this.houses[house_one].cost);
+	// 		//Insert Button for select 1
+	// $('p:second').html('House 2: '+this.houses[house_two].toString()+' <br> Cost: '+this.houses[house_two].cost);
 
 },
 Choose_Career_Script:function(p, career_choice) {
@@ -243,7 +314,7 @@ Choose_House_Script:function(p, house_choice) {
 	log(temp);
 	this.players[p].updateBankroll(this.houses[house_choice].cost);
 },
-Generate_Regular_Career:function(p) {
+Generate_Regular_Career:function() {
 	//Render Spinner, get spinner value
 	var career_one = Math.floor((Math.random() * 8) + 8);
 	var c_one_taken = false;
@@ -262,20 +333,38 @@ Generate_Regular_Career:function(p) {
 		else
 			c_two_taken = true;
 	}
-	$('p:first').html('Career 1: '+this.careers[career_one].title+' <br> Salary: '+this.careers[career_one].salary);
-	//Insert Button for select 1
-	$('p:second').html('Career 2: '+this.careers[career_two].title+' <br> Salary: '+this.careers[career_two].salary);
+
+	///Set up left career in prompt
+	var lTitle= document.getElementById('leftTitle');
+	lTitle.textContent = this.careers[career_one].title;
+	var lSalary= document.getElementById('leftSalary');
+	lSalary.textContent = this.careers[career_one].salary;
+	var lImage= document.getElementById('leftImage');
+	lImage.image = this.careers[career_one].imgPath;
+	///Set up right career in prompt
+	var rTitle= document.getElementById('rightTitle');
+	rTitle.textContent = this.careers[career_two].title;
+	var rSalary= document.getElementById('rightSalary');
+	rSalary.textContent = this.careers[career_two].salary;
+	var rImage= document.getElementById('rightImage');
+	rImage.image = this.careers[career_two].imgPath;
+
+	// $('p:first').html('Career 1: '+this.careers[career_one].title+' <br> Salary: '+this.careers[career_one].salary);
+	// //Insert Button for select 1
+	// $('p:second').html('Career 2: '+this.careers[career_two].title+' <br> Salary: '+this.careers[career_two].salary);
 	//Choose_Career(p, career_one, career_two, false);					
 },
-Generate_College_Career:function(p) {
+Generate_College_Career:function() {
 	//Render Spinner, get spinner value
 	var temp = "end of college fork\n";
+	console.log(this.careers);
 	log(temp);
 	var ccareer_one = Math.floor((Math.random() * 8));
 	var cc_one_taken = false;
 	//College Career
 	while(cc_one_taken == false){
-		if($.inArray(ccareer_one, this.taken_ccareer))
+		console.log("here");
+		if(ccareer_one in this.taken_ccareer)
 			ccareer_one = Math.floor((Math.random() * 8));
 		else
 			cc_one_taken = true;
@@ -283,15 +372,34 @@ Generate_College_Career:function(p) {
 	var ccareer_two = Math.floor((Math.random() * 8));
 	var	cc_two_taken = false;
 	while(cc_two_taken == false){
-		if($.inArray(ccareer_two, this.taken_ccareer) || ccareer_one == ccareer_two)
+		console.log("here again");
+		if((ccareer_two in this.taken_ccareer) || (ccareer_one == ccareer_two))
 			ccareer_two = Math.floor((Math.random() * 8));
 		else
 			cc_two_taken = true;
 	}
-	$('p:first').html('Career 1: '+this.careers[ccareer_one].title+' <br> Salary: '+this.careers[ccareer_one].salary);
-	//Insert Button for select 1
-	$('p:second').html('Career 2: '+this.careers[ccareer_two].title+' <br> Salary: '+this.careers[ccareer_two].salary);
+
+	var lTitle= document.getElementById('leftTitle');
+	lTitle.textContent = this.careers[ccareer_one].title;
+	var lSalary= document.getElementById('leftSalary');
+	lSalary.textContent = this.careers[ccareer_one].salary;
+	var lImage= document.getElementById('leftImage');
+	lImage.image = this.careers[ccareer_one].imgPath;
+
+	var rTitle= document.getElementById('rightTitle');
+	rTitle.textContent = this.careers[ccareer_two].title;
+	var rSalary= document.getElementById('rightSalary');
+	rSalary.textContent = this.careers[ccareer_two].salary;
+	var rImage= document.getElementById('rightImage');
+	rImage.image = this.careers[ccareer_two].imgPath;
+
+	// $('p:first').html('Career 1: '+this.careers[ccareer_one].title+' <br> Salary: '+this.careers[ccareer_one].salary);
+	// //Insert Button for select 1
+	// $('p:second').html('Career 2: '+this.careers[ccareer_two].title+' <br> Salary: '+this.careers[ccareer_two].salary);
 	//Choose_Career(p, ccareer_one, ccareer_two, true);
+},
+random_shit:function(){
+	console.log("fuck off lahey");
 },
 College_Prompt:function(p) {
 	var college = Math.floor(Math.random() * 2);
@@ -300,6 +408,7 @@ College_Prompt:function(p) {
 		log(temp);
 		p.updateBankroll(-125000);
 		temp = "player " + p.name + " had to pay $125000 to go to college\n"
+		p.college = true;
 		log(temp);
 		return true;
 	} else {
@@ -570,11 +679,9 @@ Check_End_Game:function(){
 }
 };
 
-
 function New_Game(){
 	console.log("you made it");
-	game = new Game();
-	game.Play_Game();
+	this_game.Play_Game();
 }
 
 

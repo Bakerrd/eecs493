@@ -89,18 +89,18 @@ class Houses(db.Model):
 class Tiles(db.Model):
 
     __tablename__ = 'Tiles'
-    index = db.Column(db.Integer, primary_key=True)
+    tile_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(25))
     value = db.Column(db.Integer)
-    x = db.Column(db.Integer)
-    y = db.Column(db.Integer)
+    x_val = db.Column(db.Integer)
+    y_val = db.Column(db.Integer)
 
     def __init__(self, index, title, value, x, y):
-        self.index = index
+        self.tile_id = tile_id
         self.title = title
         self.value = value
-        self.x = x
-        self.y = y
+        self.x_val = x_val
+        self.y_val = y_val
 
     def __repr__(self):
         return 'Tile:' + str(self.title)
