@@ -455,7 +455,7 @@ Game.prototype.Generate_Regular_Career = function() {
 	var c_two_taken = false;
 	
 	while(c_two_taken == false){
-		if((career_one in this.taken_career) || (career_one == career_two))
+		if((career_two in this.taken_career) || (career_one == career_two))
 			career_two = Math.floor((Math.random() * 8) + 8);
 		else
 			c_two_taken = true;
@@ -465,13 +465,13 @@ Game.prototype.Generate_Regular_Career = function() {
 	var lTitle= document.getElementById('left_career_title');
 	lTitle.textContent = this.careers[career_one].title;
 	var lSalary= document.getElementById('left_career_salary');
-	lSalary.textContent = this.careers[career_one].salary;
+	lSalary.textContent = "Salary: $" + this.careers[career_one].salary;
 	var lImage= document.getElementById('left_career_img').src = this.careers[career_one].img_path;
 	///Set up right career in prompt
 	var rTitle= document.getElementById('right_career_title');
 	rTitle.textContent = this.careers[career_two].title;
 	var rSalary= document.getElementById('right_career_salary');
-	rSalary.textContent = this.careers[career_two].salary;
+	rSalary.textContent = "Salary: $" + this.careers[career_two].salary;
 	var rImage= document.getElementById('right_career_img').src = this.careers[career_two].img_path;
 					
 };
@@ -501,13 +501,13 @@ Game.prototype.Generate_College_Career = function() {
 	var lTitle= document.getElementById('left_career_title');
 	lTitle.textContent = this.careers[ccareer_one].title;
 	var lSalary= document.getElementById('left_career_salary');
-	lSalary.textContent = this.careers[ccareer_one].salary;
+	lSalary.textContent = "Salary: $" + this.careers[ccareer_one].salary;
 	var lImage= document.getElementById('left_career_img').src = this.careers[ccareer_one].img_path;
 
 	var rTitle= document.getElementById('right_career_title');
 	rTitle.textContent = this.careers[ccareer_two].title;
 	var rSalary= document.getElementById('right_career_salary');
-	rSalary.textContent = this.careers[ccareer_two].salary;
+	rSalary.textContent = "Salary: $" + this.careers[ccareer_two].salary;
 	var rImage= document.getElementById('right_career_img').src = this.careers[ccareer_two].img_path;
 
 };
@@ -681,11 +681,6 @@ Game.prototype.End_Turn = function(p, cur_position){
 	var str = "";
 	var image = document.getElementById('end_turn_image');
 
-
-	var tileTitle = document.getElementById('Tile_Label');
-	tileTitle.textContent = this.board.tiles[cur_position].title;
-	var tileValue= document.getElementById('Tile_Value');
-
 	// Random number of children
 	if (cur_position == 4 || cur_position == 26){
 		var num_children = this.random_child();
@@ -700,7 +695,6 @@ Game.prototype.End_Turn = function(p, cur_position){
 			temp = "player " + p.name + " dropped out of school to take care of their child\n";
 			this.turn_summary = this.turn_summary + temp;
 			str += "Time to drop out of school and buy a house...";
-			tileValue.textContent = str;
 		}
 	}
 
@@ -711,7 +705,6 @@ Game.prototype.End_Turn = function(p, cur_position){
 		this.turn_summary = this.turn_summary + temp;
 		image.src = "../static/images/tiles/one_child_icon.png";
 		str += "You just had a baby!";
-		tileValue.textContent = str;
 	}
 
 	// Twins
@@ -721,7 +714,6 @@ Game.prototype.End_Turn = function(p, cur_position){
 		this.turn_summary = this.turn_summary + temp;
 		image.src = "../static/images/tiles/twin_icon.png";
 		str += "You just had twins!";
-		tileValue.textContent = str;
 	}
 
 	// Triplets
@@ -731,7 +723,6 @@ Game.prototype.End_Turn = function(p, cur_position){
 		this.turn_summary = this.turn_summary + temp;
 		image.src = "../static/images/tiles/triplets_icon.png";
 		str += "You just had triplets!";
-		tileValue.textContent = str;
 	}
 
 	// Player set upon by loan sharks
@@ -740,10 +731,9 @@ Game.prototype.End_Turn = function(p, cur_position){
 			p.loan_counter = 1;
 			temp = "The loan sharks have come collecting! Player " + p.name + " has to pay off their loans this turn!\n";
 			this.turn_summary = this.turn_summary + temp;
-			image.src = "../static/images/tiles/loanshark_icon.png";
-			str += "You just got ambushed by loan sharks! You have to pay off your loans this turn!";
-			tileValue.textContent = str;
 		}
+		image.src = "../static/images/tiles/loanshark_icon.png";
+		str += "You just got ambushed by loan sharks! You have to pay off your loans this turn!";
 	}
 
 	// Player gets a divorce
@@ -753,7 +743,6 @@ Game.prototype.End_Turn = function(p, cur_position){
 		this.turn_summary = this.turn_summary + temp;
 		image.src = "../static/images/tiles/divorce_icon.png";
 		str += "You got caught cheating and got a divorce..";
-		tileValue.textContent = str;
 	}
 
 	// Player gets remarried
@@ -763,7 +752,6 @@ Game.prototype.End_Turn = function(p, cur_position){
 		this.turn_summary = this.turn_summary + temp;
 		image.src = "../static/images/tiles/marriage_icon.png";
 		str += "You just got remarried! And had to pay $25,000 for the ceremony...";
-		tileValue.textContent = str;
 	}
 
 	// Player is expelled
@@ -773,7 +761,6 @@ Game.prototype.End_Turn = function(p, cur_position){
 		this.turn_summary = this.turn_summary + temp;
 		image.src = "../static/images/bad_icon.png";
 		str += "What a waste of investment... have to settle for a non-college career now!";
-		tileValue.textContent = str;
 	}
 
 	// Player pays money for children, gets money from spouse
@@ -835,6 +822,8 @@ Game.prototype.End_Turn = function(p, cur_position){
 	this.curPlayer++;
 	this.curPlayer = this.curPlayer%4;
 
+	var tileTitle = document.getElementById('Tile_Label');
+	tileTitle.textContent = this.board.tiles[cur_position].title;
 
 	var i = this.board.special.indexOf(cur_position);
 
@@ -842,21 +831,23 @@ Game.prototype.End_Turn = function(p, cur_position){
 	if(paydays != -1){
 		image.src = "../static/images/good_icon.png";
 		str += "Hey! You just made $" + p.salary*1 + "!";
-		tileValue.textContent = str;
 	}
 	if(i == -1){
-		if (tile_amount >= 0){
-			image.src = "../static/images/good_icon.png";
-			str += "Life is great! You gain $" + tile_amount + "!";
-			tileValue.textContent = str;
+		if(cur_position == 25 || 37){
+			img.src = "../static/images/tiles/marriage_icon.png";
+			str+= "Congrats! ALSO - you had to drop $25,000 on the ceremony... Hope thats ok.";
 		} else {
-			image.src = "../static/images/bad_icon.png";
-			str += "Life's a bitch. You lose $" + tile_amount + "!";
-			tileValue.textContent = str;
+			if (tile_amount >= 0){
+				image.src = "../static/images/good_icon.png";
+				str += "Collect $" + tile_amount + "!";
+			} else {
+				image.src = "../static/images/bad_icon.png";
+				str += "Pay $" + tile_amount + "!";
+			}
 		}
 	}
-	
-
+	var tileValue= document.getElementById('Tile_Value');
+	tileValue.textContent = str;
 
 	$('#tileModal').modal('show');
 	p.updateBankroll((this.board.tiles[cur_position].value)/1);
