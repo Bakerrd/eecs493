@@ -1,5 +1,10 @@
 var this_game = new Game();
 
+MOVE = {
+	showWaypoints: false,
+	showTrail: true,
+	data: []
+};
 
 function log(msg) { //Used for outputting
     console.log(msg);
@@ -183,12 +188,77 @@ Game.prototype.Start_Turn = function() {
 				p.updateBankroll(-20000);
 				q.updateBankroll(20000);
 				temp = "Player " + p.name + " paid Player " + q.name + " $20000\n";
-				this.turn_summary = this.turn_summary + temp; 
+				alert(temp); 
 			}
 		}
 	}
-	this.Play_Turn();
+
+	if (MOVE.data.length == 0){
+		this.Play_Turn();
+	} else {
+		MOVE.run();
+	}
 };
+
+Game.prototype.Determine_Route = function(){
+	console.log("determining route...");
+	var points = [];
+	var p = this.players[this.curPlayer];
+	points.push(p.position);
+	for (var i=1; i<this.spin; i++){
+		//specials
+		if (p.position == -1){
+			return;
+		}
+		if (p.position+i == 10) {
+			points.push(p.position+i);
+			return;
+		}
+		if (p.position == 10){
+			for (var j=1; j<this.spin; j++){
+				points.push(p.position+2+j);
+			}
+			return;
+		}
+		if (p.position+i == 36){
+			points.push(p.position+i);
+			return;
+		}
+		if (p.position == 45){
+			for (var k=1; k<this.spin; k++){
+				points.push(p.position+4+k);
+			}
+			return;
+		}
+		if (p.position+i == 45){
+			for (var l=i; l<this.spin; l++){
+				points.push(p.position+4+l);
+			}
+			return;
+		}
+		if (p.position+i == 73){
+			points.push(p.position+i);
+			return;
+		}
+		if (p.position == 77){
+			for (var m=1; m<this.spin; m++){
+				points.push(p.position+4+m);
+			}
+			return;
+		}
+		if (p.position+i == 77){
+			for (var n=i; n<this.spin; n++){
+				points.push(p.position+4+n);
+			}
+			return;
+		}
+
+		//default
+		points.push(p.position+i);
+	}
+	MOVE.data = points;
+	console.log("done!");
+}
 
 Game.prototype.load_active_stats = function() {
 	var p = this.players[this.curPlayer];
@@ -241,7 +311,8 @@ Game.prototype.Choose_Risky_Road = function(response){
 	}
 
 	$('#riskyModal').modal('hide');
-	this.Play_Turn();
+	this.Determine_Route();
+	this.Start_Turn();
 };
 
 Game.prototype.Choose_Family_Road = function(response){
@@ -262,7 +333,8 @@ Game.prototype.Choose_Family_Road = function(response){
 	}
 
 	$('#familyModal').modal('hide');
-	this.Play_Turn();
+	this.Determine_Route();
+	this.Start_Turn();
 };
 
 Game.prototype.Prompt_House = function(player) {
@@ -327,7 +399,8 @@ Game.prototype.Choose_Career_Script = function(career_choice) {
 	$('#chooseCareerModal').modal('hide');
 
 	alert("player " + p.name + " has chosen career: " + p.career.title);
-	this.Play_Turn();
+	this.Determine_Route();
+	this.Start_Turn();
 };
 Game.prototype.Choose_House_Script = function(house_choice) {
 	//Sets the player up with the selected house
@@ -440,7 +513,8 @@ Game.prototype.Choose_College_Road = function(response){
 		p.college = true;
 		p.position = 0;
 		this.turn_summary = this.turn_summary + temp;
-		this.Play_Turn();
+		this.Determine_Route();
+		this.Start_Turn();
 	} else {
 		var temp =  "player " + p.name + " is starting career\n";
 		this.turn_summary = this.turn_summary + temp;
@@ -450,8 +524,8 @@ Game.prototype.Choose_College_Road = function(response){
 	}
 };
 Game.prototype.Play_Turn =function() {
+	console.log("play_turn");
 	p = this.players[this.curPlayer];
-	console.log(p);
 	roll = this.spin;
 	// var temp = "starting player " + p.name + "'s turn with a spin of " + roll.toString() + "\n";
 	// this.turn_summary = this.turn_summary + temp;
@@ -551,6 +625,8 @@ Game.prototype.Play_Turn =function() {
 		this.spin = 0;
 		}///END OF WHILE LOOP FOR ROLL > 0
 		
+
+		console.log(this.turn_summary);
 		this.End_Turn(p, cur_position);
 	} else {
 		temp = "player is already retired\n";
