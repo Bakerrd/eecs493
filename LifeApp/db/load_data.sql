@@ -41,7 +41,7 @@ INSERT INTO Careers(career_id, title, salary, img_path)
 VALUES (12, "Chippendale", 60000, "/static/images/careers/chippendale_icon.png");
 
 INSERT INTO Careers(career_id, title, salary, img_path)
-VALUES (13, "Drug Dealer", 80000, "/static/images/careers/");
+VALUES (13, "Drug Dealer", 80000, "/static/images/careers/drug_dealer_icon.png");
 
 INSERT INTO Careers(career_id, title, salary, img_path)
 VALUES (14, "Middle School Janitor", 69000, "/static/images/careers/middle_school_janitor_icon.png");
