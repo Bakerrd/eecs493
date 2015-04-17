@@ -450,7 +450,7 @@ Game.prototype.Generate_Regular_Career = function() {
 	var c_two_taken = false;
 	
 	while(c_two_taken == false){
-		if((career_one in this.taken_career) || (career_one == career_two))
+		if((career_two in this.taken_career) || (career_one == career_two))
 			career_two = Math.floor((Math.random() * 8) + 8);
 		else
 			c_two_taken = true;
@@ -460,13 +460,13 @@ Game.prototype.Generate_Regular_Career = function() {
 	var lTitle= document.getElementById('left_career_title');
 	lTitle.textContent = this.careers[career_one].title;
 	var lSalary= document.getElementById('left_career_salary');
-	lSalary.textContent = this.careers[career_one].salary;
+	lSalary.textContent = "Salary: $" + this.careers[career_one].salary;
 	var lImage= document.getElementById('left_career_img').src = this.careers[career_one].img_path;
 	///Set up right career in prompt
 	var rTitle= document.getElementById('right_career_title');
 	rTitle.textContent = this.careers[career_two].title;
 	var rSalary= document.getElementById('right_career_salary');
-	rSalary.textContent = this.careers[career_two].salary;
+	rSalary.textContent = "Salary: $" + this.careers[career_two].salary;
 	var rImage= document.getElementById('right_career_img').src = this.careers[career_two].img_path;
 					
 };
@@ -496,13 +496,13 @@ Game.prototype.Generate_College_Career = function() {
 	var lTitle= document.getElementById('left_career_title');
 	lTitle.textContent = this.careers[ccareer_one].title;
 	var lSalary= document.getElementById('left_career_salary');
-	lSalary.textContent = this.careers[ccareer_one].salary;
+	lSalary.textContent = "Salary: $" + this.careers[ccareer_one].salary;
 	var lImage= document.getElementById('left_career_img').src = this.careers[ccareer_one].img_path;
 
 	var rTitle= document.getElementById('right_career_title');
 	rTitle.textContent = this.careers[ccareer_two].title;
 	var rSalary= document.getElementById('right_career_salary');
-	rSalary.textContent = this.careers[ccareer_two].salary;
+	rSalary.textContent = "Salary: $" + this.careers[ccareer_two].salary;
 	var rImage= document.getElementById('right_career_img').src = this.careers[ccareer_two].img_path;
 
 };
@@ -813,12 +813,17 @@ Game.prototype.End_Turn = function(p, cur_position){
 		str += "Hey! You just made $" + p.salary*1 + "!";
 	}
 	if(i == -1){
-		if (tile_amount >= 0){
-			image.src = "../static/images/good_icon.png";
-			str += "Collect $" + tile_amount + "!";
+		if(cur_position == 25 || 37){
+			img.src = "../static/images/tiles/marriage_icon.png";
+			str+= "Congrats! ALSO - you had to drop $25,000 on the ceremony... Hope thats ok.";
 		} else {
-			image.src = "../static/images/bad_icon.png";
-			str += "Pay $" + tile_amount + "!";
+			if (tile_amount >= 0){
+				image.src = "../static/images/good_icon.png";
+				str += "Collect $" + tile_amount + "!";
+			} else {
+				image.src = "../static/images/bad_icon.png";
+				str += "Pay $" + tile_amount + "!";
+			}
 		}
 	}
 	var tileValue= document.getElementById('Tile_Value');
