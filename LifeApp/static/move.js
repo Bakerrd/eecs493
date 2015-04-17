@@ -16,7 +16,8 @@ Move.prototype.run = function() {
 	var spline = $.crSpline.buildSequence(points);
 	
 	// Clean up visuals if we've run this once already
-	// $("#mover").remove();
+	var mover_id = "#mover" + this.num;
+	$(mover_id).remove();
 	$(".waypoint").remove();
 	$(".path-dot").remove();
 
@@ -45,7 +46,7 @@ Move.prototype.run = function() {
 	}
 
 	// -- Important bit #2: Actually animate our mover object. --
-	$('<div id="mover" />')
+	$('<div id=\"mover' + this.num + '\" />')
 		.appendTo($(document.body))
 		.animate({ crSpline: spline }, 2000, function () {
 			// Re-run the demo with a new spline after we're done

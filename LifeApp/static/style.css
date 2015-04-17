@@ -247,12 +247,39 @@ body {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 }
-#mover {
+#mover0 {
 	position: absolute;
 	z-index: 5;
 	width: 20px;
 	height: 20px;
-	background-color: #4f4faf;
+	background-color: #0066ff;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+#mover1 {
+	position: absolute;
+	z-index: 5;
+	width: 20px;
+	height: 20px;
+	background-color: #ff0000;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+#mover2 {
+	position: absolute;
+	z-index: 5;
+	width: 20px;
+	height: 20px;
+	background-color: #00cc00;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+#mover3 {
+	position: absolute;
+	z-index: 5;
+	width: 20px;
+	height: 20px;
+	background-color: #ffff00;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 }

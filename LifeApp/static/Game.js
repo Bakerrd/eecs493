@@ -1,10 +1,11 @@
 var this_game = new Game();
 
 
-function Move(){
+function Move(x){
 	this.showWaypoints = true;
 	this.showTrail = true;
 	this.data = [];
+	this.num = x;
 }
 
 function log(msg) { //Used for outputting
@@ -168,7 +169,7 @@ function Game() {
 
 	this.moves = [];
 	for (i=0; i<4; i++){
-		var move = new Move();
+		var move = new Move(i);
 		this.moves.push(move);
 	}
 
@@ -201,7 +202,7 @@ Game.prototype.Start_Turn = function() {
 		}
 	}
 
-	if ((this.moves[this.curPlayer].data.length == 0) || (this.moves[this.curPlayer].data.length == 1)){
+	if (this.moves[this.curPlayer].data.length == 0){
 		this.Play_Turn();
 	} else {
 		this.moves[this.curPlayer].run();
@@ -213,8 +214,7 @@ Game.prototype.Determine_Route = function(){
 	this.moves[this.curPlayer].data = [];
 	var points = [];
 	var p = this.players[this.curPlayer];
-	points.push(p.position);
-	for (var i=1; i<this.spin; i++){
+	for (var i=0; i<=this.spin; i++){
 		//specials
 		if (p.position == -1){
 			return;
@@ -227,6 +227,10 @@ Game.prototype.Determine_Route = function(){
 			for (var j=1; j<this.spin; j++){
 				points.push(p.position+2+j);
 			}
+			return;
+		}
+		if (p.position+i == 25){
+			points.push(p.position+i);
 			return;
 		}
 		if (p.position+i == 36){
@@ -350,6 +354,7 @@ Game.prototype.Prompt_House = function(player) {
 	//Creates Dialog Box with generate and select buttons
 	//Connect Generate button with Generate_House_Options
 	//Connect Select with choose_house_script(selectedVal)
+	$('#chooseHouseModal').modal('show');
 };
 
 Game.prototype.Generate_House_Options = function() {
@@ -525,6 +530,7 @@ Game.prototype.Choose_College_Road = function(response){
 		temp = "player " + p.name + " had to pay $125000 to go to college\n"
 		p.college = true;
 		p.position = 0;
+		this.spin--;
 		this.turn_summary = this.turn_summary + temp;
 		this.Determine_Route();
 		this.Start_Turn();
@@ -564,11 +570,11 @@ Game.prototype.Play_Turn =function() {
 					}
 				} else if (p.college == true){
 					cur_position = 0;
-					roll--;
+					// roll--;
 					continue;
 				} else if (p.college == false){
 					cur_position = 11;
-					roll--;
+					// roll--;
 					continue;
 				}
 			}	
@@ -624,10 +630,11 @@ Game.prototype.Play_Turn =function() {
 			else if(cur_position == 25){
 				p.marriage();
 				temp = "player " + p.name + " has just married an English Major\n";
-				alert("congrats bro you got hitched");
 				this.turn_summary = this.turn_summary + temp;
-				cur_position = cur_position + 1;
 				p.position = cur_position;
+				this.spin = roll;
+				this.Prompt_House();
+				return;
 			}
 			//Guaranteed random number of children
 			else if(cur_position == 45){
@@ -638,12 +645,13 @@ Game.prototype.Play_Turn =function() {
 			}
 			else //End of conditionals
 				cur_position = cur_position + 1;
+				p.position = cur_position;
 
 			roll = roll - 1;
 
-			if (roll != 0){
-				p.position = cur_position;
-			}
+			// if (roll != 0){
+			// 	p.position = cur_position;
+			// }
 			
 
 			//check if the space is a payday
@@ -672,7 +680,12 @@ Game.prototype.End_Turn = function(p, cur_position){
 	var tile_amount = this.board.tiles[cur_position].value;
 	var str = "";
 	var image = document.getElementById('end_turn_image');
-	
+
+
+	var tileTitle = document.getElementById('Tile_Label');
+	tileTitle.textContent = this.board.tiles[cur_position].title;
+	var tileValue= document.getElementById('Tile_Value');
+
 	// Random number of children
 	if (cur_position == 4 || cur_position == 26){
 		var num_children = this.random_child();
@@ -823,14 +836,10 @@ Game.prototype.End_Turn = function(p, cur_position){
 	this.curPlayer = this.curPlayer%4;
 
 
-	var tileTitle = document.getElementById('Tile_Label');
-	tileTitle.textContent = this.board.tiles[cur_position].title;
-	var tileValue= document.getElementById('Tile_Value');
-
 	var i = this.board.special.indexOf(cur_position);
 
-	var p = this.board.paydays.indexOf(cur_position);
-	if(p != -1){
+	var paydays = this.board.paydays.indexOf(cur_position);
+	if(paydays != -1){
 		image.src = "../static/images/good_icon.png";
 		str += "Hey! You just made $" + p.salary*1 + "!";
 		tileValue.textContent = str;
@@ -846,6 +855,9 @@ Game.prototype.End_Turn = function(p, cur_position){
 			tileValue.textContent = str;
 		}
 	}
+	
+
+
 	$('#tileModal').modal('show');
 	p.updateBankroll((this.board.tiles[cur_position].value)/1);
 };
