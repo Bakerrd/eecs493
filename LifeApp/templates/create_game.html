@@ -237,16 +237,22 @@
   			</div>
 		</div>
 
+    <!-- End Turn Modal -->
 		<div class="modal fade" id="tileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
  			<div class="modal-dialog">
-    			<div class="modal-content">
-     				<div class="modal-header" style="text-align: center">
-        				<h4 class="modal-title" id="Tile_Label">This Happened to you</h4>
-      				</div>
-      				<div class="modal-body text-center"  id='Tile_Value'>
-        				<p>Shit happens.</p>
-      				</div>
-      				<div class="modal-footer">
+    			<div class="modal-content" style = "text-align: center">
+     				<div class="modal-header">
+        			<h4 class="modal-title" id="Tile_Label">This Happened to you</h4>
+      			</div>
+            <div class = "modal-body">
+                <div>
+                  <img id = "end_turn_image" src = "../static/images/bad_icon.png"> 
+                </div>
+                <div class = "separate" id = 'Tile_Value'>
+                  <p>Shit happens.</p>
+                </div>
+            </div>
+      			<div class="modal-footer" style = "text-align: center">
     					<button type="button" class="btn btn-default" data-dismiss="modal" id="end_turn">End Turn</button>
   					</div>
     			</div>
@@ -280,13 +286,13 @@
               <div class = "col-md-6" style = "text-align: center">
                 <div id = 'college'>
                   <img src = '../static/images/paths/college_icon.png' id = 'icon'>
-          				<button type="button" id="college_y" class="btn btn-default" data-dismiss="modal">College</button>
+          				<button type="button" id="college_y" class="btn btn-default" data-dismiss="modal" style = "margin-top: 5%">College</button>
                 </div>
               </div>
               <div class = "col-md-6" style = "text-align: center">
                 <div id = 'career'>
                   <img src = '../static/images/paths/no_college_icon.png' id = 'icon'>
-          				<button type="button" id="college_n" class="btn btn-default" data-dismiss="modal">Career</button>
+          				<button type="button" id="college_n" class="btn btn-default" data-dismiss="modal" style = "margin-top: 5%">Career</button>
                 </div>
               </div>
               <div class = "modal-footer" id = "college-footer">
@@ -307,13 +313,13 @@
               <div class = "col-md-6" style = "text-align: center">
                 <div id = 'college'>
                   <img src = '../static/images/paths/risky_icon.png' id = 'icon'>
-                  <button type="button" id="risky_road_y" class="btn btn-default" data-dismiss="modal">Risky Road</button>
+                  <button type="button" id="risky_road_y" class="btn btn-default" data-dismiss="modal" style = "margin-top: 5%">Risky Road</button>
                 </div>
               </div>
               <div class = "col-md-6" style = "text-align: center">
                 <div id = 'career'>
                   <img src = '../static/images/paths/non_risky_icon.png' id = 'icon'>
-                  <button type="button" id="risky_road_n" class="btn btn-default" data-dismiss="modal">You're Boring Road</button>
+                  <button type="button" id="risky_road_n" class="btn btn-default" data-dismiss="modal" style = "margin-top: 5%">You're Boring Road</button>
                 </div>
               </div>
               <div class = "modal-footer" id = "college-footer">
@@ -332,13 +338,13 @@
               <div class = "col-md-6" style = "text-align: center">
                 <div id = 'college'>
                   <img src = '../static/images/paths/family_icon.png' id = 'icon'>
-                  <button type="button" id="family_road_y" class="btn btn-default" data-dismiss="modal">Family Path</button>
+                  <button type="button" id="family_road_y" class="btn btn-default" data-dismiss="modal" style = "margin-top: 5%">Family Path</button>
                 </div>
               </div>
               <div class = "col-md-6" style = "text-align: center">
                 <div id = 'career'>
                   <img src = '../static/images/paths/no_family_icon.png' id = 'icon'>
-                  <button type="button" id="family_road_n" class="btn btn-default" data-dismiss="modal">Loner Lane</button>
+                  <button type="button" id="family_road_n" class="btn btn-default" data-dismiss="modal" style = "margin-top: 5%">Loner Lane</button>
                 </div>
               </div>
               <div class = "modal-footer" id = "college-footer">

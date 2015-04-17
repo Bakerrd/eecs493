@@ -25,6 +25,15 @@ body {
 	width: 100%;
 }
 
+#end_turn_image{
+	height: 50%;
+	width: 50%;
+}
+
+.separate{
+	margin-top: 5%;
+}
+
 
 #game_screen {
 	height: 1000px;
