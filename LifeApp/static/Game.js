@@ -189,6 +189,7 @@ Game.prototype.Play_Game = function() {
 
 Game.prototype.Start_Turn = function() {
 	//Render Spinner, get spinner value
+	console.log("start_turn");
 	$('#spinModal').modal('hide');
 	p = this.players[this.curPlayer];
 	for(q in this.players){
@@ -221,48 +222,57 @@ Game.prototype.Determine_Route = function(){
 		}
 		if (p.position+i == 10) {
 			points.push(p.position+i);
+			this.moves[this.curPlayer].data = points;
 			return;
 		}
 		if (p.position == 10){
 			for (var j=1; j<this.spin; j++){
 				points.push(p.position+2+j);
 			}
+			this.moves[this.curPlayer].data = points;
 			return;
 		}
 		if (p.position+i == 25){
 			points.push(p.position+i);
+			this.moves[this.curPlayer].data = points;
 			return;
 		}
 		if (p.position+i == 36){
 			points.push(p.position+i);
+			this.moves[this.curPlayer].data = points;
 			return;
 		}
 		if (p.position == 45){
 			for (var k=1; k<this.spin; k++){
 				points.push(p.position+4+k);
 			}
+			this.moves[this.curPlayer].data = points;
 			return;
 		}
 		if (p.position+i == 45){
 			for (var l=i; l<this.spin; l++){
 				points.push(p.position+4+l);
 			}
+			this.moves[this.curPlayer].data = points;
 			return;
 		}
 		if (p.position+i == 73){
 			points.push(p.position+i);
+			this.moves[this.curPlayer].data = points;
 			return;
 		}
 		if (p.position == 77){
 			for (var m=1; m<this.spin; m++){
 				points.push(p.position+4+m);
 			}
+			this.moves[this.curPlayer].data = points;
 			return;
 		}
 		if (p.position+i == 77){
 			for (var n=i; n<this.spin; n++){
 				points.push(p.position+4+n);
 			}
+			this.moves[this.curPlayer].data = points;
 			return;
 		}
 
@@ -270,7 +280,6 @@ Game.prototype.Determine_Route = function(){
 		points.push(p.position+i);
 	}
 	this.moves[this.curPlayer].data = points;
-	console.log("done!");
 }
 
 Game.prototype.load_active_stats = function() {
@@ -440,6 +449,8 @@ Game.prototype.Choose_House_Script = function(house_choice) {
 	}
 
 	alert("player " + p.name + " has chosen house " + p.house.title + " for a cost of $" + p.house.cost.toString());
+	this.Determine_Route();
+	this.Start_Turn();
 };
 Game.prototype.Generate_Regular_Career = function() {
 	//Render Spinner, get spinner value
@@ -554,7 +565,6 @@ Game.prototype.Play_Turn =function() {
 		temp = "player " + p.name + " starting from position " + cur_position.toString() + "\n";
 		this.turn_summary = this.turn_summary + temp;
 		while (roll > 0){
-			console.log(p.position);
 			//College Path
 			if(cur_position == -1){ //Start of Game, college or not college
 				if (p.college == null){
@@ -834,7 +844,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 	}
 	if(i == -1){
 		if(cur_position == 25 || 37){
-			img.src = "../static/images/tiles/marriage_icon.png";
+			image.src = "../static/images/tiles/marriage_icon.png";
 			str+= "Congrats! ALSO - you had to drop $25,000 on the ceremony... Hope thats ok.";
 		} else {
 			if (tile_amount >= 0){
