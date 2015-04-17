@@ -20,6 +20,11 @@ body {
 	font-family: "Candara", Verdana, sans-serif;
 }
 
+#icon{
+	height: 100%;
+	width: 100%;
+}
+
 
 #game_screen {
 	height: 1000px;

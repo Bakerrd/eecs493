@@ -125,11 +125,6 @@
 			</div>
 		</div>
 		<!-- End of Player Stat Popup Boxes -->
-		<!-- Button trigger modal -->
-		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#chooseHouseModal">
- 			 Choice Modal
-		</button>
-
 		<!-- Choose Career modal -->
 		<div class="modal fade" id="chooseCareerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
 		data-backdrop="static">
@@ -238,10 +233,6 @@
   			</div>
 		</div>
 
-		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#okModal">
- 			 Press Ok Modal
-		</button>
-
 		<div class="modal fade" id="tileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
  			<div class="modal-dialog">
     			<div class="modal-content">
@@ -275,25 +266,55 @@
   		</div>
 
   		<!-- choose route modals  -->
-  		<div class="modal fade" id="collegeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
- 			<div class="modal-dialog">
+  		<div class="modal fade" id="collegeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" style="height = 500px">
+ 			  <div class="modal-dialog">
     			<div class="modal-content">
      				<div class="modal-header" style = "text-align: center">
-        				<h4 class="modal-title" id="myModalLabel">Enter College?</h4>
-      				</div>
-      				<button type="button" id="college_y" class="btn btn-default" data-dismiss="modal">Hell yes!</button>
-      				<button type="button" id="college_n" class="btn btn-default" data-dismiss="modal">Fuck no.</button>
+        				<h4 class="modal-title" id="myModalLabel">College vs Career</h4>
+      			</div>
+            <div class="modal-body" style = "height = 80%">
+              <div class = "col-md-6" style = "text-align: center">
+                <div id = 'college'>
+                  <img src = '../static/images/paths/college_icon.png' id = 'icon'>
+          				<button type="button" id="college_y" class="btn btn-default" data-dismiss="modal">College</button>
+                </div>
+              </div>
+              <div class = "col-md-6" style = "text-align: center">
+                <div id = 'career'>
+                  <img src = '../static/images/paths/no_college_icon.png' id = 'icon'>
+          				<button type="button" id="college_n" class="btn btn-default" data-dismiss="modal">Career</button>
+                </div>
+              </div>
+              <div class = "modal-footer" id = "college-footer">
+              </div>
+            </div>
     			</div>
   			</div>
   		</div>
+
+
   		<div class="modal fade" id="riskyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
  			<div class="modal-dialog">
     			<div class="modal-content">
      				<div class="modal-header" style = "text-align: center">
-        				<h4 class="modal-title" id="myModalLabel">Enter Risky Road?</h4>
-      				</div>
-      				<button type="button" id="risky_road_y" class="btn btn-default" data-dismiss="modal">Yes</button>
-      				<button type="button" id="risky_road_n" class="btn btn-default" data-dismiss="modal">No</button>
+        			<h4 class="modal-title" id="myModalLabel">Risky Road vs You're Boring Road</h4>
+      			</div>
+            <div class="modal-body" style = "height = 80%">
+              <div class = "col-md-6" style = "text-align: center">
+                <div id = 'college'>
+                  <img src = '../static/images/paths/risky_icon.png' id = 'icon'>
+                  <button type="button" id="risky_road_y" class="btn btn-default" data-dismiss="modal">Risky Road</button>
+                </div>
+              </div>
+              <div class = "col-md-6" style = "text-align: center">
+                <div id = 'career'>
+                  <img src = '../static/images/paths/non_risky_icon.png' id = 'icon'>
+                  <button type="button" id="risky_road_n" class="btn btn-default" data-dismiss="modal">You're Boring Road</button>
+                </div>
+              </div>
+              <div class = "modal-footer" id = "college-footer">
+              </div>
+            </div>
     			</div>
   			</div>
   		</div>
@@ -301,10 +322,24 @@
  			<div class="modal-dialog">
     			<div class="modal-content">
      				<div class="modal-header" style = "text-align: center">
-        				<h4 class="modal-title" id="myModalLabel">Enter Family Road?</h4>
-      				</div>
-      				<button type="button" id="family_road_y" class="btn btn-default" data-dismiss="modal">Yes</button>
-      				<button type="button" id="family_road_n" class="btn btn-default" data-dismiss="modal">No</button>
+        			<h4 class="modal-title" id="myModalLabel">Family Road vs Loner Lane</h4>
+      			</div>
+            <div class="modal-body" style = "height = 80%">
+              <div class = "col-md-6" style = "text-align: center">
+                <div id = 'college'>
+                  <img src = '../static/images/paths/family_icon.png' id = 'icon'>
+                  <button type="button" id="family_road_y" class="btn btn-default" data-dismiss="modal">Family Path</button>
+                </div>
+              </div>
+              <div class = "col-md-6" style = "text-align: center">
+                <div id = 'career'>
+                  <img src = '../static/images/paths/no_family_icon.png' id = 'icon'>
+                  <button type="button" id="family_road_n" class="btn btn-default" data-dismiss="modal">Loner Lane</button>
+                </div>
+              </div>
+              <div class = "modal-footer" id = "college-footer">
+              </div>
+            </div>
     			</div>
   			</div>
   		</div>
