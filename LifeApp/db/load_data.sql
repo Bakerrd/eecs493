@@ -137,19 +137,19 @@ INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
 VALUES (17, "Bought a Bouncy Castle", -10000, 1843, 1274);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
-VALUES (18, "Won Trivia Night", 20000, 1930, 1325);
+VALUES (18, "Ambushed by Loan Sharks", 0, 1930, 1325);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
-VALUES (19, "Ambushed by Loan Sharks", 0, 2011, 1409);
+VALUES (19, "Won Trivia Night", 20000, 2011, 1409);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
 VALUES (20, "Started a Snail Farm", -10000, 2026, 1526);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
-VALUES (21, "Successfully Laundered Money", 150000, 1987, 1646);
+VALUES (21, "Payday!", 0, 1987, 1646);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
-VALUES (22, "Payday!", 0, 1903, 1718);
+VALUES (22, "Successfully Laundered Money", 150000, 1903, 1718);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
 VALUES (23, "Started a Recorder Band", -25000, 1789, 1739);
