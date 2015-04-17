@@ -16,7 +16,7 @@ Move.prototype.run = function() {
 	var spline = $.crSpline.buildSequence(points);
 	
 	// Clean up visuals if we've run this once already
-	$("#mover").remove();
+	// $("#mover").remove();
 	$(".waypoint").remove();
 	$(".path-dot").remove();
 

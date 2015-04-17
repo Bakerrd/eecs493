@@ -551,15 +551,25 @@ Game.prototype.Play_Turn =function() {
 			console.log(p.position);
 			//College Path
 			if(cur_position == -1){ //Start of Game, college or not college
-				if(p.expelled == false){
-					this.spin = roll;
-					this.College_Prompt(p);
-					return;
-				} else {
-					this.spin = roll;
-					p.position = 11;
+				if (p.college == null){
+					if(p.expelled == false){
+						this.spin = roll;
+						this.College_Prompt(p);
+						return;
+					} else {
+						this.spin = roll;
+						p.position = 11;
+						cur_position = 11;
+						this.Prompt_Career(p);
+					}
+				} else if (p.college == true){
+					cur_position = 0;
+					roll--;
+					continue;
+				} else if (p.college == false){
 					cur_position = 11;
-					this.Prompt_Career(p);
+					roll--;
+					continue;
 				}
 			}	
 			else if(cur_position == 10){
@@ -628,9 +638,13 @@ Game.prototype.Play_Turn =function() {
 			}
 			else //End of conditionals
 				cur_position = cur_position + 1;
-				p.position = cur_position;
 
 			roll = roll - 1;
+
+			if (roll != 0){
+				p.position = cur_position;
+			}
+			
 
 			//check if the space is a payday
 
@@ -640,13 +654,12 @@ Game.prototype.Play_Turn =function() {
 				temp = "player " + p.name + " got paid and now has " + p.bankroll.toString() + " dollars\n";
 				this.turn_summary = this.turn_summary + temp;
 			}
-		p.position = cur_position;
 		this.spin = 0;
 		}///END OF WHILE LOOP FOR ROLL > 0
 		
 
 		console.log(this.turn_summary);
-		this.End_Turn(p, cur_position);
+		this.End_Turn(p, p.position);
 	} else {
 		temp = "player is already retired\n";
 		this.turn_summary = this.turn_summary + temp;

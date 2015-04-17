@@ -224,7 +224,7 @@ INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
 VALUES (46, "Hooked Up With Batman", 50000, 623, 1256);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
-VALUES (47, "Sold Soul", 40000, 674, 1169);
+VALUES (47, "Sold Soul On Craigslist", 40000, 674, 1169);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
 VALUES (48, "Payday!", 0, 623, 1064);
@@ -287,7 +287,7 @@ INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
 VALUES (67, "Won ESPN Bracket Challenge", 10000, 815, 698);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
-VALUES (68, "Sold Futon on Craigslist", 15000, 713, 638);
+VALUES (68, "Robbed a Train With Your Outlaw Buddies", 15000, 713, 638);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
 VALUES (69, "Donated Plamsa", 30000, 611, 593);
