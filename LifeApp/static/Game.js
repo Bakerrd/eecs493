@@ -376,6 +376,7 @@ Game.prototype.Generate_House_Options = function() {
 			house_two_taken = true;
 	}
 
+
 	var lTitle= document.getElementById('left_house_title');
 	lTitle.textContent = this_game.houses[house_one].title;
 	var lCost= document.getElementById('left_house_cost');
@@ -413,6 +414,9 @@ Game.prototype.Choose_Career_Script = function(career_choice) {
 		}
 	}
 	$('#chooseCareerModal').modal('hide');
+
+	var button = document.getElementById('generate_career');
+	button.style.visibility = "visible";
 
 	var lTitle= document.getElementById('left_career_title');
 	lTitle.textContent = "";
@@ -475,6 +479,9 @@ Game.prototype.Generate_Regular_Career = function() {
 			c_two_taken = true;
 	}
 
+	var button = document.getElementById('generate_career');
+	button.style.visibility = "hidden";
+
 	///Set up left career in prompt
 	var lTitle= document.getElementById('left_career_title');
 	lTitle.textContent = this.careers[career_one].title;
@@ -511,6 +518,9 @@ Game.prototype.Generate_College_Career = function() {
 		else
 			cc_two_taken = true;
 	}
+
+	var button = document.getElementById('generate_career');
+	button.style.visibility = "hidden";
 
 	var lTitle= document.getElementById('left_career_title');
 	lTitle.textContent = this.careers[ccareer_one].title;
