@@ -2,8 +2,8 @@ var this_game = new Game();
 
 
 function Move(){
-	this.showWaypoints = false;
-	this.showTrail = false;
+	this.showWaypoints = true;
+	this.showTrail = true;
 	this.data = [];
 }
 
@@ -201,7 +201,7 @@ Game.prototype.Start_Turn = function() {
 		}
 	}
 
-	if (this.moves[this.curPlayer].data.length == 0){
+	if ((this.moves[this.curPlayer].data.length == 0) || (this.moves[this.curPlayer].data.length == 1)){
 		this.Play_Turn();
 	} else {
 		this.moves[this.curPlayer].run();
@@ -548,6 +548,7 @@ Game.prototype.Play_Turn =function() {
 		temp = "player " + p.name + " starting from position " + cur_position.toString() + "\n";
 		this.turn_summary = this.turn_summary + temp;
 		while (roll > 0){
+			console.log(p.position);
 			//College Path
 			if(cur_position == -1){ //Start of Game, college or not college
 				if(p.expelled == false){
