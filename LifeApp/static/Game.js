@@ -69,6 +69,7 @@ Player.prototype.add_children = function(val){
 };
 Player.prototype.expel = function(){
 	this.expelled = true;
+	this.college = false;
 	this.position = -1;
 };
 Player.prototype.children_spouse = function(){
@@ -553,6 +554,11 @@ Game.prototype.Play_Turn =function() {
 					this.spin = roll;
 					this.College_Prompt(p);
 					return;
+				} else {
+					this.spin = roll;
+					p.position = 11;
+					cur_position = 11;
+					this.Prompt_Career(p);
 				}
 			}	
 			else if(cur_position == 10){
