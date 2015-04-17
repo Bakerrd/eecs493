@@ -52,7 +52,7 @@ VALUES (15, "Rapper", 70000, "/static/images/careers/rapper_icon.png");
 
 # insert houses
 INSERT INTO Houses (house_id, title, cost, sell_price, img_path)
-VALUES (0, "Cardboard Box", 200000, 150000, "/static/images/houses/carboard_box_icon.png");
+VALUES (0, "Cardboard Box", 200000, 150000, "/static/images/houses/cardboard_box_icon.png");
 
 INSERT INTO Houses (house_id, title, cost, sell_price, img_path)
 VALUES (1, "Private Island", 1000000, 750000, "/static/images/houses/island_icon.png");
