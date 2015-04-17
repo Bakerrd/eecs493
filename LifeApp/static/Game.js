@@ -655,6 +655,10 @@ Game.prototype.Play_Turn =function() {
 Game.prototype.End_Turn = function(p, cur_position){
 	// Non special spaces
 	var temp = "";
+
+	var tile_amount = this.board.tiles[cur_position].value;
+	var str = "";
+	var image = document.getElementById('end_turn_image');
 	
 	// Random number of children
 	if (cur_position == 4 || cur_position == 26){
@@ -662,11 +666,15 @@ Game.prototype.End_Turn = function(p, cur_position){
 		temp = "player " + p.name + " just had " + num_children.toString() + " children\n";
 		console.log(temp);
 		p.add_children(num_children);
+		image.src = "../static/images/tiles/random_kids_icon.png";
+		str += "You just had " + num_children.toString() + " children.";
 		// Dropout
 		if (cur_position == 4){
 			p.expel();
 			temp = "player " + p.name + " dropped out of school to take care of their child\n";
 			this.turn_summary = this.turn_summary + temp;
+			str += "Time to drop out of school and buy a house...";
+			tileValue.textContent = str;
 		}
 	}
 
@@ -675,6 +683,9 @@ Game.prototype.End_Turn = function(p, cur_position){
 		p.add_children(1);
 		temp = "player " + p.name + " has had a child\n";
 		this.turn_summary = this.turn_summary + temp;
+		image.src = "../static/images/tiles/one_child_icon.png";
+		str += "You just had a baby!";
+		tileValue.textContent = str;
 	}
 
 	// Twins
@@ -682,6 +693,9 @@ Game.prototype.End_Turn = function(p, cur_position){
 		p.add_children(2);
 		temp = "player " + p.name + " has had twins\n";
 		this.turn_summary = this.turn_summary + temp;
+		image.src = "../static/images/tiles/twin_icon.png";
+		str += "You just had twins!";
+		tileValue.textContent = str;
 	}
 
 	// Triplets
@@ -689,6 +703,9 @@ Game.prototype.End_Turn = function(p, cur_position){
 		p.add_children(3);
 		temp = "player " + p.name + " has had triplets\n";
 		this.turn_summary = this.turn_summary + temp;
+		image.src = "../static/images/tiles/triplets_icon.png";
+		str += "You just had triplets!";
+		tileValue.textContent = str;
 	}
 
 	// Player set upon by loan sharks
@@ -697,6 +714,9 @@ Game.prototype.End_Turn = function(p, cur_position){
 			p.loan_counter = 1;
 			temp = "The loan sharks have come collecting! Player " + p.name + " has to pay off their loans this turn!\n";
 			this.turn_summary = this.turn_summary + temp;
+			image.src = "../static/images/tiles/loanshark_icon.png";
+			str += "You just got ambushed by loan sharks! You have to pay off your loans this turn!";
+			tileValue.textContent = str;
 		}
 	}
 
@@ -705,6 +725,9 @@ Game.prototype.End_Turn = function(p, cur_position){
 		p.divorce();
 		temp = "Player " + p.name + " got caught cheating and got a divorce\n";
 		this.turn_summary = this.turn_summary + temp;
+		image.src = "../static/images/tiles/divorce_icon.png";
+		str += "You got caught cheating and got a divorce..";
+		tileValue.textContent = str;
 	}
 
 	// Player gets remarried
@@ -712,6 +735,9 @@ Game.prototype.End_Turn = function(p, cur_position){
 		p.marriage();
 		temp = "Player " + p.name + " got remarried\n";
 		this.turn_summary = this.turn_summary + temp;
+		image.src = "../static/images/tiles/marriage_icon.png";
+		str += "You just got remarried! And had to pay $25,000 for the ceremony...";
+		tileValue.textContent = str;
 	}
 
 	// Player is expelled
@@ -719,6 +745,9 @@ Game.prototype.End_Turn = function(p, cur_position){
 		p.expel();
 		temp = "Player " + p.name + " was expelled\n";
 		this.turn_summary = this.turn_summary + temp;
+		image.src = "../static/images/bad_icon.png";
+		str += "What a waste of investment... have to settle for a non-college career now!";
+		tileValue.textContent = str;
 	}
 
 	// Player pays money for children, gets money from spouse
@@ -785,14 +814,24 @@ Game.prototype.End_Turn = function(p, cur_position){
 	tileTitle.textContent = this.board.tiles[cur_position].title;
 	var tileValue= document.getElementById('Tile_Value');
 
-	var tile_amount = this.board.tiles[cur_position].value;
-	var str = "";
-	if (tile_amount > 0){
-		str += "Life is great! You gain $" + tile_amount + "!";
+	var i = this.board.special.indexOf(cur_position);
+
+	var p = this.board.paydays.indexOf(cur_position);
+	if(p != -1){
+		image.src = "../static/images/good_icon.png";
+		str += "Hey! You just made $" + p.salary*1 + "!";
 		tileValue.textContent = str;
-	} else {
-		str += "Life's a bitch. You lose $" + tile_amount + "!";
-		tileValue.textContent = str;
+	}
+	if(i == -1){
+		if (tile_amount >= 0){
+			image.src = "../static/images/good_icon.png";
+			str += "Life is great! You gain $" + tile_amount + "!";
+			tileValue.textContent = str;
+		} else {
+			image.src = "../static/images/bad_icon.png";
+			str += "Life's a bitch. You lose $" + tile_amount + "!";
+			tileValue.textContent = str;
+		}
 	}
 	$('#tileModal').modal('show');
 	p.updateBankroll((this.board.tiles[cur_position].value)/1);
