@@ -64,7 +64,7 @@
 		      </div>
 		      <div class="modal-footer">
 		      	<div class="row">
-		        <button type="button" class="btn btn-default" id="spinner-button" onclick="toggleSpinning();">SPIN</button>
+		        <button type="button" class="btn btn-default" id="spinner-button" onclick="toggleSpinning();" disabled>SPIN</button>
 		        <button type="button" class="btn btn-primary" id="start_turn_button" disabled>Begin turn</button>
 		    </div>
 		      </div>
@@ -248,16 +248,16 @@
      				<div class="modal-header" style="text-align: center">
         				<h4 class="modal-title" id="Tile_Label">This Happened to you</h4>
       				</div>
-      				<div class="modal-body"  id='Tile_Value'>
+      				<div class="modal-body text-center"  id='Tile_Value'>
         				<p>Shit happens.</p>
       				</div>
       				<div class="modal-footer">
-    					<button type="button" class="btn btn-default" data-dismiss="modal">Accept</button>
+    					<button type="button" class="btn btn-default" data-dismiss="modal" id="end_turn">End Turn</button>
   					</div>
     			</div>
   			</div>
   		</div>
-
+<!-- 
   		<div class="modal fade" id="end_of_turn_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
  			<div class="modal-dialog">
     			<div class="modal-content">
@@ -272,7 +272,7 @@
   					</div>
     			</div>
   			</div>
-  		</div>
+  		</div> -->
 
   		<!-- choose route modals  -->
   		<div class="modal fade" id="collegeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
@@ -397,11 +397,11 @@ document.getElementById("college_n").addEventListener("click", function(event){
 
 document.getElementById("start_turn_button").addEventListener("click", function(event){
 	this_game.Start_Turn();
-})
+}, false);
 
-document.getElementById("finish_turn").addEventListener("click", function(event){
+document.getElementById("end_turn").addEventListener("click", function(event){
 	this_game.Play_Game();
-})
+}, false);
 
 
 

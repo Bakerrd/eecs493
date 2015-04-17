@@ -74,6 +74,7 @@ function toggleSpinning() {
 		this_game.spin = result;
 		this_game.Determine_Route();
 		$('#start_turn_button').prop('disabled', false);
+		$('#spinner-button').prop('disabled', true);
 	}
 	else {
 		// Start spinning the arrow

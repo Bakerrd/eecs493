@@ -511,6 +511,8 @@ Game.prototype.College_Prompt = function(p) {
 Game.prototype.Get_Spin = function() {
 	p = this.players[this.curPlayer];
 	document.getElementById('cur_player_spin').innerHTML = "Player " + this.curPlayer + "'s turn!";
+	$('#start_turn_button').prop('disabled', true);
+	$('#spinner-button').prop('disabled', false);
 	$('#spinModal').modal('show');
 };
 Game.prototype.Choose_College_Road = function(response){
@@ -646,20 +648,12 @@ Game.prototype.Play_Turn =function() {
 Game.prototype.End_Turn = function(p, cur_position){
 	// Non special spaces
 	var temp = "";
-	if(!(this.board.special.indexOf(cur_position) >= 0) && !(this.board.paydays.indexOf(cur_position) >= 0)){
-		var tileTitle = document.getElementById('Tile_Label');
-		tileTitle.textContent = this.board.tiles[cur_position].title;
-		var tileValue= document.getElementById('Tile_Value');
-		tileValue.textContent = this.board.tiles[cur_position].value;
-		$('#tileModal').modal('show');
-		p.updateBankroll((this.board.tiles[cur_position].value*1));
-	}
-
+	
 	// Random number of children
 	if (cur_position == 4 || cur_position == 26){
 		var num_children = this.random_child();
 		temp = "player " + p.name + " just had " + num_children.toString() + " children\n";
-		this.turn_summary = this.turn_summary + temp;
+		console.log(temp);
 		p.add_children(num_children);
 		// Dropout
 		if (cur_position == 4){
@@ -769,8 +763,8 @@ Game.prototype.End_Turn = function(p, cur_position){
 	p.position = cur_position;
 	///END OF WHILE LOOP FOR ROLL > 0
 	temp = "player ends turn on space " + p.position.toString() + " and has $" + p.bankroll.toString() + "\n";
-	
-	this.turn_summary = this.turn_summary + temp;
+	console.log(temp);
+
 	if (p.done == true && p.bankroll > 1000000){
 		temp = "player " + p.name + " has moved to the Caymans\n";
 		this.turn_summary = this.turn_summary + temp;
@@ -778,9 +772,23 @@ Game.prototype.End_Turn = function(p, cur_position){
 
 	this.curPlayer++;
 	this.curPlayer = this.curPlayer%4;
-	document.getElementById('eot_body').textContent = this.turn_summary;
-	$('#end_of_turn_modal').modal('show');
 
+
+	var tileTitle = document.getElementById('Tile_Label');
+	tileTitle.textContent = this.board.tiles[cur_position].title;
+	var tileValue= document.getElementById('Tile_Value');
+
+	var tile_amount = this.board.tiles[cur_position].value;
+	var str = "";
+	if (tile_amount > 0){
+		str += "Life is great! You gain $" + tile_amount + "!";
+		tileValue.textContent = str;
+	} else {
+		str += "Life's a bitch. You lose $" + tile_amount + "!";
+		tileValue.textContent = str;
+	}
+	$('#tileModal').modal('show');
+	p.updateBankroll((this.board.tiles[cur_position].value)/1);
 };
 Game.prototype.Finish_Turn = function(){
 
