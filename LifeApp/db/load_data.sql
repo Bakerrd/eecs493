@@ -146,10 +146,10 @@ INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
 VALUES (20, "Started a Snail Farm", -10000, 2026, 1526);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
-VALUES (21, "Payday!", 0, 1987, 1646);
+VALUES (21, "Successfully Laundered Money", 150000, 1987, 1646);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
-VALUES (22, "Successfully Laundered Money", 150000, 1903, 1718);
+VALUES (22, "Payday!", 0, 1903, 1718);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
 VALUES (23, "Started a Recorder Band", -25000, 1789, 1739);

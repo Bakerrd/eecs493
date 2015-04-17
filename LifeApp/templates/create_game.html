@@ -46,9 +46,9 @@
 		<!-- Spin Wheel Modal -->
 		<div class="modal fade" id="spinModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
 		  <div class="modal-dialog">
-		    <div class="modal-content">
+		    <div class="modal-content" style = "text-align:center">
 		      <div class="modal-header">
-		        <h2 class="modal-title" style="text-align:center"><span id="cur_player_spin"></span></h2>
+		        <h2 class="modal-title"><span id="cur_player_spin"></span></h2>
 		      </div>
 		      <div class="modal-body">
 		        <div id="wrapper">
@@ -62,10 +62,14 @@
 				<h1 id="spin-value">0</h1>
 				</div>
 		      </div>
-		      <div class="modal-footer">
+		      <div class="modal-footer" style = "text-align: center">
 		      	<div class="row">
-		        <button type="button" class="btn btn-default" id="spinner-button" onclick="toggleSpinning();">SPIN</button>
-		        <button type="button" class="btn btn-primary" id="start_turn_button" disabled>Begin turn</button>
+              <div class = "col-md-6">
+		            <button type="button" class="btn btn-default" id="spinner-button" onclick="toggleSpinning();">SPIN</button>
+              </div>
+              <div class = "col-md-6">
+                <button type="button" class="btn btn-primary" id="start_turn_button" disabled>Begin turn</button>
+              </div>
 		    </div>
 		      </div>
 		    </div><!-- /.modal-content -->
