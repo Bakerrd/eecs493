@@ -414,6 +414,20 @@ Game.prototype.Choose_Career_Script = function(career_choice) {
 	}
 	$('#chooseCareerModal').modal('hide');
 
+	var lTitle= document.getElementById('left_career_title');
+	lTitle.textContent = "";
+	var lSalary= document.getElementById('left_career_salary');
+	lSalary.textContent = "";
+
+	var rTitle= document.getElementById('right_career_title');
+	rTitle.textContent = "";
+	var rSalary= document.getElementById('right_career_salary');
+	rSalary.textContent = "";
+
+	var lImage= document.getElementById('left_career_img').src = "../static/images/question_orange.png";
+	var rImage= document.getElementById('right_career_img').src = "../static/images/question_orange.png";
+
+
 	alert("player " + p.name + " has chosen career: " + p.career.title);
 	this.Determine_Route();
 	this.Start_Turn();
@@ -833,8 +847,8 @@ Game.prototype.End_Turn = function(p, cur_position){
 		str += "Hey! You just made $" + p.salary*1 + "!";
 	}
 	if(i == -1){
-		if(cur_position == 25 || 37){
-			img.src = "../static/images/tiles/marriage_icon.png";
+		if(cur_position == 25 || cur_position == 37){
+			image.src = "../static/images/tiles/marriage_icon.png";
 			str+= "Congrats! ALSO - you had to drop $25,000 on the ceremony... Hope thats ok.";
 		} else {
 			if (tile_amount >= 0){
