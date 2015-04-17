@@ -1,10 +1,11 @@
 var this_game = new Game();
 
-MOVE = {
-	showWaypoints: false,
-	showTrail: true,
-	data: []
-};
+
+function Move(){
+	this.showWaypoints = false;
+	this.showTrail = false;
+	this.data = [];
+}
 
 function log(msg) { //Used for outputting
     console.log(msg);
@@ -164,6 +165,12 @@ function Game() {
 	this.taken_ccareer = [];
 	this.taken_house = [];
 
+	this.moves = [];
+	for (i=0; i<4; i++){
+		var move = new Move();
+		this.moves.push(move);
+	}
+
 	this.turn_summary = "";
 
 	this.careers = [];
@@ -193,15 +200,16 @@ Game.prototype.Start_Turn = function() {
 		}
 	}
 
-	if (MOVE.data.length == 0){
+	if (this.moves[this.curPlayer].data.length == 0){
 		this.Play_Turn();
 	} else {
-		MOVE.run();
+		this.moves[this.curPlayer].run();
 	}
 };
 
 Game.prototype.Determine_Route = function(){
 	console.log("determining route...");
+	this.moves[this.curPlayer].data = [];
 	var points = [];
 	var p = this.players[this.curPlayer];
 	points.push(p.position);
@@ -256,7 +264,7 @@ Game.prototype.Determine_Route = function(){
 		//default
 		points.push(p.position+i);
 	}
-	MOVE.data = points;
+	this.moves[this.curPlayer].data = points;
 	console.log("done!");
 }
 
@@ -386,6 +394,7 @@ Game.prototype.Choose_Career_Script = function(career_choice) {
 		for (i=0; i<this_game.careers.length; i++){
 			if (career == this_game.careers[i].title){
 				p.career = this_game.careers[i];
+				p.salary = this_game.careers[i].salary;
 			}
 		}
 	} else {
@@ -393,6 +402,7 @@ Game.prototype.Choose_Career_Script = function(career_choice) {
 		for (i=0; i<this_game.careers.length; i++){
 			if (career == this_game.careers[i].title){
 				p.career = this_game.careers[i];
+				p.salary = this_game.careers[i].salary;
 			}
 		}
 	}
@@ -500,7 +510,7 @@ Game.prototype.College_Prompt = function(p) {
 };
 Game.prototype.Get_Spin = function() {
 	p = this.players[this.curPlayer];
-	document.getElementById('cur_player_spin').innerHTML = "Player " + p.name;
+	document.getElementById('cur_player_spin').innerHTML = "Player " + this.curPlayer + "'s turn!";
 	$('#spinModal').modal('show');
 };
 Game.prototype.Choose_College_Road = function(response){
@@ -615,9 +625,9 @@ Game.prototype.Play_Turn =function() {
 
 			//check if the space is a payday
 
-			if(cur_position in this.board.paydays){
+			if(this.board.paydays.indexOf(cur_position) >= 0){
 				//need to have salary
-				p.updateBankroll(p.salary);
+				p.updateBankroll((p.salary*1));
 				temp = "player " + p.name + " got paid and now has " + p.bankroll.toString() + " dollars\n";
 				this.turn_summary = this.turn_summary + temp;
 			}
@@ -636,13 +646,13 @@ Game.prototype.Play_Turn =function() {
 Game.prototype.End_Turn = function(p, cur_position){
 	// Non special spaces
 	var temp = "";
-	if(!(cur_position in this.board.special) && !(cur_position in this.board.paydays)){
+	if(!(this.board.special.indexOf(cur_position) >= 0) && !(this.board.paydays.indexOf(cur_position) >= 0)){
 		var tileTitle = document.getElementById('Tile_Label');
-		tileTitle.textContent = this.tiles[cur_position].title;
+		tileTitle.textContent = this.board.tiles[cur_position].title;
 		var tileValue= document.getElementById('Tile_Value');
-		tileValue.textContent = this.tiles[cur_position].value;
+		tileValue.textContent = this.board.tiles[cur_position].value;
 		$('#tileModal').modal('show');
-		p.updateBankroll(this.board.tiles[cur_position].value);
+		p.updateBankroll((this.board.tiles[cur_position].value*1));
 	}
 
 	// Random number of children
