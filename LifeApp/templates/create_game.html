@@ -141,15 +141,15 @@
       				<div class="row">
       					<div class="col-md-6">
           				<div id='leftImage'>
-          					<button data-dismiss="modal" style = "height: 80%; width: 80%">
-          						<img id='left_career_img' style = "height: 100%; width: 100%" src='/static/images/question_orange.png'>
+          					<button data-dismiss="modal" style = "height: 80%; width: 80%" id="left_career_button" disabled>
+          						<img id='left_career_img' style = "height: 100%; width: 100%" src='/static/images/question_orange.png' disabled>
           					</button>
           				</div>
         			  </div>
         			  <div class="col-md-6">
                   <div id='rightImage'>
-                    <button data-dismiss="modal" style = "height: 80%; width: 80%">
-                      <img id='right_career_img' style = "height: 100%; width: 100%" src='/static/images/question_orange.png'>
+                    <button data-dismiss="modal" style = "height: 80%; width: 80%" id="right_career_button" disabled>
+                      <img id='right_career_img' style = "height: 100%; width: 100%" src='/static/images/question_orange.png' disabled>
                     </button>
                   </div>
                 </div>
@@ -262,6 +262,31 @@
     			</div>
   			</div>
   		</div>
+
+
+      <!-- End Game Modal -->
+    <div class="modal fade" id="end_game_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+      <div class="modal-dialog">
+          <div class="modal-content" style="text-align: center">
+            <div class="modal-header">
+              <h4 class="modal-title" id="Tile_Label">This Happened to you</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                  <img id="end_game_image" src="../static/images/bad_icon.png"> 
+                </div>
+                <p id="congrats_intro" style="text-align:center;"></p>
+                <div class="separate">
+                  <h3 id="end_game_amount" style="text-align:center;"></h3>
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align: center">
+              <button type="button" class="btn btn-default" data-dismiss="modal" id="end_life_button">Finish!</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
 <!-- 
   		<div class="modal fade" id="end_of_turn_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
  			<div class="modal-dialog">
@@ -564,6 +589,9 @@ document.getElementById("four_player").addEventListener("click", function (event
     this_game.New_Game(4);
 }, false);
 
+document.getElementById("end_life_button").addEventListener("click", function(event){
+  this_game.Play_Game();
+}, false);
 
 
 
