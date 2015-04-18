@@ -81,12 +81,12 @@ Player.prototype.children_spouse = function(){
 	}
 };
 Player.prototype.end_game = function(val){
-	this.updateBankroll(val);
+	this.updateBankroll(val*1);
 	if (this.loan_counter > 0){
 		this.loan_counter = 1;
 	}
 	var child_money = this.children * 50000;
-	this.updateBankroll(child_money);
+	this.updateBankroll(child_money*1);
 	this.done = true;
 };
 Player.prototype.marriage = function(){
@@ -182,6 +182,9 @@ function Game() {
 Game.prototype.Play_Game = function() {
 	console.log("play_game");
 	var end = this.Check_End_Game();
+	if (end){
+		alert("the game is over. you're drunk. go home.");
+	}
 	console.log("player " + this.curPlayer.toString() + "'s turn");
 	this.turn_summary = "";
 	this.Get_Spin();
@@ -431,18 +434,14 @@ Game.prototype.Generate_House_Options = function() {
 
 	var lTitle= document.getElementById('left_house_title');
 	lTitle.textContent = this_game.houses[house_one].title;
-	var lCost= document.getElementById('left_house_cost');
-	lCost.textContent = this_game.houses[house_one].cost;
-	var lSell= document.getElementById('left_house_sellprice');
-	lSell.textContent = this_game.houses[house_one].sell_price;
+	var lCost= document.getElementById('left_house_cost').innerHTML = this_game.houses[house_one].cost;
+	var lSell= document.getElementById('left_house_sellprice').innerHTML = this_game.houses[house_one].sell_price;
 	var lImage= document.getElementById('left_house_img').src = this_game.houses[house_one].img_path;
 	///Set up right career in prompt
 	var rTitle= document.getElementById('right_house_title');
 	rTitle.textContent = this_game.houses[house_two].title;
-	var rCost= document.getElementById('right_house_cost');
-	rCost.textContent = this_game.houses[house_two].cost;
-	var rSell= document.getElementById('right_house_sellprice');
-	rSell.textContent = this_game.houses[house_two].sell_price;
+	var rCost= document.getElementById('right_house_cost').innerHTML =  this_game.houses[house_two].cost;
+	var rSell= document.getElementById('right_house_sellprice').innerHTML = this_game.houses[house_two].sell_price;
 	var rImage= document.getElementById('right_house_img').src = this_game.houses[house_two].img_path;
 
 };
@@ -709,7 +708,7 @@ Game.prototype.Play_Turn =function() {
 				this.spin = 0;
 				this.end_of_game = this.end_of_game + 1;
 				p.end_game(p.house.sell_price);
-				temp = "after selling your house and your kid(s), player " + p.name + " has a grand total of:";
+				temp = "After selling your house and your kid(s), player " + p.name + " has a grand total of:";
 				document.getElementById("congrats_intro").innerHTML = temp;
 				var amount = p.bankroll;
 				document.getElementById("end_game_amount").innerHTML = amount;
@@ -803,7 +802,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 		p.add_children(2);
 		temp = "player " + p.name + " has had twins\n";
 		this.turn_summary = this.turn_summary + temp;
-		image.src = "../static/images/tiles/twin_icon.png";
+		image.src = "../static/images/tiles/twins_icon.png";
 		str += "You just had twins!";
 	}
 
@@ -852,6 +851,21 @@ Game.prototype.End_Turn = function(p, cur_position){
 		this.turn_summary = this.turn_summary + temp;
 		image.src = "../static/images/bad_icon.png";
 		str += "What a waste of investment... have to settle for a non-college career now!";
+	}
+
+	if(cur_position == 89){
+		temp = "player " + p.name + " has retired\n";
+		this.turn_summary = this.turn_summary + temp;
+		roll = 0;
+		this.spin = 0;
+		this.end_of_game = this.end_of_game + 1;
+		p.end_game(p.house.sell_price);
+		temp = "After selling your house and your kid(s), you have a grand total of:";
+		document.getElementById("congrats_intro").innerHTML = temp;
+		var amount = p.bankroll;
+		document.getElementById("end_game_amount").innerHTML = amount;
+		$('#end_game_modal').modal('show');
+		return;
 	}
 
 	// Player pays money for children, gets money from spouse
