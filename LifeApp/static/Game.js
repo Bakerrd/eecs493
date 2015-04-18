@@ -118,22 +118,22 @@ Player.prototype.get_loans = function(){
 Player.prototype.updateBankroll = function(val){
 	this.bankroll = (this.bankroll+val);
 	var id = "";
-	var id2 = "";
+	// var id2 = "";
 	if (this.name == "0"){
 		id = "p0_bank";
-		id2 = "p0_hover_br";
+		// id2 = "p0_hover_br";
 	} else if (this.name == "1"){
 		id = "p1_bank";
-		id2 = "p1_hover_br";
+		// id2 = "p1_hover_br";
 	} else if (this.name == "2"){
 		id = "p2_bank";
-		id2 = "p2_hover_br";
+		// id2 = "p2_hover_br";
 	} else if (this.name == "3"){
 		id = "p3_bank";
-		id2 = "p3_hover_br";
+		// id2 = "p3_hover_br";
 	}
 	document.getElementById(id).innerHTML = this.bankroll;
-	document.getElementById(id2).innerHTML = this.bankroll;
+	// document.getElementById(id2).innerHTML = this.bankroll;
 
 };
 
@@ -213,6 +213,8 @@ Game.prototype.Start_Turn = function() {
 	}
 
 	if (this.moves[this.curPlayer].data.length == 0){
+		this.Play_Turn();
+	} else if (this.moves[this.curPlayer].data.length == 1){
 		this.Play_Turn();
 	} else {
 		this.moves[this.curPlayer].run();
@@ -385,7 +387,6 @@ Game.prototype.Choose_Risky_Road = function(response){
 		p.risky = true;
 		p.position = 74;
 	} else { 
-		console.log("pussy ass route");
 		p.risky = false;
 		p.position = 78;
 	}
@@ -668,7 +669,7 @@ Game.prototype.Play_Turn =function() {
 		var cur_position = p.position;
 
 		temp = "player " + p.name + " starting from position " + cur_position.toString() + "\n";
-		this.turn_summary = this.turn_summary + temp;
+		console.log(temp);
 		while (roll > 0){
 			//College Path
 			if(cur_position == -1){ //Start of Game, college or not college
@@ -1068,8 +1069,10 @@ Game.prototype.Get_Spin = function() {
 	p = this.players[this.curPlayer];
 	document.getElementById('cur_player_spin').innerHTML = "Player " + this.curPlayer + "'s turn!";
 	if(p.AI){
-		// this.spin = Math.floor((Math.random() * 10) + 1);
-		this.spin = 50;
+		this.spin = Math.floor((Math.random() * 10) + 1);
+		if (this.spin == 1){
+			this.spin == 2;
+		}
 		console.log(this.spin);
 		this.Determine_Route();
 		this_game.Start_Turn();
