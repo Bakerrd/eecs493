@@ -156,7 +156,7 @@ function Board(){
 // Game Class
 function Game() {
 	this.players = [];
-	for(i=0; i < 1; i++){
+	for(i=0; i < 4; i++){
 		var player = new Player(i.toString());
 		this.players.push(player);
 	}
@@ -169,7 +169,7 @@ function Game() {
 	this.taken_house = [];
 
 	this.moves = [];
-	for (i=0; i<1; i++){
+	for (i=0; i<4; i++){
 		var move = new Move(i);
 		this.moves.push(move);
 	}
@@ -185,6 +185,11 @@ Game.prototype.Play_Game = function() {
 	var end = this.Check_End_Game();
 	if (end){
 		alert("the game is over. you're drunk. go home.");
+	}
+	if (this.players[this.curPlayer].done){
+		this.curPlayer++;
+		this.curPlayer%4;
+		this.Play_Game();
 	}
 	console.log("player " + this.curPlayer.toString() + "'s turn");
 	this.turn_summary = "";
@@ -216,6 +221,7 @@ Game.prototype.Start_Turn = function() {
 
 Game.prototype.Determine_Route = function(){
 	console.log("determining route...");
+	console.log(this.spin);
 	this.moves[this.curPlayer].data = [];
 	var points = [];
 	var p = this.players[this.curPlayer];
@@ -224,14 +230,10 @@ Game.prototype.Determine_Route = function(){
 		if (p.position == -1){
 			return;
 		}
-		if (p.position == 0 && this.spin == 0){
-			points.push(p.position);
-			points.push(p.position);
-			return;
-		}
-		if (p.position == 11 && this.spin == 0){
-			points.push(p.position);
-			points.push(p.position);
+		if (this.spin == 0){
+			points.push(p.position+1);
+			points.push(p.position)
+			points.push(p.position+1);
 			return;
 		}
 		if (p.position == 10){
@@ -406,13 +408,6 @@ Game.prototype.Choose_Family_Road = function(response){
 	this.Start_Turn();
 };
 
-Game.prototype.Prompt_House = function(player) {
-	//Creates Dialog Box with generate and select buttons
-	//Connect Generate button with Generate_House_Options
-	//Connect Select with choose_house_script(selectedVal)
-	$('#chooseHouseModal').modal('show');
-};
-
 Game.prototype.Generate_House_Options = function() {
 	//Render Spinner, get spinner value
 	var house_one = Math.floor((Math.random() * 10));
@@ -432,6 +427,8 @@ Game.prototype.Generate_House_Options = function() {
 			house_two_taken = true;
 	}
 
+	var button = document.getElementById('generate_career');
+	button.style.visibility = "hidden";
 
 	var lTitle= document.getElementById('left_house_title');
 	lTitle.textContent = this_game.houses[house_one].title;
@@ -490,6 +487,8 @@ Game.prototype.Choose_Career_Script = function(career_choice) {
 };
 Game.prototype.Choose_House_Script = function(house_choice) {
 	//Sets the player up with the selected house
+	console.log("choose_house");
+	console.log(this);
 	p = this.players[this.curPlayer];
 	if (house_choice == 0){
 		var house = document.getElementById('left_house_title').textContent;
@@ -724,7 +723,7 @@ Game.prototype.Play_Turn =function() {
 				this.turn_summary = this.turn_summary + temp;
 				p.position = cur_position;
 				this.spin = roll;
-				this.Prompt_House();
+				this.Prompt_House(p);
 				return;
 			}
 			//Guaranteed random number of children
@@ -926,7 +925,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 	}
 
 	this.curPlayer++;
-	this.curPlayer = this.curPlayer%1;
+	this.curPlayer = this.curPlayer%4;
 
 	var tileTitle = document.getElementById('Tile_Label');
 	tileTitle.textContent = this.board.tiles[cur_position].title;
@@ -993,6 +992,7 @@ Game.prototype.Prompt_Career = function(player) {
 };
 
 Game.prototype.Prompt_Risky_Road = function(p){
+	p = this.players[this.curPlayer];
 	if(p.AI){
 		var rando =Math.floor((Math.random() * 2));
 		this.Choose_Risky_Road(rando); 
@@ -1002,6 +1002,7 @@ Game.prototype.Prompt_Risky_Road = function(p){
 };
 
 Game.prototype.Prompt_Family_Road = function(p){
+	p = this.players[this.curPlayer];
 	if(p.AI){
 		var rando =Math.floor((Math.random() * 2));
 		this.Choose_Family_Road(rando); 
@@ -1014,11 +1015,12 @@ Game.prototype.Prompt_House = function(player) {
 	//Creates Dialog Box with generate and select buttons
 	//Connect Generate button with Generate_House_Options
 	//Connect Select with choose_house_script(selectedVal)
+	console.log("this is the right prompt house");
 	p = this_game.players[this_game.curPlayer];
 	if(p.AI){
 		var rando =Math.floor((Math.random() * 2));
 		this.Generate_House_Options();
-		this.Choose_Career_Script(rando); 
+		this.Choose_House_Script(rando); 
 	}
 	else
 		$('#chooseHouseModal').modal('show');
@@ -1039,6 +1041,7 @@ Game.prototype.Get_Spin = function() {
 	document.getElementById('cur_player_spin').innerHTML = "Player " + this.curPlayer + "'s turn!";
 	if(p.AI){
 		this.spin = Math.floor((Math.random() * 10) + 1);
+		console.log(this.spin);
 		this.Determine_Route();
 		this_game.Start_Turn();
 	}
