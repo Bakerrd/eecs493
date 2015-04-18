@@ -432,18 +432,20 @@ Game.prototype.Generate_House_Options = function() {
 			house_two_taken = true;
 	}
 
+	var button = document.getElementById('generate_house');
+	button.style.visibility('visible')
 
 	var lTitle= document.getElementById('left_house_title');
 	lTitle.textContent = this_game.houses[house_one].title;
 	var lCost= document.getElementById('left_house_cost').innerHTML = this_game.houses[house_one].cost;
-	var lSell= document.getElementById('left_house_sellprice').innerHTML = this_game.houses[house_one].sell_price;
-	var lImage= document.getElementById('left_house_img').src = this_game.houses[house_one].img_path;
+	var lSell= document.getElementById('left_house_sellprice').innerHTML = "Cost: $" + this_game.houses[house_one].sell_price;
+	var lImage= document.getElementById('left_house_img').src = "Sell Price: $" + this_game.houses[house_one].img_path;
 	///Set up right career in prompt
 	var rTitle= document.getElementById('right_house_title');
 	rTitle.textContent = this_game.houses[house_two].title;
 	var rCost= document.getElementById('right_house_cost').innerHTML =  this_game.houses[house_two].cost;
-	var rSell= document.getElementById('right_house_sellprice').innerHTML = this_game.houses[house_two].sell_price;
-	var rImage= document.getElementById('right_house_img').src = this_game.houses[house_two].img_path;
+	var rSell= document.getElementById('right_house_sellprice').innerHTML = "Cost: $" + this_game.houses[house_two].sell_price;
+	var rImage= document.getElementById('right_house_img').src = "Sell Price: $" + this_game.houses[house_two].img_path;
 
 };
 Game.prototype.Choose_Career_Script = function(career_choice) {
@@ -508,6 +510,27 @@ Game.prototype.Choose_House_Script = function(house_choice) {
 			}
 		}
 	}
+
+	var button = document.getElementById('generate_house');
+	button.style.visibility = "visible";
+
+	var lTitle= document.getElementById('left_house_title');
+	lTitle.textContent = "";
+	var lCost= document.getElementById('left_house_cost');
+	lCost.textContent = "";
+	var lSell= document.getElementById('left_house_sellprice');
+	lSell.textContent = "";
+
+	var rTitle= document.getElementById('right_house_title');
+	rTitle.textContent = "";
+	var rCost= document.getElementById('right_house_cost');
+	rSalary.textContent = "";
+	var rSell= document.getElementById('right_house_sellprice');
+	rSell.textContent = "";
+
+	var lImage= document.getElementById('left_house_img').src = "../static/images/question_pink.png";
+	var rImage= document.getElementById('right_house_img').src = "../static/images/question_pink.png";
+
 
 	// alert("player " + p.name + " has chosen house " + p.house.title + " for a cost of $" + p.house.cost.toString());
 	this.Determine_Route();
@@ -1018,7 +1041,7 @@ Game.prototype.Prompt_House = function(player) {
 	if(p.AI){
 		var rando =Math.floor((Math.random() * 2));
 		this.Generate_House_Options();
-		this.Choose_Career_Script(rando); 
+		this.Choose_House_Script(rando); 
 	}
 	else
 		$('#chooseHouseModal').modal('show');
