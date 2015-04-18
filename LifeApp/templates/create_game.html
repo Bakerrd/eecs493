@@ -369,6 +369,86 @@
 			<p id='p3br' onMouseOver="show('p3br_stats')" onMouseOut="hide('p3br_stats')"style="color: white; font-size: 125%; margin: 0px"><span id='heading'>Player 3: $</span><span id='p3_bank'>10000</span></p>
 		</div>
 
+    <!-- Choose Icon modal -->
+    <div class="modal fade" id="chooseIconModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header" style="text-align: center">
+                <h4 class="modal-title" id="H1">Choose a Character Icon</h4>
+              </div>
+              <div class="modal-body">
+              <div class="row">
+                <div class="col-md-3">
+                <div id='bikeImage'>
+                  <button data-dismiss="modal">
+                    <img id='icon_bike' src='/static/images/players/bike.png'>
+                  </button>
+                </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div id='boatImage'>
+                      <button data-dismiss="modal">
+                        <img id='icon_boat' src='/static/images/players/boat.png'>
+                      </button>
+                    </div>
+                  </div>
+                        <div class="col-md-3">
+                    <div id='carImage'>
+                      <button data-dismiss="modal">
+                        <img id='icon_car' src='/static/images/players/car.png'>
+                      </button>
+                    </div>
+                  </div>
+                        <div class="col-md-3">
+                    <div id='jetImage'>
+                      <button data-dismiss="modal">
+                        <img id='icon_jet' src='/static/images/players/jet.png'>
+                      </button>
+                    </div>
+                  </div>
+              </div>
+              </div>
+          </div>
+        </div>
+    </div>
+
+     <!-- Choose Number of Players modal -->
+    <div class="modal fade" id="choosePlayersModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header" style="text-align: center">
+                <h4 class="modal-title" id="H1">How Many People Would Like To Play?</h4>
+              </div>
+              <p1>The remaining players will be AI</p1>
+              <div class="modal-body">
+              <div class="row">
+                <div class="col-md-3">
+                  <div id='b1'>
+                    <button type="button" id="one_player" class="btn btn-default" data-dismiss="modal">1</button>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div id='b2'>
+                      <button type="button" id="two_player" class="btn btn-default" data-dismiss="modal">2</button>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                    <div id='b3'>
+                      <button type="button" id="three_player" class="btn btn-default" data-dismiss="modal">3</button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                  <div id='b2'>
+                      <button type="button" id="four_player" class="btn btn-default" data-dismiss="modal">4</button>
+                  </div>
+                </div>
+              </div>
+              </div>
+          </div>
+        </div>
+    </div>
+
+
 		<!-- End of Players Bankroll Box -->
 	</div>
 </div>
@@ -376,7 +456,7 @@
 <h2>Play tha game</h2>
 
 <div id="button-holder">
-	<button onclick="New_Game();">Start the Game!</button>
+  <button onclick="this_game.Initialize_Game_Prompt();">Start the Game!</button>
 </div>
 
 <br><br><br><br>
@@ -451,6 +531,39 @@ document.getElementById("start_turn_button").addEventListener("click", function(
 document.getElementById("end_turn").addEventListener("click", function(event){
 	this_game.Play_Game();
 }, false);
+
+document.getElementById("icon_bike").addEventListener("click", function (event) {
+  this_game.Choose_Icon('/static/images/players/bike.png');
+}, false);
+
+document.getElementById("icon_boat").addEventListener("click", function (event) {
+  this_game.Choose_Icon('/static/images/players/boat.png');
+}, false);
+    
+document.getElementById("icon_car").addEventListener("click", function (event) {
+  this_game.Choose_Icon('/static/images/players/car.png');
+}, false);
+    
+document.getElementById("icon_jet").addEventListener("click", function (event) {
+  this_game.Choose_Icon('/static/images/players/jet.png');
+}, false);
+
+document.getElementById("one_player").addEventListener("click", function (event){
+    this_game.New_Game(1);
+}, false);
+
+document.getElementById("two_player").addEventListener("click", function (event){
+    this_game.New_Game(2);
+}, false);
+
+document.getElementById("three_player").addEventListener("click", function (event){
+    this_game.New_Game(3);
+}, false);
+
+document.getElementById("four_player").addEventListener("click", function (event){
+    this_game.New_Game(4);
+}, false);
+
 
 
 
