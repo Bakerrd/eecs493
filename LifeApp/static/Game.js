@@ -54,6 +54,7 @@ function Player(name, index) {
 	this.risky = null;
 	this.family = null;
 	this.college = null;
+	this.AI=true;
 }
 
 Player.prototype.init_popup = function(){
@@ -970,9 +971,100 @@ Game.prototype.Check_End_Game = function(){
 	return end;
 };
 
+Game.prototype.Choose_Icon = function (selection) {
+    this.players[this.curPlayer].icon = selection;
+};
+
+Game.prototype.Prompt_Career = function(player) {
+	//Creates Dialog Box with generate and select buttons
+	//Connect Generate with Generate_Regular_Career
+	//Connect Select with choose_career_script(selectedVal)
+	p = this_game.players[this_game.curPlayer];
+	if(p.AI){
+		var rando =Math.floor((Math.random() * 2));
+		if(player.college)
+			this.Generate_College_Career();
+		else
+			this.Generate_Regular_Career();
+		this.Choose_Career_Script(rando); 
+	}
+	else
+		$('#chooseCareerModal').modal('show');
+};
+
+Game.prototype.Prompt_Risky_Road = function(p){
+	if(p.AI){
+		var rando =Math.floor((Math.random() * 2));
+		this.Choose_Risky_Road(rando); 
+	}
+	else 
+		$('#riskyModal').modal('show');
+};
+
+Game.prototype.Prompt_Family_Road = function(p){
+	if(p.AI){
+		var rando =Math.floor((Math.random() * 2));
+		this.Choose_Family_Road(rando); 
+	}
+	else 
+		$('#familyModal').modal('show');
+};
+
+Game.prototype.Prompt_House = function(player) {
+	//Creates Dialog Box with generate and select buttons
+	//Connect Generate button with Generate_House_Options
+	//Connect Select with choose_house_script(selectedVal)
+	p = this_game.players[this_game.curPlayer];
+	if(p.AI){
+		var rando =Math.floor((Math.random() * 2));
+		this.Generate_House_Options();
+		this.Choose_Career_Script(rando); 
+	}
+	else
+		$('#chooseHouseModal').modal('show');
+};
+
+Game.prototype.College_Prompt = function(player) {
+	p = this_game.players[this_game.curPlayer];
+	if(p.AI){
+		var rando =Math.floor((Math.random() * 2));
+		this.Choose_College_Road(rando); 
+	}
+	else
+		$('#collegeModal').modal('show');
+};
+
+Game.prototype.Get_Spin = function() {
+	p = this.players[this.curPlayer];
+	document.getElementById('cur_player_spin').innerHTML = "Player " + this.curPlayer + "'s turn!";
+	if(p.AI){
+		this.spin = Math.floor((Math.random() * 10) + 1);
+		this.Determine_Route();
+		this_game.Start_Turn();
+	}
+	else{
+		$('#start_turn_button').prop('disabled', true);
+		$('#spinner-button').prop('disabled', false);
+		$('#spinModal').modal('show');
+	}
+};
+
 function New_Game(){
 	console.log("you made it");
 	this_game.Play_Game();
 }
+
+Game.prototype.Initialize_Game_Prompt = function(){
+	$('#choosePlayersModal').modal('show');
+}
+
+Game.prototype.New_Game = function(playerNum){
+
+	console.log("you made it");
+	for(var i = 0; i < playerNum; i++)
+		this_game.players[i].AI = false;
+	this_game.Play_Game();
+	
+};
 
 
