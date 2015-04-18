@@ -156,7 +156,7 @@ function Board(){
 // Game Class
 function Game() {
 	this.players = [];
-	for(i=0; i < 1; i++){
+	for(i=0; i < 4; i++){
 		var player = new Player(i.toString());
 		this.players.push(player);
 	}
@@ -169,7 +169,7 @@ function Game() {
 	this.taken_house = [];
 
 	this.moves = [];
-	for (i=0; i<1; i++){
+	for (i=0; i<4; i++){
 		var move = new Move(i);
 		this.moves.push(move);
 	}
@@ -926,7 +926,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 	}
 
 	this.curPlayer++;
-	this.curPlayer = this.curPlayer%1;
+	this.curPlayer = this.curPlayer%4;
 
 	var tileTitle = document.getElementById('Tile_Label');
 	tileTitle.textContent = this.board.tiles[cur_position].title;
@@ -1061,8 +1061,9 @@ Game.prototype.Initialize_Game_Prompt = function(){
 Game.prototype.New_Game = function(playerNum){
 
 	console.log("you made it");
+	console.log(playerNum);
 	for(var i = 0; i < playerNum; i++)
-		this_game.players[i].AI = false;
+		this.players[i].AI = false;
 	this_game.Play_Game();
 	
 };
