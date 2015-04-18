@@ -71,7 +71,7 @@ function toggleSpinning() {
 		spinButton.removeAttribute("disabled");
 		var result = currentSlice+1;
 		console.log(result);
-		this_game.spin = result;
+		this_game.spin = 50;
 		this_game.Determine_Route();
 		$('#start_turn_button').prop('disabled', false);
 		$('#spinner-button').prop('disabled', true);

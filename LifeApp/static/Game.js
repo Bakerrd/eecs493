@@ -302,6 +302,11 @@ Game.prototype.Determine_Route = function(){
 		}
 		if (p.position == 77){
 			for (var m=1; m<this.spin; m++){
+				if (p.position+4+m == 89){
+					points.push(p.position+4+m);
+					this.moves[this.curPlayer].data = points;
+					return;
+				}
 				points.push(p.position+4+m);
 			}
 			this.moves[this.curPlayer].data = points;
@@ -311,6 +316,10 @@ Game.prototype.Determine_Route = function(){
 			points.push(p.position+i);
 			for (var n=i; n<this.spin; n++){
 				points.push(p.position+5+n);
+				if (p.position+5+n == 89){
+					this.moves[this.curPlayer].data = points;
+					return;
+				}
 			}
 			this.moves[this.curPlayer].data = points;
 			return;
@@ -428,19 +437,19 @@ Game.prototype.Generate_House_Options = function() {
 	}
 
 	var button = document.getElementById('generate_house');
-	button.style.visibility('visible')
+	button.style.visibility = "hidden";
 
 	var lTitle= document.getElementById('left_house_title');
 	lTitle.textContent = this_game.houses[house_one].title;
-	var lCost= document.getElementById('left_house_cost').innerHTML = this_game.houses[house_one].cost;
-	var lSell= document.getElementById('left_house_sellprice').innerHTML = "Cost: $" + this_game.houses[house_one].sell_price;
-	var lImage= document.getElementById('left_house_img').src = "Sell Price: $" + this_game.houses[house_one].img_path;
+	var lCost= document.getElementById('left_house_cost').innerHTML = "Cost: $" + this_game.houses[house_one].cost;
+	var lSell= document.getElementById('left_house_sellprice').innerHTML = "Sell: $" + this_game.houses[house_one].sell_price;
+	var lImage= document.getElementById('left_house_img').src = this_game.houses[house_one].img_path;
 	///Set up right career in prompt
 	var rTitle= document.getElementById('right_house_title');
 	rTitle.textContent = this_game.houses[house_two].title;
-	var rCost= document.getElementById('right_house_cost').innerHTML =  this_game.houses[house_two].cost;
-	var rSell= document.getElementById('right_house_sellprice').innerHTML = "Cost: $" + this_game.houses[house_two].sell_price;
-	var rImage= document.getElementById('right_house_img').src = "Sell Price: $" + this_game.houses[house_two].img_path;
+	var rCost= document.getElementById('right_house_cost').innerHTML = "Cost: $" + this_game.houses[house_two].cost;
+	var rSell= document.getElementById('right_house_sellprice').innerHTML = "Sell: $" + this_game.houses[house_two].sell_price;
+	var rImage= document.getElementById('right_house_img').src =this_game.houses[house_two].img_path;
 
 };
 Game.prototype.Choose_Career_Script = function(career_choice) {
@@ -521,7 +530,7 @@ Game.prototype.Choose_House_Script = function(house_choice) {
 	var rTitle= document.getElementById('right_house_title');
 	rTitle.textContent = "";
 	var rCost= document.getElementById('right_house_cost');
-	rSalary.textContent = "";
+	rCost.textContent = "";
 	var rSell= document.getElementById('right_house_sellprice');
 	rSell.textContent = "";
 
@@ -723,7 +732,7 @@ Game.prototype.Play_Turn =function() {
 			}
 			//Retirement
 			else if(cur_position == 89){
-				temp = "player " + p.name + " has retired\n";
+				alert("player " + p.name + " has retired\n");
 				this.turn_summary = this.turn_summary + temp;
 				roll = 0;
 				this.spin = 0;
@@ -875,8 +884,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 	}
 
 	if(cur_position == 89){
-		temp = "player " + p.name + " has retired\n";
-		this.turn_summary = this.turn_summary + temp;
+		alert("player " + p.name + " has retired\n");
 		roll = 0;
 		this.spin = 0;
 		this.end_of_game = this.end_of_game + 1;
@@ -886,7 +894,6 @@ Game.prototype.End_Turn = function(p, cur_position){
 		var amount = p.bankroll;
 		document.getElementById("end_game_amount").innerHTML = amount;
 		$('#end_game_modal').modal('show');
-		return;
 	}
 
 	// Player pays money for children, gets money from spouse
@@ -1061,7 +1068,8 @@ Game.prototype.Get_Spin = function() {
 	p = this.players[this.curPlayer];
 	document.getElementById('cur_player_spin').innerHTML = "Player " + this.curPlayer + "'s turn!";
 	if(p.AI){
-		this.spin = Math.floor((Math.random() * 10) + 1);
+		// this.spin = Math.floor((Math.random() * 10) + 1);
+		this.spin = 50;
 		console.log(this.spin);
 		this.Determine_Route();
 		this_game.Start_Turn();
