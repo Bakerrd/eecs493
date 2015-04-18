@@ -51,8 +51,8 @@ function Player(name, index) {
 	this.num_loans = 0;
 	this.house = null;
 	this.pay_square = -1;
-	this.risky = false;
-	this.family = false;
+	this.risky = null;
+	this.family = null;
 	this.college = null;
 }
 
@@ -155,7 +155,7 @@ function Board(){
 // Game Class
 function Game() {
 	this.players = [];
-	for(i=0; i < 4; i++){
+	for(i=0; i < 1; i++){
 		var player = new Player(i.toString());
 		this.players.push(player);
 	}
@@ -168,7 +168,7 @@ function Game() {
 	this.taken_house = [];
 
 	this.moves = [];
-	for (i=0; i<4; i++){
+	for (i=0; i<1; i++){
 		var move = new Move(i);
 		this.moves.push(move);
 	}
@@ -198,7 +198,7 @@ Game.prototype.Start_Turn = function() {
 				p.updateBankroll(-20000);
 				q.updateBankroll(20000);
 				temp = "Player " + p.name + " paid Player " + q.name + " $20000\n";
-				alert(temp); 
+				// alert(temp); 
 			}
 		}
 	}
@@ -220,14 +220,31 @@ Game.prototype.Determine_Route = function(){
 		if (p.position == -1){
 			return;
 		}
+		if (p.position == 0 && this.spin == 0){
+			points.push(p.position);
+			points.push(p.position);
+			return;
+		}
+		if (p.position == 11 && this.spin == 0){
+			points.push(p.position);
+			points.push(p.position);
+			return;
+		}
+		if (p.position == 10){
+			for (var j=0; j<=this.spin; j++){
+				points.push(p.position+3+j);
+			}
+			this.moves[this.curPlayer].data = points;
+			return;
+		}
 		if (p.position+i == 10) {
 			points.push(p.position+i);
 			this.moves[this.curPlayer].data = points;
 			return;
 		}
-		if (p.position == 10){
-			for (var j=1; j<this.spin; j++){
-				points.push(p.position+2+j);
+		if (p.position == 25){
+			for (var x=0; x<=this.spin; x++){
+				points.push(p.position+x);
 			}
 			this.moves[this.curPlayer].data = points;
 			return;
@@ -237,23 +254,39 @@ Game.prototype.Determine_Route = function(){
 			this.moves[this.curPlayer].data = points;
 			return;
 		}
+		if (p.position == 36 && p.family == null){
+			this.Prompt_Family_Road();
+			return;
+		}
+		if (p.position == 36){
+			for (var x=0; x<=this.spin; x++){
+				points.push(p.position+x);
+			}
+			this.moves[this.curPlayer].data = points;
+			return;
+		}
 		if (p.position+i == 36){
 			points.push(p.position+i);
 			this.moves[this.curPlayer].data = points;
 			return;
 		}
 		if (p.position == 45){
-			for (var k=1; k<this.spin; k++){
+			for (var k=1; k<=this.spin; k++){
 				points.push(p.position+4+k);
 			}
 			this.moves[this.curPlayer].data = points;
 			return;
 		}
 		if (p.position+i == 45){
+			points.push(p.position+i);
 			for (var l=i; l<this.spin; l++){
-				points.push(p.position+4+l);
+				points.push(p.position+5+l);
 			}
 			this.moves[this.curPlayer].data = points;
+			return;
+		}
+		if (p.position == 73 && p.risky == null){
+			this.Prompt_Risky_Road();
 			return;
 		}
 		if (p.position+i == 73){
@@ -269,9 +302,15 @@ Game.prototype.Determine_Route = function(){
 			return;
 		}
 		if (p.position+i == 77){
+			points.push(p.position+i);
 			for (var n=i; n<this.spin; n++){
-				points.push(p.position+4+n);
+				points.push(p.position+5+n);
 			}
+			this.moves[this.curPlayer].data = points;
+			return;
+		}
+		if (p.position+i == 89){
+			points.push(p.position+i);
 			this.moves[this.curPlayer].data = points;
 			return;
 		}
@@ -309,6 +348,10 @@ Game.prototype.Prompt_Career = function(player) {
 	//Creates Dialog Box with generate and select buttons
 	//Connect Generate with Generate_Regular_Career
 	//Connect Select with choose_career_script(selectedVal)
+	$('#left_career_button').prop('disabled', true);
+	$('#right_career_button').prop('disabled', true);
+	$('#left_career_img').prop('disabled', true);
+	$('#right_career_img').prop('disabled', true);
 	$('#chooseCareerModal').modal('show');
 };
 
@@ -441,7 +484,7 @@ Game.prototype.Choose_Career_Script = function(career_choice) {
 	var rImage= document.getElementById('right_career_img').src = "../static/images/question_orange.png";
 
 
-	alert("player " + p.name + " has chosen career: " + p.career.title);
+	// alert("player " + p.name + " has chosen career: " + p.career.title);
 	this.Determine_Route();
 	this.Start_Turn();
 };
@@ -466,12 +509,16 @@ Game.prototype.Choose_House_Script = function(house_choice) {
 		}
 	}
 
-	alert("player " + p.name + " has chosen house " + p.house.title + " for a cost of $" + p.house.cost.toString());
+	// alert("player " + p.name + " has chosen house " + p.house.title + " for a cost of $" + p.house.cost.toString());
 	this.Determine_Route();
 	this.Start_Turn();
 };
 Game.prototype.Generate_Regular_Career = function() {
 	//Render Spinner, get spinner value
+	$('#left_career_button').prop('disabled', false);
+	$('#right_career_button').prop('disabled', false);
+	$('#left_career_img').prop('disabled', false);
+	$('#right_career_img').prop('disabled', false);
 	var career_one = Math.floor((Math.random() * 8) + 8);
 	var c_one_taken = false;
 	while(c_one_taken == false){
@@ -509,6 +556,10 @@ Game.prototype.Generate_Regular_Career = function() {
 };
 Game.prototype.Generate_College_Career = function() {
 	//Render Spinner, get spinner value
+	$('#left_career_button').prop('disabled', false);
+	$('#right_career_button').prop('disabled', false);
+	$('#left_career_img').prop('disabled', false);
+	$('#right_career_img').prop('disabled', false);
 	var temp = "end of college fork\n";
 	console.log(this.careers);
 	this.turn_summary = this.turn_summary + temp;
@@ -574,6 +625,7 @@ Game.prototype.Choose_College_Road = function(response){
 		this.turn_summary = this.turn_summary + temp;
 		p.college = false;
 		p.position = 11;
+		this.spin--;
 		this_game.Prompt_Career(p);
 	}
 };
@@ -656,12 +708,17 @@ Game.prototype.Play_Turn =function() {
 				roll = 0;
 				this.spin = 0;
 				this.end_of_game = this.end_of_game + 1;
-				p.end_game(this.houses[p.house].sell_price);
-				temp = "after dealing with kids/house, player " + p.name + " has $" + p.bankroll.toString() + "\n";
-				this.turn_summary = this.turn_summary + temp;
+				p.end_game(p.house.sell_price);
+				temp = "after selling your house and your kid(s), player " + p.name + " has a grand total of:";
+				document.getElementById("congrats_intro").innerHTML = temp;
+				var amount = p.bankroll;
+				document.getElementById("end_game_amount").innerHTML = amount;
+				$('#end_game_modal').modal('show');
+				return;
+
 			}
 			//Guarenteed Marriage
-			else if(cur_position == 25){
+			else if((cur_position == 25) && (p.house == null)){
 				p.marriage();
 				temp = "player " + p.name + " has just married an English Major\n";
 				this.turn_summary = this.turn_summary + temp;
@@ -854,7 +911,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 	}
 
 	this.curPlayer++;
-	this.curPlayer = this.curPlayer%4;
+	this.curPlayer = this.curPlayer%1;
 
 	var tileTitle = document.getElementById('Tile_Label');
 	tileTitle.textContent = this.board.tiles[cur_position].title;
