@@ -201,7 +201,7 @@ Game.prototype.Start_Turn = function() {
 	console.log("start_turn");
 	$('#spinModal').modal('hide');
 	p = this.players[this.curPlayer];
-	for(q in this.players){
+	/*for(q in this.players){
 		if (p != q){
 			if (this.spin == q.pay_square){
 				p.updateBankroll(-20000);
@@ -210,7 +210,7 @@ Game.prototype.Start_Turn = function() {
 				// alert(temp); 
 			}
 		}
-	}
+	}*/
 
 	if (this.moves[this.curPlayer].data.length == 0){
 		this.Play_Turn();
