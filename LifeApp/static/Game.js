@@ -201,7 +201,7 @@ Game.prototype.Start_Turn = function() {
 	console.log("start_turn");
 	$('#spinModal').modal('hide');
 	p = this.players[this.curPlayer];
-	for(q in this.players){
+	/*for(q in this.players){
 		if (p != q){
 			if (this.spin == q.pay_square){
 				p.updateBankroll(-20000);
@@ -210,7 +210,7 @@ Game.prototype.Start_Turn = function() {
 				// alert(temp); 
 			}
 		}
-	}
+	}*/
 
 	if (this.moves[this.curPlayer].data.length == 0){
 		this.Play_Turn();
@@ -807,7 +807,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 		console.log(temp);
 		p.add_children(num_children);
 		image.src = "../static/images/tiles/random_kids_icon.png";
-		str += "You just had " + num_children.toString() + " children.";
+		str += "You just had " + num_children.toString() + " children. Now, you have to pay an additional $" + 10000 * num_children.toString() + " per turn, but you'll get $" + 50000 * num_children.toString() + " extra at retirement!";
 		// Dropout
 		if (cur_position == 4){
 			p.expel();
@@ -823,7 +823,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 		temp = "player " + p.name + " has had a child\n";
 		this.turn_summary = this.turn_summary + temp;
 		image.src = "../static/images/tiles/one_child_icon.png";
-		str += "You just had a baby!";
+		str += "You just had a baby! Now, you have to pay an additional $10,000 per turn, but you'll get $50,000 extra at retirement!";
 	}
 
 	// Twins
@@ -832,7 +832,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 		temp = "player " + p.name + " has had twins\n";
 		this.turn_summary = this.turn_summary + temp;
 		image.src = "../static/images/tiles/twins_icon.png";
-		str += "You just had twins!";
+		str += "You just had twins! Now, you have to pay an additional $20,000 per turn, but you'll get $100,000 extra at retirement!";
 	}
 
 	// Triplets
@@ -841,7 +841,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 		temp = "player " + p.name + " has had triplets\n";
 		this.turn_summary = this.turn_summary + temp;
 		image.src = "../static/images/tiles/triplets_icon.png";
-		str += "You just had triplets!";
+		str += "You just had triplets! Now, you have to pay an additional $30,000 per turn, but you'll get $150,000 extra at retirement!";
 	}
 
 	// Player set upon by loan sharks
@@ -861,7 +861,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 		temp = "Player " + p.name + " got caught cheating and got a divorce\n";
 		this.turn_summary = this.turn_summary + temp;
 		image.src = "../static/images/tiles/divorce_icon.png";
-		str += "You got caught cheating and got a divorce..";
+		str += "You got caught cheating and got a divorce.. You will no longer receive $20,000 at the end of every turn.";
 	}
 
 	// Player gets remarried
@@ -870,7 +870,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 		temp = "Player " + p.name + " got remarried\n";
 		this.turn_summary = this.turn_summary + temp;
 		image.src = "../static/images/tiles/marriage_icon.png";
-		str += "You just got remarried! And had to pay $25,000 for the ceremony...";
+		str += "You just got remarried! And had to pay $25,000 for the ceremony... But, you will receive an additional $20,000 at the end of every turn!";
 	}
 
 	// Player is expelled
@@ -889,7 +889,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 		this.spin = 0;
 		this.end_of_game = this.end_of_game + 1;
 		p.end_game(p.house.sell_price);
-		temp = "After selling your house and your kid(s), you have a grand total of:";
+		temp = "After selling your house and your kid(s), you have a grand total of: ";
 		document.getElementById("congrats_intro").innerHTML = temp;
 		var amount = p.bankroll;
 		document.getElementById("end_game_amount").innerHTML = amount;
