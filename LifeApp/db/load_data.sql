@@ -98,7 +98,7 @@ INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
 VALUES (4,"Broken Condom...", 0, 1216,698);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
-VALUES (5,"Freshman Swipesy_valou Into Dining Hall", 300000, 1219,797);
+VALUES (5,"Freshman Swipes You Into Dining Hall", 300000, 1219,797);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
 VALUES (6,"Sell Previous Exam Answers", 100000, 1252,887);
@@ -191,7 +191,7 @@ INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
 VALUES (35, "Identity Was Stolen", -20000, 722, 1427);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
-VALUES (36, "Losty_valour Keys", -5000, 632, 1364);
+VALUES (36, "Lost your Keys", -5000, 632, 1364);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
 VALUES (37, "Second Wedding Ceremony", -25000, 449, 1295);
@@ -335,7 +335,7 @@ INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
 VALUES (83, "Built the Worlds Largest Hamster Wheel", -25000, 701, 71);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
-VALUES (84, "Ally_valour Money Stayed in Vegas", -100000, 830, 89);
+VALUES (84, "All Your Money Stayed in Vegas", -100000, 830, 89);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
 VALUES (85, "Probed by Aliens, Collected a Space Rock", 10000, 926, 152);
@@ -344,7 +344,7 @@ INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
 VALUES (86, "Won Big on Penny Slots", 30000, 983, 257);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
-VALUES (87, "Goty_valour Hands a Little Dirty", 50000, 995, 377);
+VALUES (87, "Got Your Hands a Little Dirty", 50000, 995, 377);
 
 INSERT INTO Tiles (tile_id, title, value, x_val,y_val)
 VALUES (88, "Talked About Fight Club", -100000, 929, 467);

@@ -43,6 +43,10 @@
 
 	<div class="board" id="board">
 
+  <div id="button-holder">
+    <button class="btn btn-default btn-large" id="start_game_button" onclick="this_game.Initialize_Game_Prompt();">Start the Game!</button>
+  </div>
+
 		<!-- Spin Wheel Modal -->
 		<div class="modal fade" id="spinModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
 		  <div class="modal-dialog">
@@ -140,14 +144,14 @@
       				<div class="modal-body" style = "text-align: center">
       				<div class="row">
       					<div class="col-md-6">
-          				<div id='leftImage'>
+          				<div id='left_career'>
           					<button data-dismiss="modal" style = "height: 80%; width: 80%" id="left_career_button" disabled>
           						<img id='left_career_img' style = "height: 100%; width: 100%" src='/static/images/question_orange.png' disabled>
           					</button>
           				</div>
         			  </div>
         			  <div class="col-md-6">
-                  <div id='rightImage'>
+                  <div id='right_career'>
                     <button data-dismiss="modal" style = "height: 80%; width: 80%" id="right_career_button" disabled>
                       <img id='right_career_img' style = "height: 100%; width: 100%" src='/static/images/question_orange.png' disabled>
                     </button>
@@ -194,14 +198,14 @@
         				<div class="row">
         					<div class="col-md-6">
             				<div id='leftImage'>
-            					<button data-dismiss="modal" style = "height: 80%; width: 80%">
+            					<button data-dismiss="modal" style = "height: 80%; width: 80%" id="left_house_button">
             						<img id='left_house_img' style = "height: 100%; width: 100%" src='/static/images/question_pink.png'>
             					</button>
             				</div>
           			  </div>
                   <div class="col-md-6">
                     <div id='rightImage'>
-                      <button data-dismiss="modal" style = "height: 80%; width: 80%">
+                      <button data-dismiss="modal" style = "height: 80%; width: 80%" id="right_house_button">
                         <img id='right_house_img' style = "height: 100%; width: 100%" src='/static/images/question_pink.png'>
                       </button>
                     </div>
@@ -332,7 +336,7 @@
   		</div>
 
 
-  		<div class="modal fade" id="riskyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  		<div class="modal fade" id="riskyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
  			<div class="modal-dialog">
     			<div class="modal-content">
      				<div class="modal-header" style="text-align: center">
@@ -395,7 +399,7 @@
 		</div>
 
     <!-- Choose Icon modal -->
-    <div class="modal fade" id="chooseIconModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="chooseIconModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
       <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header" style="text-align: center">
@@ -438,7 +442,7 @@
     </div>
 
      <!-- Choose Number of Players modal -->
-    <div class="modal fade" id="choosePlayersModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="choosePlayersModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
       <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header" style="text-align: center">
@@ -478,11 +482,7 @@
 	</div>
 </div>
 
-<h2>Play tha game</h2>
 
-<div id="button-holder">
-  <button onclick="this_game.Initialize_Game_Prompt();">Start the Game!</button>
-</div>
 
 <br><br><br><br>
 
@@ -496,12 +496,12 @@ document.getElementById("generate_career").addEventListener("click", function(ev
 	}
 }, false);
 
-document.getElementById("left_career_img").addEventListener("click", 
+document.getElementById("left_career_button").addEventListener("click", 
 	function(event){
 		this_game.Choose_Career_Script(0);
 }, false);
 
-document.getElementById("right_career_img").addEventListener("click", 
+document.getElementById("right_career_button").addEventListener("click", 
 	function(event){
 		this_game.Choose_Career_Script(1);
 }, false);
@@ -510,12 +510,12 @@ document.getElementById("generate_house").addEventListener("click", function(eve
 		this_game.Generate_House_Options();
 }, false);
 
-document.getElementById("left_house_img").addEventListener("click", 
+document.getElementById("left_house_button").addEventListener("click", 
 	function(event){
 		this_game.Choose_House_Script(0);
 }, false);
 
-document.getElementById("right_house_img").addEventListener("click", 
+document.getElementById("right_house_button").addEventListener("click", 
 	function(event){
 		this_game.Choose_House_Script(1);
 }, false);

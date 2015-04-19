@@ -20,6 +20,15 @@ body {
 	font-family: "Candara", Verdana, sans-serif;
 }
 
+#start_game_button{
+	position: absolute;
+	left: 700px;
+	top: 100px;
+	height: 75px;
+	width: 200px;
+	font-size: 24px;
+}
+
 #icon{
 	height: 100%;
 	width: 100%;

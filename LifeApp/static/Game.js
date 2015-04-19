@@ -2,8 +2,8 @@ var this_game = new Game();
 
 
 function Move(x){
-	this.showWaypoints = true;
-	this.showTrail = true;
+	this.showWaypoints = false;
+	this.showTrail = false;
 	this.data = [];
 	this.num = x;
 }
@@ -119,16 +119,16 @@ Player.prototype.updateBankroll = function(val){
 	this.bankroll = (this.bankroll+val);
 	var id = "";
 	// var id2 = "";
-	if (this.name == "0"){
+	if (this.name == "1"){
 		id = "p0_bank";
 		// id2 = "p0_hover_br";
-	} else if (this.name == "1"){
+	} else if (this.name == "2"){
 		id = "p1_bank";
 		// id2 = "p1_hover_br";
-	} else if (this.name == "2"){
+	} else if (this.name == "3"){
 		id = "p2_bank";
 		// id2 = "p2_hover_br";
-	} else if (this.name == "3"){
+	} else if (this.name == "4"){
 		id = "p3_bank";
 		// id2 = "p3_hover_br";
 	}
@@ -157,7 +157,7 @@ function Board(){
 function Game() {
 	this.players = [];
 	for(i=0; i < 4; i++){
-		var player = new Player(i.toString());
+		var player = new Player((i+1).toString());
 		this.players.push(player);
 	}
 	this.board = new Board();
@@ -367,8 +367,6 @@ Game.prototype.Prompt_Career = function(player) {
 	//Connect Select with choose_career_script(selectedVal)
 	$('#left_career_button').prop('disabled', true);
 	$('#right_career_button').prop('disabled', true);
-	$('#left_career_img').prop('disabled', true);
-	$('#right_career_img').prop('disabled', true);
 	$('#chooseCareerModal').modal('show');
 };
 
@@ -420,6 +418,8 @@ Game.prototype.Choose_Family_Road = function(response){
 
 Game.prototype.Generate_House_Options = function() {
 	//Render Spinner, get spinner value
+	$('#left_house_button').prop('disabled', false);
+	$('#right_house_button').prop('disabled', false);
 	var house_one = Math.floor((Math.random() * 10));
 	var house_one_taken = false;
 			while (house_one_taken == false){
@@ -547,8 +547,6 @@ Game.prototype.Generate_Regular_Career = function() {
 	//Render Spinner, get spinner value
 	$('#left_career_button').prop('disabled', false);
 	$('#right_career_button').prop('disabled', false);
-	$('#left_career_img').prop('disabled', false);
-	$('#right_career_img').prop('disabled', false);
 	var career_one = Math.floor((Math.random() * 8) + 8);
 	var c_one_taken = false;
 	while(c_one_taken == false){
@@ -588,8 +586,6 @@ Game.prototype.Generate_College_Career = function() {
 	//Render Spinner, get spinner value
 	$('#left_career_button').prop('disabled', false);
 	$('#right_career_button').prop('disabled', false);
-	$('#left_career_img').prop('disabled', false);
-	$('#right_career_img').prop('disabled', false);
 	var temp = "end of college fork\n";
 	console.log(this.careers);
 	this.turn_summary = this.turn_summary + temp;
@@ -632,7 +628,7 @@ Game.prototype.College_Prompt = function(p) {
 };
 Game.prototype.Get_Spin = function() {
 	p = this.players[this.curPlayer];
-	document.getElementById('cur_player_spin').innerHTML = "Player " + this.curPlayer + "'s turn!";
+	document.getElementById('cur_player_spin').innerHTML = "Player " + (this.curPlayer+1) + "'s turn!";
 	$('#start_turn_button').prop('disabled', true);
 	$('#spinner-button').prop('disabled', false);
 	$('#spinModal').modal('show');
@@ -882,6 +878,7 @@ Game.prototype.End_Turn = function(p, cur_position){
 		this.turn_summary = this.turn_summary + temp;
 		image.src = "../static/images/bad_icon.png";
 		str += "What a waste of investment... have to settle for a non-college career now!";
+		cur_position = -1;
 	}
 
 	if(cur_position == 89){
@@ -939,6 +936,9 @@ Game.prototype.End_Turn = function(p, cur_position){
 		p.get_loans();
 		var amount = p.num_loans * 150000;
 		var back = p.num_loans * 175000;
+		if (p.num_loans > 0){
+			// ALERT THE PLAYER THAT HE/SHE IS TAKING OUT A LOAN
+		}
 		temp = "player " + p.name + " now has " + p.num_loans.toString() + " for a total of $" + amount.toString() + ". They will need to pay $" + back.toString() + " back in " + p.loan_counter.toString() + " turns\n";
 		this.turn_summary = this.turn_summary + temp;
 	}
@@ -1044,6 +1044,8 @@ Game.prototype.Prompt_House = function(player) {
 	//Creates Dialog Box with generate and select buttons
 	//Connect Generate button with Generate_House_Options
 	//Connect Select with choose_house_script(selectedVal)
+	$('#left_house_button').prop('disabled', true);
+	$('#right_house_button').prop('disabled', true);
 	console.log("this is the right prompt house");
 	p = this_game.players[this_game.curPlayer];
 	if(p.AI){
@@ -1067,7 +1069,7 @@ Game.prototype.College_Prompt = function(player) {
 
 Game.prototype.Get_Spin = function() {
 	p = this.players[this.curPlayer];
-	document.getElementById('cur_player_spin').innerHTML = "Player " + this.curPlayer + "'s turn!";
+	document.getElementById('cur_player_spin').innerHTML = "Player " + this.players[this.curPlayer].name + "'s turn!";
 	if(p.AI){
 		this.spin = Math.floor((Math.random() * 10) + 1);
 		if (this.spin == 1){
@@ -1091,6 +1093,7 @@ function New_Game(){
 
 Game.prototype.Initialize_Game_Prompt = function(){
 	$('#choosePlayersModal').modal('show');
+	hide('start_game_button');
 }
 
 Game.prototype.New_Game = function(playerNum){
