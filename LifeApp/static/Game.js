@@ -459,6 +459,7 @@ Game.prototype.Choose_Career_Script = function(career_choice) {
 		var career = document.getElementById('left_career_title').textContent;
 		for (i=0; i<this_game.careers.length; i++){
 			if (career == this_game.careers[i].title){
+				console.log(this_game.careers[i]);
 				p.career = this_game.careers[i];
 				p.salary = this_game.careers[i].salary;
 			}
@@ -467,6 +468,7 @@ Game.prototype.Choose_Career_Script = function(career_choice) {
 		var career = document.getElementById('right_career_title').textContent;
 		for (i=0; i<this_game.careers.length; i++){
 			if (career == this_game.careers[i].title){
+				console.log(this_game.careers[i]);
 				p.career = this_game.careers[i];
 				p.salary = this_game.careers[i].salary;
 			}
@@ -1105,5 +1107,45 @@ Game.prototype.New_Game = function(playerNum){
 	this_game.Play_Game();
 	
 };
+
+Game.prototype.New_Popup = function(){
+	var p;
+	if (this.curPlayer == 0){
+		p = this.players[3];
+	} else {
+		p = this.players[(this.curPlayer-1)%4];
+	}
+	var pl = document.getElementById('pnumber');
+	pl.textContent = p.name;
+	var career = document.getElementById('careerpopup');
+	var salary = document.getElementById('salarypopup');
+	if(p.career == null){
+		console.log('null');
+		career.textContent =  "Career: None";
+		salary.textContent = "Salary: None";
+	} else {
+		console.log('here');
+		career.textContent =  "Career: " + p.career.title;
+		salary.textContent = "Salary: " + p.salary;
+	}
+	var married = document.getElementById('maritalstatus');
+	married.textContent = "Married: " + p.married;
+	var kids = document.getElementById('numberofkids');
+	kids.textContent = "Number of kids: " + p.children;
+	var house = document.getElementById('house');
+	if(p.house == null){
+		house.textContent = "House: None";
+	} else {
+		house.textContent = "House: " + p.house.title;
+	}
+
+	var loanamount = p.num_loans*175000;
+	var loans = document.getElementById('amountloans');
+	loans.textContent=  "Amount owed in loans: " + loanamount;
+	var counter = document.getElementById('turnstoloans');
+	counter.textContent = "Time to pay off loans: " + p.loan_counter + " turns";
+
+	$('#turnModal').modal('show');
+}
 
 

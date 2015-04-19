@@ -141,25 +141,25 @@
      				<div class="modal-header" style="text-align: center">
         				<h4 class="modal-title" id="myModalLabel">Choose A Career</h4>
       				</div>
-      				<div class="modal-body" style = "text-align: center">
+      				<div class="modal-body" style="text-align: center">
       				<div class="row">
       					<div class="col-md-6">
           				<div id='left_career'>
-          					<button data-dismiss="modal" style = "height: 80%; width: 80%" id="left_career_button" disabled>
-          						<img id='left_career_img' style = "height: 100%; width: 100%" src='/static/images/question_orange.png' disabled>
+          					<button data-dismiss="modal" style="height: 80%; width: 80%" id="left_career_button" disabled>
+          						<img id='left_career_img' style="height: 100%; width: 100%" src='/static/images/question_orange.png' disabled>
           					</button>
           				</div>
         			  </div>
         			  <div class="col-md-6">
                   <div id='right_career'>
-                    <button data-dismiss="modal" style = "height: 80%; width: 80%" id="right_career_button" disabled>
-                      <img id='right_career_img' style = "height: 100%; width: 100%" src='/static/images/question_orange.png' disabled>
+                    <button data-dismiss="modal" style="height: 80%; width: 80%" id="right_career_button" disabled>
+                      <img id='right_career_img' style="height: 100%; width: 100%" src='/static/images/question_orange.png' disabled>
                     </button>
                   </div>
                 </div>
               </div>
-              <div class = "row">
-                <div class = "col-md-6">
+              <div class="row">
+                <div class="col-md-6">
           				<div id='left_career_title'>
           					<p></p>
           				</div>
@@ -194,24 +194,24 @@
      				<div class="modal-header" style="text-align: center">
         				<h4 class="modal-title" id="myModalLabel">Choose A House</h4>
       				</div>
-      				<div class="modal-body" style = "text-align: center">
+      				<div class="modal-body" style="text-align: center">
         				<div class="row">
         					<div class="col-md-6">
             				<div id='leftImage'>
-            					<button data-dismiss="modal" style = "height: 80%; width: 80%" id="left_house_button">
-            						<img id='left_house_img' style = "height: 100%; width: 100%" src='/static/images/question_pink.png'>
+            					<button data-dismiss="modal" style="height: 80%; width: 80%" id="left_house_button">
+            						<img id='left_house_img' style="height: 100%; width: 100%" src='/static/images/question_pink.png'>
             					</button>
             				</div>
           			  </div>
                   <div class="col-md-6">
                     <div id='rightImage'>
-                      <button data-dismiss="modal" style = "height: 80%; width: 80%" id="right_house_button">
-                        <img id='right_house_img' style = "height: 100%; width: 100%" src='/static/images/question_pink.png'>
+                      <button data-dismiss="modal" style="height: 80%; width: 80%" id="right_house_button">
+                        <img id='right_house_img' style="height: 100%; width: 100%" src='/static/images/question_pink.png'>
                       </button>
                     </div>
                   </div>
                 </div>
-                <div class = "row">
+                <div class="row">
           			  <div class="col-md-6">
             				<div id='left_house_title'>
             					<p></p>
@@ -262,6 +262,7 @@
             </div>
       			<div class="modal-footer" style="text-align: center">
     					<button type="button" class="btn btn-default" data-dismiss="modal" id="end_turn">End Turn</button>
+              <buttno type="button" class="btn btn-default" data-dismiss="modal" id="playerinfo">Player Info</button>
   					</div>
     			</div>
   			</div>
@@ -477,6 +478,44 @@
         </div>
     </div>
 
+    <div class="modal fade" id="turnModal" tabindex="-1" role="dialog" aria-labelledby="turnModal" aria-hidden="true" data-backdrop="static">
+      <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header" style="text-align: center">
+              <h4 class="modal-title" id="turnModal">Player <span id='pnumber'></span></h4>
+            </div>
+            <div class="modal-body" style="height=80%">
+                <div id='careerpopup'>
+                  <p></p>
+                </div>
+                <div id='salarypopup'>
+                  <p></p>
+                </div>
+                <div id='maritalstatus'>
+                  <p></p>
+                </div>
+                <div id='numberofkids'>
+                  <p></p>
+                </div>
+                <div id='house'>
+                  <p></p>
+                </div>
+                <div id='amountloans'>
+                  <p></p>
+                </div>
+                <div id='turnstoloans'>
+                  <p></p>
+                </div>
+              <div class="modal-footer" id="college-footer">
+                 <button type="button" id="keepgoing" class="btn btn-default" data-dismiss="modal">Continue</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
 
 		<!-- End of Players Bankroll Box -->
 	</div>
@@ -589,7 +628,16 @@ document.getElementById("four_player").addEventListener("click", function (event
     this_game.New_Game(4);
 }, false);
 
-document.getElementById("end_life_button").addEventListener("click", function(event){
+document.getElementById("end_life_button").addEventListener("click", function (event){
+  this_game.Play_Game();
+}, false);
+
+document.getElementById("playerinfo").addEventListener("click",function (event){
+  this_game.New_Popup();
+
+},false);
+
+document.getElementById("keepgoing").addEventListener("click", function (event){
   this_game.Play_Game();
 }, false);
 
